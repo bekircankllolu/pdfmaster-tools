@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5B7B5E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PDFMASTER">
+    <title>PDFMASTER - Ücretsiz Online PDF Aracı | Dönüştür, Birleştir, Düzenle</title>
+    <meta name="description" content="PDFMASTER ile PDF dosyalarınızı ücretsiz olarak dönüştürün, birleştirin ve düzenleyin. Görsel, Word, Excel, PowerPoint'ten PDF oluşturun. Tamamen tarayıcıda çalışır, dosyalarınız güvende.">
+    <meta name="keywords" content="PDF, PDF dönüştürücü, PDF birleştirici, PDF düzenleyici, görsel PDF, Word PDF, Excel PDF, PowerPoint PDF, ücretsiz PDF aracı, online PDF">
+    <meta name="author" content="PDFMASTER">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://pdfmaster.tools/">
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDFMASTER - Ücretsiz Online PDF Aracı">
+    <meta property="og:description" content="PDF dönüştürme, birleştirme ve düzenleme aracı. Tamamen ücretsiz, tamamen tarayıcıda.">
+    <meta property="og:url" content="https://pdfmaster.tools/">
+    <meta property="og:site_name" content="PDFMASTER">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDFMASTER - Ücretsiz Online PDF Aracı">
+    <meta name="twitter:description" content="PDF dönüştürme, birleştirme ve düzenleme aracı. Tamamen ücretsiz, tamamen tarayıcıda.">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PDFMASTER",
+        "description": "Ücretsiz online PDF dönüştürme, birleştirme ve düzenleme aracı",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web Browser",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TRY" },
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "featureList": ["PDF Dönüştürme", "PDF Birleştirme", "PDF Düzenleme", "Görsel to PDF", "Word to PDF", "Excel to PDF", "PowerPoint to PDF"]
+    }
+    </script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235B7B5E'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='monospace' font-weight='bold' font-size='11'%3EPDF%3C/text%3E%3C/svg%3E">
+    <!-- Libs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        retro: {
+                            bg: '#B8D8BA',
+                            panel: '#F5F0E1',
+                            dark: '#2D2D2D',
+                            accent: '#5B7B5E',
+                            warm: '#E8DCC8',
+                            gold: '#C9B97A',
+                            cream: '#FAF6ED',
+                            border: '#3D3D3D',
+                            title: '#4A6B4D',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+        * { font-family: 'JetBrains Mono', 'Space Mono', monospace; }
+        body { background: #B8D8BA; }
+        #appContainer { overflow: hidden; }
+        .font-mono, h1, h2, h3 { font-family: 'JetBrains Mono', 'Space Mono', monospace; }
+
+        /* Window panel */
+        .win-panel {
+            background: #F5F0E1;
+            border: 2.5px solid #3D3D3D;
+            border-radius: 12px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+        }
+        .win-titlebar {
+            background: #E8DCC8;
+            border-bottom: 2.5px solid #3D3D3D;
+            border-radius: 9px 9px 0 0;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+        .win-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .win-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            border: 2px solid #3D3D3D;
+        }
+        .win-controls {
+            display: flex;
+            gap: 4px;
+        }
+        .win-ctrl {
+            width: 22px; height: 22px;
+            border: 2px solid #3D3D3D;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #3D3D3D;
+            background: #E8DCC8;
+            cursor: default;
+        }
+
+        /* Sidebar nav */
+        .nav-item {
+            border: 2.5px solid transparent;
+            border-radius: 10px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        .nav-item:hover { background: #E8DCC8; border-color: #3D3D3D; }
+        .nav-item.active {
+            background: #E8DCC8;
+            border-color: #3D3D3D;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.12);
+        }
+
+        /* Drop zone */
+        .drop-zone {
+            border: 3px dashed #3D3D3D;
+            border-radius: 16px;
+            transition: all 0.2s ease;
+            background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(91,123,94,0.06) 8px, rgba(91,123,94,0.06) 16px);
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            background: #d4e8d5;
+            border-style: solid;
+        }
+
+        /* Buttons */
+        .btn-retro {
+            border: 2.5px solid #3D3D3D;
+            border-radius: 10px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+        .btn-retro:hover { box-shadow: 5px 5px 0px rgba(0,0,0,0.15); transform: translate(-1px,-1px); }
+        .btn-retro:active { box-shadow: 1px 1px 0px rgba(0,0,0,0.15); transform: translate(2px,2px); }
+        .btn-retro:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-outline {
+            border: 2.5px solid #3D3D3D;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.1s ease;
+        }
+        .btn-outline:hover { background: #E8DCC8; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); transform: translate(-1px,-1px); }
+
+        /* Sub tabs */
+        .sub-tab {
+            border: 2.5px solid #3D3D3D;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+        .sub-tab.active { background: #C9B97A; box-shadow: 3px 3px 0px rgba(0,0,0,0.12); }
+        .sub-tab:not(.active):hover { background: #E8DCC8; }
+
+        /* Edit toolbar */
+        .tool-btn {
+            border: 2px solid #3D3D3D;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 11px;
+            transition: all 0.1s ease;
+        }
+        .tool-btn:hover { background: #E8DCC8; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); transform: translate(-1px,-1px); }
+
+        /* Thumb card */
+        .thumb-card {
+            border: 2.5px solid #3D3D3D;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            background: #FAF6ED;
+        }
+        .thumb-card:hover { transform: translateY(-2px); box-shadow: 4px 4px 0px rgba(0,0,0,0.12); }
+        .thumb-card.selected { background: #B8D8BA; box-shadow: 4px 4px 0px rgba(0,0,0,0.15); transform: translate(-2px,-2px); }
+
+        /* File items */
+        .file-item {
+            border: 2.5px solid #3D3D3D;
+            border-radius: 10px;
+            transition: all 0.15s ease;
+        }
+        .file-item:hover { box-shadow: 3px 3px 0px rgba(0,0,0,0.1); transform: translate(-1px,-1px); }
+        .file-item:hover .file-remove { opacity: 1; }
+        .file-remove { opacity: 0; transition: opacity 0.15s; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #E8DCC8; border-left: 2px solid #3D3D3D; }
+        ::-webkit-scrollbar-thumb { background: #C9B97A; border: 2px solid #3D3D3D; border-radius: 0; }
+        ::-webkit-scrollbar-button { background: #E8DCC8; border: 2px solid #3D3D3D; height: 12px; }
+
+        /* Progress bar */
+        .progress-bar { transition: width 0.3s ease; }
+
+        /* SortableJS */
+        .sortable-ghost { opacity: 0.3; }
+        .sortable-chosen { box-shadow: 6px 6px 0px rgba(0,0,0,0.2) !important; }
+
+        /* Fade */
+        .fade-enter { opacity: 0; transform: translateY(6px); }
+        .fade-active { opacity: 1; transform: translateY(0); transition: all 0.2s ease; }
+
+        /* Toast */
+        .toast { animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+        /* Badge */
+        .badge {
+            border: 2px solid #3D3D3D;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 2px 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed; inset: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(184,216,186,0.88);
+            backdrop-filter: blur(6px);
+        }
+        .dot-bounce { display: inline-flex; gap: 6px; }
+        .dot-bounce span {
+            width: 12px; height: 12px; border-radius: 50%;
+            border: 2px solid #3D3D3D;
+            animation: dotBounce 1.4s infinite ease-in-out both;
+        }
+        .dot-bounce span:nth-child(1) { background: #C9B97A; animation-delay: -0.32s; }
+        .dot-bounce span:nth-child(2) { background: #5B7B5E; animation-delay: -0.16s; }
+        .dot-bounce span:nth-child(3) { background: #E8DCC8; animation-delay: 0s; }
+        .dot-bounce span:nth-child(4) { background: #F5F0E1; animation-delay: 0.16s; }
+        @keyframes dotBounce { 0%,80%,100%{transform:scale(0.6)} 40%{transform:scale(1.2)} }
+
+        .progress-ring-bg { stroke: #E8DCC8; }
+        .progress-ring-fill { stroke: #3D3D3D; stroke-linecap: round; transition: stroke-dashoffset 0.4s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
+
+        /* Dark Mode */
+        html.dark body { background: #1a1a2e; color: #e0ddd4; }
+        html.dark header { background: #2d2d44; border-color: #4a4a5e; }
+        html.dark nav { background: #25253a; border-color: #4a4a5e; }
+        html.dark main { background: rgba(26,26,46,0.5); }
+        html.dark .win-panel { background: #25253a; border-color: #4a4a5e; box-shadow: 5px 5px 0px rgba(0,0,0,0.3); }
+        html.dark .win-titlebar { background: #2d2d44; border-color: #4a4a5e; }
+        html.dark .win-dot { border-color: #4a4a5e; }
+        html.dark .win-ctrl { border-color: #4a4a5e; background: #2d2d44; color: #e0ddd4; }
+        html.dark .nav-item:hover, html.dark .nav-item.active { background: #2d2d44; border-color: #4a4a5e; }
+        html.dark .drop-zone { border-color: #4a4a5e; background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(124,184,127,0.06) 8px, rgba(124,184,127,0.06) 16px); }
+        html.dark .drop-zone:hover, html.dark .drop-zone.dragover { background: rgba(124,184,127,0.15); border-color: #7cb87f; }
+        html.dark .btn-retro { border-color: #4a4a5e; }
+        html.dark .btn-outline { border-color: #4a4a5e; color: #e0ddd4; }
+        html.dark .btn-outline:hover { background: #2d2d44; }
+        html.dark .sub-tab { border-color: #4a4a5e; color: #e0ddd4; }
+        html.dark .sub-tab.active { background: #d4c48a; color: #1a1a2e; }
+        html.dark .sub-tab:not(.active):hover { background: #2d2d44; }
+        html.dark .thumb-card { border-color: #4a4a5e; background: #2a2a3a; }
+        html.dark .thumb-card.selected { background: #2d4a2f; }
+        html.dark .file-item { border-color: #4a4a5e; }
+        html.dark .badge { border-color: #4a4a5e; color: #e0ddd4; }
+        html.dark .settings-select { background: #2a2a3a; border-color: #4a4a5e; color: #e0ddd4; }
+        html.dark .settings-label { color: #7cb87f; }
+        html.dark .tool-btn { border-color: #4a4a5e; color: #e0ddd4; }
+        html.dark .tool-btn:hover { background: #2d2d44; }
+        html.dark .lang-btn { border-color: #4a4a5e; }
+        html.dark .lang-btn.active { background: #d4c48a; color: #1a1a2e; }
+        html.dark .lang-btn:not(.active) { background: #2d2d44; color: #e0ddd4; }
+        html.dark ::-webkit-scrollbar-track { background: #2d2d44; border-color: #4a4a5e; }
+        html.dark ::-webkit-scrollbar-thumb { background: #d4c48a; border-color: #4a4a5e; }
+        html.dark .loading-overlay { background: rgba(26,26,46,0.92); }
+        html.dark .toast.win-panel { color: #1a1a2e; }
+        html.dark input[type="text"], html.dark input[type="number"], html.dark input[type="password"] { background: #2a2a3a; border-color: #4a4a5e; color: #e0ddd4; }
+
+        /* Mobile sidebar */
+        @media (max-width: 640px) {
+            nav[role="navigation"] { position: fixed; left: -80px; top: 52px; bottom: 0; z-index: 40; transition: left 0.25s ease; }
+            nav[role="navigation"].open { left: 0; box-shadow: 4px 0 20px rgba(0,0,0,0.2); }
+            .mobile-overlay { display: none; position: fixed; inset: 0; z-index: 35; background: rgba(0,0,0,0.3); }
+            .mobile-overlay.active { display: block; }
+            main[role="main"] { margin-left: 0 !important; }
+        }
+        @media (min-width: 641px) {
+            #mobileMenuBtn, .mobile-overlay { display: none !important; }
+        }
+
+        /* Counter animation */
+        @keyframes countUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .counter-animate { animation: countUp 0.4s ease forwards; }
+
+        /* Landing footer */
+        .landing-footer { border-top: 2px solid rgba(61,61,61,0.2); margin-top: 2rem; padding-top: 1rem; }
+        html.dark .landing-footer { border-color: rgba(74,74,94,0.4); }
+
+        /* Landing Page */
+        .landing-bg { background: linear-gradient(135deg, #B8D8BA 0%, #a0c9a3 40%, #5B7B5E 100%); min-height: 100vh; }
+        html.dark .landing-bg { background: linear-gradient(135deg, #1a1a2e 0%, #25253a 40%, #2d4a2f 100%); }
+        .feature-card {
+            background: #F5F0E1; border: 2.5px solid #3D3D3D; border-radius: 12px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15); transition: all 0.2s ease; cursor: default;
+        }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: 8px 8px 0px rgba(0,0,0,0.15); }
+        html.dark .feature-card { background: #25253a; border-color: #4a4a5e; }
+        .counter-num { font-variant-numeric: tabular-nums; }
+
+        /* Signature Canvas */
+        .sign-canvas { border: 2.5px solid #3D3D3D; border-radius: 12px; cursor: crosshair; touch-action: none; background: #fff; }
+        html.dark .sign-canvas { background: #FAF6ED; }
+
+        /* PRO Badge */
+        .pro-badge { background: linear-gradient(135deg, #C9B97A, #e0d4a0); border: 2px solid #3D3D3D; border-radius: 6px; font-size: 10px; font-weight: 800; padding: 2px 8px; }
+
+        /* Select styling */
+        select { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+        /* Decorative arrows */
+        .deco-arrow { color: #3D3D3D; font-size: 18px; }
+
+        /* Lang toggle */
+        .lang-btn { border: 2px solid #3D3D3D; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; transition: all 0.1s ease; cursor: pointer; }
+        .lang-btn.active { background: #C9B97A; }
+        .lang-btn:not(.active) { background: #E8DCC8; }
+        .lang-btn:hover { box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+
+        /* Settings panel */
+        .settings-row { display: flex; align-items: center; gap: 8px; }
+        .settings-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: #5B7B5E; min-width: 70px; }
+        .settings-select {
+            background: #FAF6ED;
+            border: 2px solid #3D3D3D;
+            border-radius: 8px;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="text-retro-dark">
+
+    <!-- ==================== LANDING PAGE ==================== -->
+    <div id="landingPage" class="landing-bg flex items-center justify-center p-4">
+        <div class="win-panel p-0 w-full max-w-2xl">
+            <div class="win-titlebar">
+                <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div><div class="win-dot bg-retro-panel"></div></div>
+                <span class="font-mono text-xs font-bold tracking-wider">PDFMASTER</span>
+                <div class="flex gap-1">
+                    <button id="landingDarkToggle" class="win-ctrl !w-6 !h-6 text-[10px]" title="Dark Mode"><i class="fa-solid fa-moon"></i></button>
+                    <div class="flex gap-0.5 ml-1">
+                        <button class="lang-btn-land active px-1.5 py-0.5 lang-btn" data-lang="tr">TR</button>
+                        <button class="lang-btn-land px-1.5 py-0.5 lang-btn" data-lang="en">EN</button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 sm:p-8 text-center">
+                <div class="w-16 h-16 bg-retro-accent rounded-2xl border-[2.5px] border-retro-border flex items-center justify-center mx-auto mb-4 shadow-[4px_4px_0px_rgba(0,0,0,0.15)]">
+                    <i class="fa-solid fa-file-pdf text-2xl text-white"></i>
+                </div>
+                <h1 class="font-mono text-xl sm:text-2xl font-bold mb-2 leading-tight" data-i18n="landing_hero">PDF dosyalarınızı<br>saniyeler içinde dönüştürün</h1>
+                <p class="text-xs text-gray-500 mb-6 font-medium" data-i18n="landing_sub">Tamamen ücretsiz · Tamamen tarayıcıda · Sunucuya yükleme yok</p>
+
+                <button id="landingCta" class="btn-retro bg-retro-accent text-white px-8 py-3 text-sm mb-6 inline-flex items-center gap-2">
+                    <span data-i18n="landing_cta">Hemen Başla</span><i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-6">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-arrows-rotate text-retro-accent text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_convert">Dönüştür</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-compress text-purple-500 text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_compress">Sıkıştır</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-layer-group text-blue-500 text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_merge">Birleştir</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-pen-ruler text-orange-500 text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_edit">Düzenle</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-signature text-indigo-500 text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_sign">İmzala</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-droplet text-cyan-500 text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_watermark">Filigran</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 relative">
+                        <i class="fa-solid fa-shield-halved text-amber-500 text-lg"></i>
+                        <span class="text-[10px] font-bold" data-i18n="nav_protect">Koru</span>
+                        <span class="pro-badge absolute -top-1 -right-1">PRO</span>
+                    </div>
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                        <i class="fa-solid fa-image text-pink-500 text-lg"></i>
+                        <span class="text-[10px] font-bold">PDF→IMG</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3 mb-4">
+                    <div class="badge bg-retro-bg/60 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]"></i><span data-i18n="landing_secure">100% Güvenli</span></div>
+                    <div class="badge bg-retro-gold/40 flex items-center gap-1"><i class="fa-solid fa-bolt text-[9px]"></i><span data-i18n="landing_fast">Anında İşlem</span></div>
+                    <div class="badge bg-retro-warm flex items-center gap-1"><i class="fa-solid fa-gift text-[9px]"></i><span data-i18n="landing_free">Tamamen Ücretsiz</span></div>
+                </div>
+                <p class="text-[11px] text-gray-400 font-mono font-bold"><i class="fa-solid fa-chart-simple mr-1"></i><span id="usageCount" class="counter-num counter-animate">0</span> <span data-i18n="landing_counter">PDF dosyası işlendi</span></p>
+                <div class="landing-footer text-center mt-6 pt-4">
+                    <p class="text-[10px] text-gray-400 font-mono">© 2026 PDFMASTER · <span data-i18n="landing_privacy">Tüm işlemler tarayıcınızda gerçekleşir</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== APP CONTAINER ==================== -->
+    <div id="appContainer" class="h-screen flex flex-col hidden">
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="win-panel p-0 w-80">
+            <div class="win-titlebar">
+                <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                <span class="font-mono text-xs font-bold" data-i18n="processing">İşleniyor</span>
+                <div></div>
+            </div>
+            <div class="p-6 flex flex-col items-center gap-4">
+                <div class="relative">
+                    <svg width="90" height="90" viewBox="0 0 100 100">
+                        <circle class="progress-ring-bg" cx="50" cy="50" r="42" fill="none" stroke-width="6"/>
+                        <circle id="loadingRing" class="progress-ring-fill" cx="50" cy="50" r="42" fill="none" stroke-width="6"
+                            stroke-dasharray="263.89" stroke-dashoffset="263.89"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span id="loadingPercent" class="font-mono font-bold text-lg">0%</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p id="loadingTitle" class="font-mono font-bold text-sm">İşleniyor...</p>
+                    <p id="loadingSubtext" class="text-xs text-gray-500 mt-1">Lütfen bekleyin</p>
+                </div>
+                <div class="dot-bounce"><span></span><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progressContainer" class="fixed top-[52px] left-0 right-0 z-50 h-1.5 bg-transparent hidden">
+        <div id="progressBar" class="progress-bar h-full bg-retro-accent rounded-r" style="width:0%"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <header class="relative z-10 h-[52px] flex items-center justify-between px-4 shrink-0 bg-retro-warm border-b-[2.5px] border-retro-border">
+        <div class="flex items-center gap-3">
+            <button id="mobileMenuBtn" class="win-ctrl !w-7 !h-7 text-xs sm:hidden" title="Menü" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
+            <div class="win-dots mr-2 hidden sm:flex">
+                <div class="win-dot bg-retro-panel"></div>
+                <div class="win-dot bg-retro-panel"></div>
+            </div>
+            <h1 class="font-mono text-base font-bold tracking-wider uppercase">PDFMASTER</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="badge bg-retro-panel hidden sm:flex items-center gap-1">
+                <i class="fa-solid fa-chart-simple text-[9px]"></i>
+                <span id="headerCount" class="counter-num text-[10px]">0</span> PDF
+            </div>
+            <div class="badge bg-retro-panel hidden sm:flex items-center gap-1">
+                <i class="fa-solid fa-lock text-[9px]"></i>
+                <span data-i18n="secure">Dosyalarınız güvende</span>
+            </div>
+            <button id="darkModeToggle" class="win-ctrl !w-7 !h-7 text-xs" title="Dark Mode"><i class="fa-solid fa-moon"></i></button>
+            <button id="shortcutsBtn" class="win-ctrl !w-7 !h-7 text-xs" title="Keyboard Shortcuts"><i class="fa-solid fa-keyboard"></i></button>
+            <!-- Language Toggle -->
+            <div class="flex gap-0.5">
+                <button class="lang-btn active px-2 py-1" data-lang="tr">TR</button>
+                <button class="lang-btn px-2 py-1" data-lang="en">EN</button>
+            </div>
+            <div class="win-controls">
+                <div class="win-ctrl">—</div>
+                <div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div>
+                <div class="win-ctrl">✕</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 min-h-0 relative z-10">
+        <!-- Mobile Overlay -->
+        <div id="mobileOverlay" class="mobile-overlay"></div>
+        <!-- Sidebar -->
+        <nav id="sidebarNav" class="w-[76px] shrink-0 flex flex-col items-center pt-2 gap-1 bg-retro-panel border-r-[2.5px] border-retro-border px-1.5 overflow-y-auto" role="navigation" aria-label="Ana menü" style="scrollbar-width:none;-ms-overflow-style:none;">
+            <button class="nav-item active w-full py-2 flex flex-col items-center justify-center gap-0.5" data-tab="convert">
+                <i class="fa-solid fa-arrows-rotate text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_convert">Dönüştür</span>
+            </button>
+            <button class="nav-item w-full py-2 flex flex-col items-center justify-center gap-0.5" data-tab="compress">
+                <i class="fa-solid fa-compress text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_compress">Sıkıştır</span>
+            </button>
+            <button class="nav-item w-full py-2 flex flex-col items-center justify-center gap-0.5" data-tab="merge">
+                <i class="fa-solid fa-layer-group text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_merge">Birleştir</span>
+            </button>
+            <button class="nav-item w-full py-2 flex flex-col items-center justify-center gap-0.5" data-tab="edit">
+                <i class="fa-solid fa-pen-ruler text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_edit">Düzenle</span>
+            </button>
+            <button class="nav-item w-full py-2 flex flex-col items-center justify-center gap-0.5" data-tab="sign">
+                <i class="fa-solid fa-signature text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_sign">İmzala</span>
+            </button>
+            <button class="nav-item w-full py-2 flex flex-col items-center justify-center gap-0.5" data-tab="watermark">
+                <i class="fa-solid fa-droplet text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_watermark">Filigran</span>
+            </button>
+            <button class="nav-item w-full py-2 flex flex-col items-center justify-center gap-0.5 relative" data-tab="protect">
+                <i class="fa-solid fa-shield-halved text-sm"></i>
+                <span class="text-[8px] font-bold font-mono" data-i18n="nav_protect">Koru</span>
+                <span class="pro-badge absolute -top-0.5 -right-0.5 text-[7px] px-1">PRO</span>
+            </button>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-y-auto p-5 bg-retro-bg/30" role="main" aria-label="İçerik alanı">
+
+            <!-- CONVERT TAB -->
+            <section id="tab-convert" class="fade-active max-w-3xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="convert_title">DÖNÜŞTÜR</span>
+                        <div class="win-controls">
+                            <div class="win-ctrl">—</div>
+                            <div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div>
+                            <div class="win-ctrl">✕</div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <!-- Sub tabs -->
+                        <div class="flex flex-wrap items-center gap-2 mb-5">
+                            <button class="sub-tab active px-3 py-2" data-convert="image">
+                                <i class="fa-solid fa-image mr-1"></i><span data-i18n="tab_image">Görsel</span>
+                            </button>
+                            <button class="sub-tab px-3 py-2" data-convert="word">
+                                <i class="fa-solid fa-file-word mr-1"></i>Word
+                            </button>
+                            <button class="sub-tab px-3 py-2" data-convert="pptx">
+                                <i class="fa-solid fa-file-powerpoint mr-1"></i>PowerPoint
+                            </button>
+                            <button class="sub-tab px-3 py-2" data-convert="excel">
+                                <i class="fa-solid fa-file-excel mr-1"></i>Excel
+                            </button>
+                            <button class="sub-tab px-3 py-2" data-convert="pdf2img">
+                                <i class="fa-solid fa-image mr-1"></i><span data-i18n="tab_pdf2img">PDF→Görsel</span>
+                            </button>
+                            <span class="deco-arrow ml-auto">▶</span>
+                        </div>
+
+                        <!-- IMAGE TO PDF -->
+                        <div id="convert-image">
+                            <div id="imageDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                                <div class="w-14 h-14 bg-retro-warm rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                    <i class="fa-solid fa-cloud-arrow-up text-xl text-retro-dark"></i>
+                                </div>
+                                <p class="text-sm font-bold mb-1" data-i18n="drop_images">Görselleri sürükleyip bırakın</p>
+                                <p class="text-xs text-gray-500" data-i18n="drop_images_sub">veya tıklayarak seçin · JPG, PNG, WebP</p>
+                                <input type="file" id="imageInput" multiple accept=".jpg,.jpeg,.png,.webp,.bmp,.gif" class="hidden">
+                            </div>
+                            <div id="imagePreview" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 mt-4"></div>
+                            <div id="imageOptions" class="hidden mt-4 win-panel p-0">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold" data-i18n="settings">AYARLAR</span>
+                                    <button id="clearImages" class="text-[10px] font-mono font-bold text-red-700 hover:underline" data-i18n="clear">Temizle</button>
+                                </div>
+                                <div class="p-3 flex flex-wrap gap-3 items-center">
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="size">Boyut:</span>
+                                        <select id="imgPageSize" class="settings-select">
+                                            <option value="a4">A4</option>
+                                            <option value="letter">Letter</option>
+                                            <option value="original">Orijinal</option>
+                                        </select>
+                                    </div>
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="orient">Yön:</span>
+                                        <select id="imgOrientation" class="settings-select">
+                                            <option value="portrait" data-i18n-opt="portrait">Dikey</option>
+                                            <option value="landscape" data-i18n-opt="landscape">Yatay</option>
+                                        </select>
+                                    </div>
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="margin">Kenar:</span>
+                                        <select id="imgMargin" class="settings-select">
+                                            <option value="normal">Normal</option>
+                                            <option value="small" data-i18n-opt="narrow">Dar</option>
+                                            <option value="none" data-i18n-opt="none">Yok</option>
+                                        </select>
+                                    </div>
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="quality">Kalite:</span>
+                                        <select id="imgQuality" class="settings-select">
+                                            <option value="0.6" data-i18n-opt="low">Düşük</option>
+                                            <option value="0.8" data-i18n-opt="medium" selected>Orta</option>
+                                            <option value="0.92" data-i18n-opt="high">Yüksek</option>
+                                            <option value="1.0" data-i18n-opt="max">Maksimum</option>
+                                        </select>
+                                    </div>
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="resize">Boyutla:</span>
+                                        <select id="imgResize" class="settings-select">
+                                            <option value="none" data-i18n-opt="original">Orijinal</option>
+                                            <option value="50">%50</option>
+                                            <option value="75">%75</option>
+                                            <option value="150">%150</option>
+                                            <option value="custom" data-i18n-opt="custom">Özel</option>
+                                        </select>
+                                    </div>
+                                    <div id="customResizeWrap" class="hidden settings-row">
+                                        <span class="settings-label">px:</span>
+                                        <input id="customResizeW" type="number" placeholder="Genişlik" class="settings-select w-20">
+                                        <span class="text-xs font-bold">×</span>
+                                        <input id="customResizeH" type="number" placeholder="Yükseklik" class="settings-select w-20">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="imageActions" class="hidden mt-4 flex justify-end">
+                                <button id="convertImageBtn" class="btn-retro bg-retro-accent text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="create_pdf">PDF Oluştur</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- WORD TO PDF -->
+                        <div id="convert-word" class="hidden">
+                            <div id="wordDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                                <div class="w-14 h-14 bg-blue-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                    <i class="fa-solid fa-file-word text-xl text-blue-600"></i>
+                                </div>
+                                <p class="text-sm font-bold mb-1" data-i18n="drop_word">Word dosyasını sürükleyip bırakın</p>
+                                <p class="text-xs text-gray-500" data-i18n="drop_word_sub">veya tıklayarak seçin · DOCX</p>
+                                <input type="file" id="wordInput" accept=".docx" class="hidden">
+                            </div>
+                            <div id="wordInfo" class="hidden mt-4 win-panel p-0">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold">WORD</span>
+                                    <button id="removeWord" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+                                </div>
+                                <div class="p-3 flex items-center gap-3">
+                                    <i class="fa-solid fa-file-word text-blue-500 text-lg"></i>
+                                    <div>
+                                        <p id="wordFileName" class="text-sm font-bold"></p>
+                                        <p id="wordFileSize" class="text-[10px] text-gray-500"></p>
+                                    </div>
+                                </div>
+                                <div class="px-3 pb-3">
+                                    <div class="bg-retro-gold/30 border-2 border-retro-border rounded-lg px-3 py-2 text-[10px] font-medium">
+                                        <i class="fa-solid fa-triangle-exclamation mr-1"></i><span data-i18n="word_warn">Karmaşık biçimlendirmeler farklı görünebilir</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="wordActions" class="hidden mt-4 flex justify-end">
+                                <button id="convertWordBtn" class="btn-retro bg-blue-500 text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="to_pdf">PDF'e Dönüştür</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PPTX TO PDF -->
+                        <div id="convert-pptx" class="hidden">
+                            <div id="pptxDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                                <div class="w-14 h-14 bg-orange-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                    <i class="fa-solid fa-file-powerpoint text-xl text-orange-600"></i>
+                                </div>
+                                <p class="text-sm font-bold mb-1" data-i18n="drop_pptx">PowerPoint dosyasını sürükleyip bırakın</p>
+                                <p class="text-xs text-gray-500" data-i18n="drop_pptx_sub">veya tıklayarak seçin · PPTX</p>
+                                <input type="file" id="pptxInput" accept=".pptx" class="hidden">
+                            </div>
+                            <div id="pptxInfo" class="hidden mt-4 win-panel p-0">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold">POWERPOINT</span>
+                                    <button id="removePptx" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+                                </div>
+                                <div class="p-3 flex items-center gap-3">
+                                    <i class="fa-solid fa-file-powerpoint text-orange-500 text-lg"></i>
+                                    <div>
+                                        <p id="pptxFileName" class="text-sm font-bold"></p>
+                                        <p id="pptxFileSize" class="text-[10px] text-gray-500"></p>
+                                    </div>
+                                    <div id="pptxSlideCount" class="hidden badge bg-retro-gold/40"><span id="pptxSlideNum">0</span> <span data-i18n="slides">slayt</span></div>
+                                </div>
+                                <div class="px-3 pb-3">
+                                    <div class="bg-retro-gold/30 border-2 border-retro-border rounded-lg px-3 py-2 text-[10px] font-medium">
+                                        <i class="fa-solid fa-triangle-exclamation mr-1"></i><span data-i18n="pptx_warn">Slaytlar görsel olarak dışa aktarılır</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pptxPreview" class="hidden mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5"></div>
+                            <div id="pptxActions" class="hidden mt-4 flex justify-end">
+                                <button id="convertPptxBtn" class="btn-retro bg-orange-500 text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="to_pdf">PDF'e Dönüştür</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- EXCEL TO PDF -->
+                        <div id="convert-excel" class="hidden">
+                            <div id="excelDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                                <div class="w-14 h-14 bg-green-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                    <i class="fa-solid fa-file-excel text-xl text-green-600"></i>
+                                </div>
+                                <p class="text-sm font-bold mb-1" data-i18n="drop_excel">Excel dosyasını sürükleyip bırakın</p>
+                                <p class="text-xs text-gray-500" data-i18n="drop_excel_sub">veya tıklayarak seçin · XLSX, XLS, CSV</p>
+                                <input type="file" id="excelInput" accept=".xlsx,.xls,.csv" class="hidden">
+                            </div>
+                            <div id="excelInfo" class="hidden mt-4 win-panel p-0">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold">EXCEL</span>
+                                    <button id="removeExcel" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+                                </div>
+                                <div class="p-3 flex items-center gap-3">
+                                    <i class="fa-solid fa-file-excel text-green-600 text-lg"></i>
+                                    <div>
+                                        <p id="excelFileName" class="text-sm font-bold"></p>
+                                        <p id="excelFileSize" class="text-[10px] text-gray-500"></p>
+                                    </div>
+                                    <div id="excelSheetCount" class="hidden badge bg-green-200"><span id="excelSheetNum">0</span> <span data-i18n="sheets">sayfa</span></div>
+                                </div>
+                                <div id="excelTablePreview" class="px-3 pb-3 overflow-x-auto max-h-[200px] overflow-y-auto"></div>
+                            </div>
+                            <div id="excelActions" class="hidden mt-4 flex justify-end">
+                                <button id="convertExcelBtn" class="btn-retro bg-green-600 text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="to_pdf">PDF'e Dönüştür</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PDF TO IMAGE -->
+                        <div id="convert-pdf2img" class="hidden">
+                            <div id="pdf2imgDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                                <div class="w-14 h-14 bg-pink-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                    <i class="fa-solid fa-image text-xl text-pink-600"></i>
+                                </div>
+                                <p class="text-sm font-bold mb-1" data-i18n="drop_pdf_img">Görsele dönüştürülecek PDF</p>
+                                <p class="text-xs text-gray-500" data-i18n="drop_pdf_sub">veya tıklayarak seçin · Tek PDF</p>
+                                <input type="file" id="pdf2imgInput" accept=".pdf" class="hidden">
+                            </div>
+                            <div id="pdf2imgOptions" class="hidden mt-4 win-panel p-0">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold" data-i18n="settings">AYARLAR</span>
+                                    <button id="removePdf2img" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+                                </div>
+                                <div class="p-3 flex flex-wrap gap-3 items-center">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid fa-file-pdf text-red-500 text-lg"></i>
+                                        <div><p id="pdf2imgFileName" class="text-sm font-bold"></p><p id="pdf2imgFileSize" class="text-[10px] text-gray-500"></p></div>
+                                        <div class="badge bg-retro-gold/30"><span id="pdf2imgPageCount">0</span> <span data-i18n="sheets">sayfa</span></div>
+                                    </div>
+                                    <div class="w-full flex flex-wrap gap-3">
+                                        <div class="settings-row">
+                                            <span class="settings-label" data-i18n="img_format">Format:</span>
+                                            <select id="pdf2imgFormat" class="settings-select"><option value="jpeg">JPG</option><option value="png">PNG</option></select>
+                                        </div>
+                                        <div class="settings-row">
+                                            <span class="settings-label" data-i18n="img_dpi">Kalite:</span>
+                                            <select id="pdf2imgScale" class="settings-select"><option value="1">Normal</option><option value="2" selected>HD</option><option value="3">Ultra HD</option></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pdf2imgActions" class="hidden mt-4 flex justify-end">
+                                <button id="convertPdf2imgBtn" class="btn-retro bg-pink-500 text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="pdf2img_dl">Görselleri İndir</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MERGE TAB -->
+            <section id="tab-merge" class="hidden max-w-3xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="merge_title">BİRLEŞTİR</span>
+                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                    </div>
+                    <div class="p-5">
+                        <div id="mergeDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                            <div class="w-14 h-14 bg-retro-warm rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                <i class="fa-solid fa-layer-group text-xl"></i>
+                            </div>
+                            <p class="text-sm font-bold mb-1" data-i18n="drop_pdfs">PDF dosyalarını sürükleyip bırakın</p>
+                            <p class="text-xs text-gray-500" data-i18n="drop_pdfs_sub">veya tıklayarak seçin · Birden fazla PDF</p>
+                            <input type="file" id="mergeInput" multiple accept=".pdf" class="hidden">
+                        </div>
+                        <div id="mergeFileList" class="mt-4 space-y-2"></div>
+                        <div id="mergeActions" class="hidden mt-4 flex items-center justify-between">
+                            <button id="addMorePdf" class="btn-outline bg-retro-panel px-4 py-2 text-sm font-mono font-bold">
+                                <i class="fa-solid fa-plus mr-1"></i><span data-i18n="add_file">Dosya Ekle</span>
+                            </button>
+                            <button id="mergeBtn" class="btn-retro bg-retro-accent text-white px-5 py-2.5">
+                                <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="merge_dl">Birleştir ve İndir</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EDIT TAB -->
+            <section id="tab-edit" class="hidden max-w-4xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="edit_title">DÜZENLE</span>
+                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                    </div>
+                    <div class="p-5">
+                        <div id="editDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                            <div class="w-14 h-14 bg-retro-warm rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                <i class="fa-solid fa-pen-ruler text-xl"></i>
+                            </div>
+                            <p class="text-sm font-bold mb-1" data-i18n="drop_pdf">PDF dosyasını sürükleyip bırakın</p>
+                            <p class="text-xs text-gray-500" data-i18n="drop_pdf_sub">veya tıklayarak seçin · Tek PDF</p>
+                            <input type="file" id="editInput" accept=".pdf" class="hidden">
+                        </div>
+                        <div id="editWorkspace" class="hidden">
+                            <div class="win-panel p-0 mb-4">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold" data-i18n="tools">ARAÇLAR</span>
+                                    <button id="editNewFile" class="font-mono text-[10px] font-bold text-retro-accent hover:underline" data-i18n="new_file">Yeni Dosya</button>
+                                </div>
+                                <div class="p-2.5 flex flex-wrap items-center gap-1.5">
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-bg/40" data-action="selectAll"><i class="fa-solid fa-check-double mr-1"></i><span data-i18n="all">Tümü</span></button>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-panel" data-action="deselectAll"><i class="fa-solid fa-xmark mr-1"></i><span data-i18n="none_sel">Hiçbiri</span></button>
+                                    <div class="w-px h-5 bg-retro-border mx-1"></div>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-gold/30" data-action="rotateCW"><i class="fa-solid fa-rotate-right mr-1"></i><span data-i18n="rotate_r">Döndür →</span></button>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-gold/30" data-action="rotateCCW"><i class="fa-solid fa-rotate-left mr-1"></i><span data-i18n="rotate_l">← Döndür</span></button>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-red-100 text-red-700" data-action="deletePages"><i class="fa-solid fa-trash-can mr-1"></i><span data-i18n="delete">Sil</span></button>
+                                    <div class="w-px h-5 bg-retro-border mx-1"></div>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-warm" data-action="splitAll"><i class="fa-solid fa-scissors mr-1"></i><span data-i18n="split_all">Hepsini Böl</span></button>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-warm" data-action="splitAt"><i class="fa-solid fa-cut mr-1"></i><span data-i18n="split_at">Sayfadan Böl</span></button>
+                                    <div class="w-px h-5 bg-retro-border mx-1"></div>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-retro-panel" data-action="pageNumbers"><i class="fa-solid fa-list-ol mr-1"></i><span data-i18n="page_num">Numarala</span></button>
+                                </div>
+                            </div>
+                            <div id="editThumbnails" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5"></div>
+                            <div class="mt-4 flex justify-end">
+                                <button id="editSaveBtn" class="btn-retro bg-retro-accent text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="save_dl">Kaydet ve İndir</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMPRESS TAB -->
+            <section id="tab-compress" class="hidden max-w-3xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="compress_title">SIKIŞTIRILMIŞ PDF</span>
+                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                    </div>
+                    <div class="p-5">
+                        <div id="compressDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                            <div class="w-14 h-14 bg-purple-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                <i class="fa-solid fa-compress text-xl text-purple-600"></i>
+                            </div>
+                            <p class="text-sm font-bold mb-1" data-i18n="drop_pdf_compress">Sıkıştırılacak PDF dosyasını sürükleyin</p>
+                            <p class="text-xs text-gray-500" data-i18n="drop_pdf_sub">veya tıklayarak seçin · Tek PDF</p>
+                            <input type="file" id="compressInput" accept=".pdf" class="hidden">
+                        </div>
+                        <div id="compressInfo" class="hidden mt-4 win-panel p-0">
+                            <div class="win-titlebar !py-1.5">
+                                <span class="font-mono text-[10px] font-bold" data-i18n="settings">AYARLAR</span>
+                                <button id="removeCompress" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+                            </div>
+                            <div class="p-3">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <i class="fa-solid fa-file-pdf text-red-500 text-lg"></i>
+                                    <div><p id="compressFileName" class="text-sm font-bold"></p><p id="compressFileSize" class="text-[10px] text-gray-500"></p></div>
+                                </div>
+                                <div class="settings-row">
+                                    <span class="settings-label" data-i18n="comp_level">Seviye:</span>
+                                    <select id="compressLevel" class="settings-select">
+                                        <option value="0.4" data-i18n-opt="comp_high">Yüksek Sıkıştırma</option>
+                                        <option value="0.6" data-i18n-opt="comp_medium" selected>Orta Sıkıştırma</option>
+                                        <option value="0.8" data-i18n-opt="comp_low">Düşük Sıkıştırma</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="compressResult" class="hidden mt-4 win-panel p-0">
+                            <div class="win-titlebar !py-1.5"><span class="font-mono text-[10px] font-bold" data-i18n="result">SONUÇ</span></div>
+                            <div class="p-3 flex items-center gap-4">
+                                <div class="text-center"><p class="text-[10px] text-gray-500" data-i18n="original_size">Orijinal</p><p id="compressOrigSize" class="text-sm font-bold"></p></div>
+                                <i class="fa-solid fa-arrow-right text-retro-accent"></i>
+                                <div class="text-center"><p class="text-[10px] text-gray-500" data-i18n="compressed_size">Sıkıştırılmış</p><p id="compressNewSize" class="text-sm font-bold text-green-600"></p></div>
+                                <div class="badge bg-green-200 ml-auto"><span id="compressSaved">0</span>% ↓</div>
+                            </div>
+                        </div>
+                        <div id="compressActions" class="hidden mt-4 flex justify-end">
+                            <button id="compressBtn" class="btn-retro bg-purple-500 text-white px-5 py-2.5">
+                                <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="compress_dl">Sıkıştır ve İndir</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SIGN TAB -->
+            <section id="tab-sign" class="hidden max-w-3xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="sign_title">İMZALA</span>
+                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                    </div>
+                    <div class="p-5">
+                        <div id="signDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                            <div class="w-14 h-14 bg-indigo-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                <i class="fa-solid fa-signature text-xl text-indigo-600"></i>
+                            </div>
+                            <p class="text-sm font-bold mb-1" data-i18n="drop_pdf_sign">İmzalanacak PDF dosyasını sürükleyin</p>
+                            <p class="text-xs text-gray-500" data-i18n="drop_pdf_sub">veya tıklayarak seçin · Tek PDF</p>
+                            <input type="file" id="signInput" accept=".pdf" class="hidden">
+                        </div>
+                        <div id="signWorkspace" class="hidden mt-4">
+                            <div class="win-panel p-0 mb-4">
+                                <div class="win-titlebar !py-1.5">
+                                    <span class="font-mono text-[10px] font-bold" data-i18n="draw_sign">İmzanızı buraya çizin</span>
+                                    <button id="clearSign" class="font-mono text-[10px] font-bold text-red-700 hover:underline" data-i18n="clear_sign">Temizle</button>
+                                </div>
+                                <div class="p-3 flex justify-center">
+                                    <canvas id="signCanvas" class="sign-canvas" width="500" height="160"></canvas>
+                                </div>
+                            </div>
+                            <div class="win-panel p-0 mb-4">
+                                <div class="win-titlebar !py-1.5"><span class="font-mono text-[10px] font-bold" data-i18n="settings">AYARLAR</span></div>
+                                <div class="p-3 flex flex-wrap gap-3 items-center">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid fa-file-pdf text-red-500"></i>
+                                        <p id="signFileName" class="text-sm font-bold"></p>
+                                    </div>
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="sign_page">Sayfa:</span>
+                                        <select id="signPage" class="settings-select"></select>
+                                    </div>
+                                    <div class="settings-row">
+                                        <span class="settings-label" data-i18n="sign_pos">Konum:</span>
+                                        <select id="signPosition" class="settings-select">
+                                            <option value="br" data-i18n-opt="pos_br">Sağ Alt</option>
+                                            <option value="bc" data-i18n-opt="pos_bc">Orta Alt</option>
+                                            <option value="bl" data-i18n-opt="pos_bl">Sol Alt</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button id="signApplyBtn" class="btn-retro bg-indigo-500 text-white px-5 py-2.5">
+                                    <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="sign_apply">İmzala ve İndir</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WATERMARK TAB -->
+            <section id="tab-watermark" class="hidden max-w-3xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="watermark_title">FİLİGRAN</span>
+                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                    </div>
+                    <div class="p-5">
+                        <div id="wmDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
+                            <div class="w-14 h-14 bg-cyan-100 rounded-xl border-[2.5px] border-retro-border flex items-center justify-center mb-3 shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
+                                <i class="fa-solid fa-droplet text-xl text-cyan-600"></i>
+                            </div>
+                            <p class="text-sm font-bold mb-1" data-i18n="drop_pdf_wm">Filigran eklenecek PDF dosyasını sürükleyin</p>
+                            <p class="text-xs text-gray-500" data-i18n="drop_pdf_sub">veya tıklayarak seçin · Tek PDF</p>
+                            <input type="file" id="wmInput" accept=".pdf" class="hidden">
+                        </div>
+                        <div id="wmWorkspace" class="hidden mt-4 win-panel p-0">
+                            <div class="win-titlebar !py-1.5">
+                                <span class="font-mono text-[10px] font-bold" data-i18n="settings">AYARLAR</span>
+                                <button id="removeWm" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+                            </div>
+                            <div class="p-3 flex flex-wrap gap-3 items-center">
+                                <div class="flex items-center gap-3 w-full">
+                                    <i class="fa-solid fa-file-pdf text-red-500"></i>
+                                    <p id="wmFileName" class="text-sm font-bold"></p>
+                                </div>
+                                <div class="settings-row w-full">
+                                    <span class="settings-label" data-i18n="wm_text">Metin:</span>
+                                    <input id="wmText" type="text" value="PDFMASTER" placeholder="Filigran metni" class="settings-select flex-1">
+                                </div>
+                                <div class="settings-row">
+                                    <span class="settings-label" data-i18n="wm_size">Boyut:</span>
+                                    <select id="wmSize" class="settings-select">
+                                        <option value="30">Küçük</option>
+                                        <option value="50" selected>Orta</option>
+                                        <option value="80">Büyük</option>
+                                    </select>
+                                </div>
+                                <div class="settings-row">
+                                    <span class="settings-label" data-i18n="wm_opacity">Şeffaflık:</span>
+                                    <select id="wmOpacity" class="settings-select">
+                                        <option value="0.08">%8</option>
+                                        <option value="0.15" selected>%15</option>
+                                        <option value="0.3">%30</option>
+                                        <option value="0.5">%50</option>
+                                    </select>
+                                </div>
+                                <div class="settings-row">
+                                    <span class="settings-label" data-i18n="wm_rotation">Açı:</span>
+                                    <select id="wmRotation" class="settings-select">
+                                        <option value="0">0°</option>
+                                        <option value="-45" selected>-45°</option>
+                                        <option value="45">45°</option>
+                                        <option value="-30">-30°</option>
+                                    </select>
+                                </div>
+                                <div class="settings-row">
+                                    <span class="settings-label" data-i18n="wm_color">Renk:</span>
+                                    <select id="wmColor" class="settings-select">
+                                        <option value="0.5,0.5,0.5">Gri</option>
+                                        <option value="0.8,0,0">Kırmızı</option>
+                                        <option value="0,0,0.8">Mavi</option>
+                                        <option value="0,0,0">Siyah</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="wmActions" class="hidden mt-4 flex justify-end">
+                            <button id="wmApplyBtn" class="btn-retro bg-cyan-500 text-white px-5 py-2.5">
+                                <i class="fa-solid fa-download mr-1.5"></i><span data-i18n="wm_apply">Uygula ve İndir</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROTECT TAB (PRO) -->
+            <section id="tab-protect" class="hidden max-w-3xl mx-auto">
+                <div class="win-panel p-0">
+                    <div class="win-titlebar">
+                        <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                        <span class="font-mono text-xs font-bold" data-i18n="protect_title">ŞİFRE KORUMA</span>
+                        <span class="pro-badge">PRO</span>
+                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex flex-col items-center justify-center text-center py-10">
+                            <div class="w-20 h-20 bg-amber-100 rounded-2xl border-[2.5px] border-retro-border flex items-center justify-center mb-4 shadow-[4px_4px_0px_rgba(0,0,0,0.15)]">
+                                <i class="fa-solid fa-crown text-3xl text-amber-500"></i>
+                            </div>
+                            <h3 class="font-mono text-lg font-bold mb-2" data-i18n="protect_title">ŞİFRE KORUMA</h3>
+                            <p class="text-xs text-gray-500 mb-4 max-w-xs" data-i18n="protect_desc">PDF dosyalarınızı şifre ile koruyun. Açma ve düzenleme şifreleri ayarlayın.</p>
+                            <div class="win-panel p-0 w-full max-w-sm mb-4">
+                                <div class="win-titlebar !py-1.5"><span class="font-mono text-[10px] font-bold">PRO</span></div>
+                                <div class="p-4 text-left space-y-2">
+                                    <div class="flex items-center gap-2 text-xs font-medium"><i class="fa-solid fa-check text-green-500"></i><span data-i18n="pro_f1">PDF şifre koruma</span></div>
+                                    <div class="flex items-center gap-2 text-xs font-medium"><i class="fa-solid fa-check text-green-500"></i><span data-i18n="pro_f2">Şifre kaldırma</span></div>
+                                    <div class="flex items-center gap-2 text-xs font-medium"><i class="fa-solid fa-check text-green-500"></i><span data-i18n="pro_f3">Reklamsız kullanım</span></div>
+                                    <div class="flex items-center gap-2 text-xs font-medium"><i class="fa-solid fa-check text-green-500"></i><span data-i18n="pro_f4">Sınırsız dosya boyutu</span></div>
+                                </div>
+                            </div>
+                            <button class="btn-retro bg-amber-500 text-white px-6 py-2.5" onclick="toast(t('pro_coming'),'info')">
+                                <i class="fa-solid fa-rocket mr-1.5"></i><span data-i18n="pro_btn">Yakında!</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    </div><!-- /appContainer -->
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-[60] bg-retro-warm border-t-[2.5px] border-retro-border px-4 py-3 flex flex-wrap items-center justify-between gap-3 hidden">
+        <p class="text-xs font-mono font-medium flex-1 min-w-[200px]">
+            <i class="fa-solid fa-cookie-bite mr-1.5"></i>
+            <span data-i18n="cookie_text">Bu site deneyiminizi geliştirmek için çerezleri kullanır.</span>
+        </p>
+        <div class="flex gap-2">
+            <button id="cookieAccept" class="btn-retro bg-retro-accent text-white px-3 py-1.5 text-xs">
+                <span data-i18n="cookie_accept">Kabul Et</span>
+            </button>
+            <button id="cookieDecline" class="btn-outline bg-retro-panel px-3 py-1.5 text-xs font-mono">
+                <span data-i18n="cookie_decline">Reddet</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Ad Banner Placeholder (top of content) -->
+    <div id="adBannerTop" class="hidden max-w-3xl mx-auto mb-4">
+        <!-- Google AdSense or ad network code goes here -->
+        <div class="bg-retro-warm/50 border-2 border-dashed border-retro-border/30 rounded-lg p-2 text-center text-[10px] text-gray-400 font-mono">AD SPACE</div>
+    </div>
+
+    <!-- Split Modal -->
+    <div id="splitModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div class="win-panel p-0 w-80">
+            <div class="win-titlebar">
+                <span class="font-mono text-xs font-bold" data-i18n="split_title">Sayfalardan Böl</span>
+                <button id="splitCancel" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+            </div>
+            <div class="p-4">
+                <p class="text-xs text-gray-500 mb-3" data-i18n="split_desc">Bölmek istediğiniz sayfa numaralarını girin:</p>
+                <input id="splitInput" type="text" placeholder="örn: 3, 5, 8" class="w-full settings-select mb-4">
+                <div class="flex justify-end">
+                    <button id="splitConfirm" class="btn-retro bg-retro-accent text-white px-4 py-2"><span data-i18n="split_btn">Böl</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcutsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div class="win-panel p-0 w-96">
+            <div class="win-titlebar">
+                <span class="font-mono text-xs font-bold" data-i18n="shortcuts_title">Klavye Kısayolları</span>
+                <button id="shortcutsClose" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+            </div>
+            <div class="p-4 space-y-2 text-xs font-mono">
+                <div class="flex justify-between"><span>Ctrl + A</span><span class="text-gray-500" data-i18n="sc_selall">Tümünü seç (Düzenle)</span></div>
+                <div class="flex justify-between"><span>Delete</span><span class="text-gray-500" data-i18n="sc_del">Seçili sayfaları sil</span></div>
+                <div class="flex justify-between"><span>?</span><span class="text-gray-500" data-i18n="sc_shortcuts">Bu paneli aç</span></div>
+                <div class="flex justify-between"><span>D</span><span class="text-gray-500" data-i18n="sc_dark">Karanlık mod</span></div>
+                <div class="flex justify-between"><span>1-7</span><span class="text-gray-500" data-i18n="sc_tabs">Sekme değiştir</span></div>
+                <div class="flex justify-between"><span>Escape</span><span class="text-gray-500" data-i18n="sc_close">Modalı kapat</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Numbering Modal -->
+    <div id="pageNumModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div class="win-panel p-0 w-80">
+            <div class="win-titlebar">
+                <span class="font-mono text-xs font-bold" data-i18n="page_num_title">Sayfa Numaralandırma</span>
+                <button id="pageNumCancel" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+            </div>
+            <div class="p-4 space-y-3">
+                <div class="settings-row">
+                    <span class="settings-label" data-i18n="pn_position">Konum:</span>
+                    <select id="pnPosition" class="settings-select">
+                        <option value="bc">Alt Orta</option>
+                        <option value="br">Alt Sağ</option>
+                        <option value="bl">Alt Sol</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label" data-i18n="pn_format">Format:</span>
+                    <select id="pnFormat" class="settings-select">
+                        <option value="num">1, 2, 3</option>
+                        <option value="dash">- 1 -</option>
+                        <option value="page">Sayfa 1</option>
+                        <option value="of">1 / N</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label" data-i18n="pn_start">Başlangıç:</span>
+                    <input id="pnStart" type="number" value="1" min="1" class="settings-select w-16">
+                </div>
+                <div class="flex justify-end">
+                    <button id="pageNumApply" class="btn-retro bg-retro-accent text-white px-4 py-2"><span data-i18n="pn_apply">Numarala</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // ======================== PDF.js ========================
+        const pdfjsLib = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.269/build/pdf.min.mjs');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.269/build/pdf.worker.min.mjs';
+        const { PDFDocument, degrees, rgb, StandardFonts } = PDFLib;
+        const { jsPDF } = window.jspdf;
+
+        // ======================== i18n ========================
+        const i18n = {
+            tr: {
+                secure: 'Dosyalarınız güvende', processing: 'İşleniyor',
+                nav_convert: 'Dönüştür', nav_merge: 'Birleştir', nav_edit: 'Düzenle',
+                convert_title: 'DÖNÜŞTÜR', merge_title: 'BİRLEŞTİR', edit_title: 'DÜZENLE',
+                tab_image: 'Görsel', settings: 'AYARLAR', clear: 'Temizle',
+                size: 'Boyut:', orient: 'Yön:', margin: 'Kenar:', quality: 'Kalite:', resize: 'Boyutla:',
+                portrait: 'Dikey', landscape: 'Yatay', narrow: 'Dar', none: 'Yok',
+                low: 'Düşük', medium: 'Orta', high: 'Yüksek', max: 'Maksimum',
+                original: 'Orijinal', custom: 'Özel',
+                create_pdf: 'PDF Oluştur', to_pdf: "PDF'e Dönüştür",
+                drop_images: 'Görselleri sürükleyip bırakın', drop_images_sub: 'veya tıklayarak seçin · JPG, PNG, WebP',
+                drop_word: 'Word dosyasını sürükleyip bırakın', drop_word_sub: 'veya tıklayarak seçin · DOCX',
+                drop_pptx: 'PowerPoint dosyasını sürükleyip bırakın', drop_pptx_sub: 'veya tıklayarak seçin · PPTX',
+                drop_excel: 'Excel dosyasını sürükleyip bırakın', drop_excel_sub: 'veya tıklayarak seçin · XLSX, XLS, CSV',
+                drop_pdfs: 'PDF dosyalarını sürükleyip bırakın', drop_pdfs_sub: 'veya tıklayarak seçin · Birden fazla PDF',
+                drop_pdf: 'PDF dosyasını sürükleyip bırakın', drop_pdf_sub: 'veya tıklayarak seçin · Tek PDF',
+                word_warn: 'Karmaşık biçimlendirmeler farklı görünebilir',
+                pptx_warn: 'Slaytlar görsel olarak dışa aktarılır',
+                slides: 'slayt', sheets: 'sayfa',
+                add_file: 'Dosya Ekle', merge_dl: 'Birleştir ve İndir', save_dl: 'Kaydet ve İndir',
+                tools: 'ARAÇLAR', new_file: 'Yeni Dosya',
+                all: 'Tümü', none_sel: 'Hiçbiri', rotate_r: 'Döndür →', rotate_l: '← Döndür', delete: 'Sil',
+                split_all: 'Hepsini Böl', split_at: 'Sayfadan Böl',
+                split_title: 'Sayfalardan Böl', split_desc: 'Bölmek istediğiniz sayfa numaralarını girin:', split_btn: 'Böl',
+                // Toast messages
+                t_pdf_ok: 'PDF başarıyla oluşturuldu!', t_word_ok: "Word dosyası PDF'e dönüştürüldü!",
+                t_pptx_ok: "PowerPoint başarıyla PDF'e dönüştürüldü!", t_excel_ok: "Excel başarıyla PDF'e dönüştürüldü!",
+                t_merge_ok: "PDF'ler başarıyla birleştirildi!", t_saved: 'PDF kaydedildi!',
+                t_split_ok: 'Tüm sayfalar ayrıldı!', t_split_at_ok: 'PDF başarıyla bölündü!',
+                t_select_img: 'Lütfen görsel dosyası seçin', t_select_docx: 'Lütfen .docx dosyası seçin',
+                t_select_pptx: 'Lütfen .pptx dosyası seçin', t_select_excel: 'Lütfen Excel dosyası seçin',
+                t_select_pdf: 'Lütfen PDF dosyası seçin', t_min2: 'En az 2 PDF dosyası gerekli',
+                t_first_select: 'Önce sayfa seçin', t_cant_del_all: 'Tüm sayfalar silinemez',
+                t_rotated: 'sayfa döndürüldü', t_deleted: 'sayfa silindi',
+                t_valid_page: 'Geçerli sayfa numarası girin',
+                t_file_too_large: 'Dosya çok büyük (maks. 100MB)',
+                t_load_error: 'Dosya yüklenirken hata oluştu',
+                // New features
+                nav_compress: 'Sıkıştır', nav_sign: 'İmzala', nav_watermark: 'Filigran', nav_protect: 'Koru',
+                compress_title: 'SIKIŞTIRILMIŞ PDF', drop_pdf_compress: 'Sıkıştırılacak PDF dosyasını sürükleyin',
+                comp_level: 'Seviye:', comp_high: 'Yüksek Sıkıştırma', comp_medium: 'Orta Sıkıştırma', comp_low: 'Düşük Sıkıştırma',
+                compress_dl: 'Sıkıştır ve İndir', result: 'SONUÇ', original_size: 'Orijinal', compressed_size: 'Sıkıştırılmış',
+                t_compress_ok: 'PDF başarıyla sıkıştırıldı!',
+                tab_pdf2img: 'PDF→Görsel', drop_pdf_img: 'Görsele dönüştürülecek PDF',
+                img_format: 'Format:', img_dpi: 'Kalite:', pdf2img_dl: 'Görselleri İndir',
+                t_pdf2img_ok: 'Görseller başarıyla oluşturuldu!',
+                sign_title: 'İMZALA', drop_pdf_sign: 'İmzalanacak PDF dosyasını sürükleyin',
+                draw_sign: 'İmzanızı buraya çizin', clear_sign: 'Temizle',
+                sign_page: 'Sayfa:', sign_pos: 'Konum:', pos_bl: 'Sol Alt', pos_bc: 'Orta Alt', pos_br: 'Sağ Alt',
+                sign_apply: 'İmzala ve İndir', t_sign_ok: 'PDF başarıyla imzalandı!', t_draw_first: 'Önce imzanızı çizin',
+                watermark_title: 'FİLİGRAN', drop_pdf_wm: 'Filigran eklenecek PDF dosyasını sürükleyin',
+                wm_text: 'Metin:', wm_size: 'Boyut:', wm_opacity: 'Şeffaflık:', wm_rotation: 'Açı:', wm_color: 'Renk:',
+                wm_apply: 'Uygula ve İndir', t_wm_ok: 'Filigran başarıyla eklendi!', t_wm_text_req: 'Filigran metni girin',
+                protect_title: 'ŞİFRE KORUMA', protect_desc: 'PDF dosyalarınızı şifre ile koruyun. Açma ve düzenleme şifreleri ayarlayın.',
+                pro_badge: 'PRO', pro_btn: 'Yakında!', pro_coming: 'PRO sürüm çok yakında!',
+                pro_f1: 'PDF şifre koruma', pro_f2: 'Şifre kaldırma', pro_f3: 'Reklamsız kullanım', pro_f4: 'Sınırsız dosya boyutu',
+                page_num: 'Numarala', page_num_title: 'Sayfa Numaralandırma',
+                pn_position: 'Konum:', pn_format: 'Format:', pn_start: 'Başlangıç:', pn_apply: 'Numarala',
+                t_pn_ok: 'Sayfa numaraları eklendi!',
+                shortcuts_title: 'Klavye Kısayolları',
+                sc_selall: 'Tümünü seç (Düzenle)', sc_del: 'Seçili sayfaları sil', sc_shortcuts: 'Bu paneli aç',
+                sc_dark: 'Karanlık mod', sc_tabs: 'Sekme değiştir', sc_close: 'Modalı kapat',
+                landing_hero: 'PDF dosyalarınızı<br>saniyeler içinde dönüştürün',
+                landing_sub: 'Tamamen ücretsiz · Tamamen tarayıcıda · Sunucuya yükleme yok',
+                landing_cta: 'Hemen Başla', landing_secure: '100% Güvenli', landing_fast: 'Anında İşlem',
+                landing_free: 'Tamamen Ücretsiz', landing_counter: 'PDF dosyası işlendi',
+                landing_privacy: 'Tüm işlemler tarayıcınızda gerçekleşir',
+                l_creating: 'PDF oluşturuluyor', l_converting: 'Dönüştürülüyor',
+                l_loading: 'Yükleniyor', l_merging: 'Birleştiriliyor', l_saving: 'Kaydediliyor',
+                l_splitting: 'Bölünüyor', l_wait: 'Lütfen bekleyin', l_done: 'Tamamlandı!',
+                cookie_text: 'Bu site deneyiminizi geliştirmek için çerezleri kullanır.',
+                cookie_accept: 'Kabul Et', cookie_decline: 'Reddet',
+            },
+            en: {
+                secure: 'Your files are safe', processing: 'Processing',
+                nav_convert: 'Convert', nav_merge: 'Merge', nav_edit: 'Edit',
+                convert_title: 'CONVERT', merge_title: 'MERGE', edit_title: 'EDIT',
+                tab_image: 'Image', settings: 'SETTINGS', clear: 'Clear',
+                size: 'Size:', orient: 'Orient:', margin: 'Margin:', quality: 'Quality:', resize: 'Resize:',
+                portrait: 'Portrait', landscape: 'Landscape', narrow: 'Narrow', none: 'None',
+                low: 'Low', medium: 'Medium', high: 'High', max: 'Maximum',
+                original: 'Original', custom: 'Custom',
+                create_pdf: 'Create PDF', to_pdf: 'Convert to PDF',
+                drop_images: 'Drag and drop images here', drop_images_sub: 'or click to select · JPG, PNG, WebP',
+                drop_word: 'Drag and drop Word file here', drop_word_sub: 'or click to select · DOCX',
+                drop_pptx: 'Drag and drop PowerPoint file here', drop_pptx_sub: 'or click to select · PPTX',
+                drop_excel: 'Drag and drop Excel file here', drop_excel_sub: 'or click to select · XLSX, XLS, CSV',
+                drop_pdfs: 'Drag and drop PDF files here', drop_pdfs_sub: 'or click to select · Multiple PDFs',
+                drop_pdf: 'Drag and drop PDF file here', drop_pdf_sub: 'or click to select · Single PDF',
+                word_warn: 'Complex formatting may appear differently',
+                pptx_warn: 'Slides are exported as images',
+                slides: 'slides', sheets: 'sheets',
+                add_file: 'Add File', merge_dl: 'Merge & Download', save_dl: 'Save & Download',
+                tools: 'TOOLS', new_file: 'New File',
+                all: 'All', none_sel: 'None', rotate_r: 'Rotate →', rotate_l: '← Rotate', delete: 'Delete',
+                split_all: 'Split All', split_at: 'Split At',
+                split_title: 'Split at Pages', split_desc: 'Enter page numbers to split at:', split_btn: 'Split',
+                t_pdf_ok: 'PDF created successfully!', t_word_ok: 'Word converted to PDF!',
+                t_pptx_ok: 'PowerPoint converted to PDF!', t_excel_ok: 'Excel converted to PDF!',
+                t_merge_ok: 'PDFs merged successfully!', t_saved: 'PDF saved!',
+                t_split_ok: 'All pages split!', t_split_at_ok: 'PDF split successfully!',
+                t_select_img: 'Please select image files', t_select_docx: 'Please select a .docx file',
+                t_select_pptx: 'Please select a .pptx file', t_select_excel: 'Please select an Excel file',
+                t_select_pdf: 'Please select PDF files', t_min2: 'At least 2 PDF files required',
+                t_first_select: 'Select pages first', t_cant_del_all: 'Cannot delete all pages',
+                t_rotated: 'pages rotated', t_deleted: 'pages deleted',
+                t_valid_page: 'Enter valid page numbers',
+                t_file_too_large: 'File too large (max 100MB)',
+                t_load_error: 'Error loading file',
+                nav_compress: 'Compress', nav_sign: 'Sign', nav_watermark: 'Watermark', nav_protect: 'Protect',
+                compress_title: 'COMPRESS PDF', drop_pdf_compress: 'Drag and drop PDF to compress',
+                comp_level: 'Level:', comp_high: 'High Compression', comp_medium: 'Medium Compression', comp_low: 'Low Compression',
+                compress_dl: 'Compress & Download', result: 'RESULT', original_size: 'Original', compressed_size: 'Compressed',
+                t_compress_ok: 'PDF compressed successfully!',
+                tab_pdf2img: 'PDF→Image', drop_pdf_img: 'PDF to convert to images',
+                img_format: 'Format:', img_dpi: 'Quality:', pdf2img_dl: 'Download Images',
+                t_pdf2img_ok: 'Images created successfully!',
+                sign_title: 'SIGN', drop_pdf_sign: 'Drag and drop PDF to sign',
+                draw_sign: 'Draw your signature here', clear_sign: 'Clear',
+                sign_page: 'Page:', sign_pos: 'Position:', pos_bl: 'Bottom Left', pos_bc: 'Bottom Center', pos_br: 'Bottom Right',
+                sign_apply: 'Sign & Download', t_sign_ok: 'PDF signed successfully!', t_draw_first: 'Draw your signature first',
+                watermark_title: 'WATERMARK', drop_pdf_wm: 'Drag and drop PDF to watermark',
+                wm_text: 'Text:', wm_size: 'Size:', wm_opacity: 'Opacity:', wm_rotation: 'Angle:', wm_color: 'Color:',
+                wm_apply: 'Apply & Download', t_wm_ok: 'Watermark added successfully!', t_wm_text_req: 'Enter watermark text',
+                protect_title: 'PASSWORD PROTECT', protect_desc: 'Protect your PDF files with a password. Set open and edit passwords.',
+                pro_badge: 'PRO', pro_btn: 'Coming Soon!', pro_coming: 'PRO version coming very soon!',
+                pro_f1: 'PDF password protection', pro_f2: 'Password removal', pro_f3: 'Ad-free usage', pro_f4: 'Unlimited file size',
+                page_num: 'Numbering', page_num_title: 'Page Numbering',
+                pn_position: 'Position:', pn_format: 'Format:', pn_start: 'Start:', pn_apply: 'Apply',
+                t_pn_ok: 'Page numbers added!',
+                shortcuts_title: 'Keyboard Shortcuts',
+                sc_selall: 'Select all (Edit)', sc_del: 'Delete selected pages', sc_shortcuts: 'Open this panel',
+                sc_dark: 'Dark mode', sc_tabs: 'Switch tabs', sc_close: 'Close modal',
+                landing_hero: 'Convert your PDF files<br>in seconds',
+                landing_sub: 'Completely free · Runs in browser · No upload to servers',
+                landing_cta: 'Start Now', landing_secure: '100% Secure', landing_fast: 'Instant Processing',
+                landing_free: 'Completely Free', landing_counter: 'PDF files processed',
+                landing_privacy: 'All processing happens in your browser',
+                l_creating: 'Creating PDF', l_converting: 'Converting',
+                l_loading: 'Loading', l_merging: 'Merging', l_saving: 'Saving',
+                l_splitting: 'Splitting', l_wait: 'Please wait', l_done: 'Done!',
+                cookie_text: 'This site uses cookies to improve your experience.',
+                cookie_accept: 'Accept', cookie_decline: 'Decline',
+            }
+        };
+        let lang = 'tr';
+
+        function t(key) { return i18n[lang][key] || key; }
+
+        function applyLang() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18n[lang][key]) {
+                    if(key==='landing_hero') el.innerHTML = i18n[lang][key];
+                    else el.textContent = i18n[lang][key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-opt]').forEach(el => {
+                const key = el.dataset.i18nOpt;
+                if (i18n[lang][key]) el.textContent = i18n[lang][key];
+            });
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                lang = btn.dataset.lang;
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+                document.documentElement.lang = lang;
+                localStorage.setItem('pdfmaster_lang', lang);
+                applyLang();
+            });
+        });
+
+        // ======================== State ========================
+        const state = { activeTab:'convert', convertMode:'image', imageFiles:[], wordFile:null, mergeFiles:[], editBytes:null, editPages:[], editOrder:[], selectedPages:new Set(), processing:false, editThumbsListenerAttached:false };
+
+        // ======================== Loading ========================
+        function showLoading(title, sub) {
+            document.getElementById('loadingTitle').textContent = title;
+            document.getElementById('loadingSubtext').textContent = sub || t('l_wait');
+            document.getElementById('loadingPercent').textContent = '0%';
+            document.getElementById('loadingRing').style.strokeDashoffset = '263.89';
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        }
+        function updateLoading(pct, sub) {
+            const p = Math.round(pct);
+            document.getElementById('loadingPercent').textContent = p+'%';
+            document.getElementById('loadingRing').style.strokeDashoffset = 263.89 - (263.89*p/100);
+            if(sub) document.getElementById('loadingSubtext').textContent = sub;
+        }
+        function hideLoading() { document.getElementById('loadingOverlay').classList.add('hidden'); }
+
+        // ======================== Mobile Menu ========================
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebarNav = document.getElementById('sidebarNav');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        if(mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebarNav.classList.toggle('open');
+                mobileOverlay.classList.toggle('active');
+            });
+            mobileOverlay.addEventListener('click', () => {
+                sidebarNav.classList.remove('open');
+                mobileOverlay.classList.remove('active');
+            });
+        }
+
+        // ======================== Navigation ========================
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab; if(tab === state.activeTab) return;
+                document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('[id^="tab-"]').forEach(s => { s.classList.add('hidden'); s.classList.remove('fade-active'); });
+                const sec = document.getElementById('tab-'+tab);
+                sec.classList.remove('hidden'); sec.classList.add('fade-enter');
+                requestAnimationFrame(() => { sec.classList.remove('fade-enter'); sec.classList.add('fade-active'); });
+                state.activeTab = tab;
+                // Close mobile menu on nav
+                if(sidebarNav) { sidebarNav.classList.remove('open'); mobileOverlay.classList.remove('active'); }
+            });
+        });
+
+        document.querySelectorAll('.sub-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mode = btn.dataset.convert; if(mode === state.convertMode) return;
+                document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                ['image','word','pptx','excel','pdf2img'].forEach(m => document.getElementById('convert-'+m).classList.toggle('hidden', m !== mode));
+                state.convertMode = mode;
+            });
+        });
+
+        // ======================== Utils ========================
+        const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+        function validateFileSize(file) {
+            if (file.size > MAX_FILE_SIZE) {
+                toast(t('t_file_too_large'), 'error');
+                return false;
+            }
+            return true;
+        }
+        function validateFiles(files) { return files.filter(f => validateFileSize(f)); }
+        function formatSize(b) { if(b<1024) return b+' B'; if(b<1048576) return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
+        function showProgress(p) { const c=document.getElementById('progressContainer'),b=document.getElementById('progressBar'); c.classList.remove('hidden'); b.style.width=p+'%'; if(p>=100) setTimeout(()=>{c.classList.add('hidden');b.style.width='0%';},500); }
+        function toast(msg,type='success') {
+            const c=document.getElementById('toastContainer');
+            const colors={success:'bg-retro-bg border-retro-border',error:'bg-red-200 border-retro-border',info:'bg-retro-gold/40 border-retro-border'};
+            const icons={success:'fa-check-circle',error:'fa-circle-exclamation',info:'fa-circle-info'};
+            const el=document.createElement('div');
+            el.className=`toast win-panel ${colors[type]} px-4 py-3 text-sm font-semibold flex items-center gap-2`;
+            const icon=document.createElement('i');
+            icon.className=`fa-solid ${icons[type]}`;
+            const txt=document.createElement('span');
+            txt.textContent=msg;
+            el.appendChild(icon);el.appendChild(txt);
+            c.appendChild(el); setTimeout(()=>el.remove(),3000);
+        }
+        // Use let so we can wrap downloadBlob later for counter
+        let downloadBlob = function(d,f,m='application/pdf') { const b=new Blob([d],{type:m}),u=URL.createObjectURL(b),a=document.createElement('a'); a.href=u;a.download=f; document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u); };
+        function setupDropZone(z,inp,fn) {
+            z.addEventListener('click',(e)=>{ if(e.target.closest('button')) return; inp.click(); });
+            inp.addEventListener('change',e=>{if(e.target.files.length)fn(validateFiles([...e.target.files]));e.target.value='';});
+            z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover');});
+            z.addEventListener('dragleave',()=>z.classList.remove('dragover'));
+            z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('dragover');if(e.dataTransfer.files.length)fn(validateFiles([...e.dataTransfer.files]));});
+        }
+        function readFileAsDataURL(f) { return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error(t('t_load_error')));r.readAsDataURL(f);}); }
+        function readFileAsArrayBuffer(f) { return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error(t('t_load_error')));r.readAsArrayBuffer(f);}); }
+        function loadImage(s) { return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error(t('t_load_error')));i.src=s;}); }
+
+        // Resize image helper
+        function resizeImage(img, imgDataUrl) {
+            const resizeVal = document.getElementById('imgResize').value;
+            if (resizeVal === 'none') return imgDataUrl;
+            const quality = parseFloat(document.getElementById('imgQuality').value);
+            let newW, newH;
+            if (resizeVal === 'custom') {
+                newW = parseInt(document.getElementById('customResizeW').value) || img.width;
+                newH = parseInt(document.getElementById('customResizeH').value) || img.height;
+            } else {
+                const scale = parseInt(resizeVal) / 100;
+                newW = Math.round(img.width * scale);
+                newH = Math.round(img.height * scale);
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = newW; canvas.height = newH;
+            canvas.getContext('2d').drawImage(img, 0, 0, newW, newH);
+            return canvas.toDataURL('image/jpeg', quality);
+        }
+
+        // Custom resize toggle
+        document.getElementById('imgResize').addEventListener('change', e => {
+            document.getElementById('customResizeWrap').classList.toggle('hidden', e.target.value !== 'custom');
+        });
+
+        // ======================== IMAGE TO PDF ========================
+        setupDropZone(document.getElementById('imageDropZone'), document.getElementById('imageInput'), files => {
+            if(!files.length) return;
+            const imgs = files.filter(f=>f.type.startsWith('image/'));
+            if(!imgs.length) return toast(t('t_select_img'),'error');
+            state.imageFiles.push(...imgs); renderImagePreviews();
+        });
+        function renderImagePreviews() {
+            const c=document.getElementById('imagePreview');
+            c.querySelectorAll('img').forEach(img=>{if(img.src.startsWith('blob:'))URL.revokeObjectURL(img.src);});
+            c.innerHTML='';
+            state.imageFiles.forEach((f,i)=>{
+                const url=URL.createObjectURL(f), d=document.createElement('div');
+                d.className='relative group';
+                d.innerHTML=`<div class="thumb-card !cursor-default overflow-hidden aspect-[3/4] flex items-center justify-center bg-white"><img src="${url}" class="w-full h-full object-cover"></div><button class="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-400 border-2 border-retro-border text-white text-[9px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" data-remove-img="${i}"><i class="fa-solid fa-xmark"></i></button><p class="text-[9px] text-gray-500 mt-1 truncate text-center font-medium">${f.name}</p>`;
+                c.appendChild(d);
+            });
+            const h=state.imageFiles.length>0;
+            document.getElementById('imageOptions').classList.toggle('hidden',!h);
+            document.getElementById('imageActions').classList.toggle('hidden',!h);
+            document.getElementById('imageDropZone').classList.toggle('hidden',h);
+        }
+        document.getElementById('imagePreview').addEventListener('click',e=>{ const b=e.target.closest('[data-remove-img]'); if(b){state.imageFiles.splice(parseInt(b.dataset.removeImg),1);renderImagePreviews();} });
+        document.getElementById('clearImages').addEventListener('click',()=>{ state.imageFiles=[];renderImagePreviews();document.getElementById('imageDropZone').classList.remove('hidden'); });
+
+        document.getElementById('convertImageBtn').addEventListener('click', async()=>{
+            if(!state.imageFiles.length||state.processing) return;
+            state.processing=true;
+            const quality = parseFloat(document.getElementById('imgQuality').value);
+            showLoading(t('l_creating'),`${state.imageFiles.length} görsel...`); showProgress(10);
+            try {
+                const ps=document.getElementById('imgPageSize').value, or=document.getElementById('imgOrientation').value, mg=document.getElementById('imgMargin').value;
+                const margins={none:0,small:10,normal:20}, m=margins[mg];
+                const doc=new jsPDF({orientation:or,unit:'mm',format:ps==='original'?'a4':ps});
+                const pw=doc.internal.pageSize.getWidth(), ph=doc.internal.pageSize.getHeight();
+                for(let i=0;i<state.imageFiles.length;i++){
+                    if(i>0) doc.addPage(ps==='original'?'a4':ps,or);
+                    const pct=10+(80*i/state.imageFiles.length); showProgress(pct);
+                    updateLoading(pct,`${i+1}/${state.imageFiles.length}`);
+                    let imgData=await readFileAsDataURL(state.imageFiles[i]);
+                    const img=await loadImage(imgData);
+                    imgData = resizeImage(img, imgData);
+                    const resImg = await loadImage(imgData);
+                    if(ps==='original'){
+                        const px=0.264583,w=resImg.width*px,h=resImg.height*px;
+                        doc.internal.pageSize.setWidth(w+m*2); doc.internal.pageSize.setHeight(h+m*2);
+                        doc.addImage(imgData,'JPEG',m,m,w,h,undefined,'FAST');
+                    } else {
+                        const aw=pw-m*2,ah=ph-m*2,r=Math.min(aw/resImg.width,ah/resImg.height);
+                        const w=resImg.width*r,h=resImg.height*r,x=m+(aw-w)/2,y=m+(ah-h)/2;
+                        doc.addImage(imgData,'JPEG',x,y,w,h,undefined,'FAST');
+                    }
+                }
+                updateLoading(100,t('l_done')); showProgress(100);
+                downloadBlob(doc.output('arraybuffer'),'gorseller.pdf'); toast(t('t_pdf_ok'));
+            } catch(e){ console.error('Image to PDF error:', e); toast(e.message||t('t_load_error'),'error'); }
+            finally { hideLoading(); state.processing=false; }
+        });
+
+        // ======================== WORD TO PDF ========================
+        setupDropZone(document.getElementById('wordDropZone'), document.getElementById('wordInput'), files=>{
+            if(!files.length) return;
+            const d=files.find(f=>f.name.endsWith('.docx'));
+            if(!d) return toast(t('t_select_docx'),'error');
+            state.wordFile=d;
+            document.getElementById('wordFileName').textContent=d.name;
+            document.getElementById('wordFileSize').textContent=formatSize(d.size);
+            document.getElementById('wordInfo').classList.remove('hidden');
+            document.getElementById('wordActions').classList.remove('hidden');
+            document.getElementById('wordDropZone').classList.add('hidden');
+        });
+        document.getElementById('removeWord').addEventListener('click',()=>{state.wordFile=null;document.getElementById('wordInfo').classList.add('hidden');document.getElementById('wordActions').classList.add('hidden');document.getElementById('wordDropZone').classList.remove('hidden');});
+        document.getElementById('convertWordBtn').addEventListener('click', async()=>{
+            if(!state.wordFile||state.processing) return; state.processing=true;
+            showLoading(t('l_converting'),'Word → PDF'); showProgress(20);
+            try {
+                const ab=await readFileAsArrayBuffer(state.wordFile); updateLoading(40);showProgress(40);
+                const res=await mammoth.convertToHtml({arrayBuffer:ab}); updateLoading(60);showProgress(60);
+                const el=document.createElement('div');
+                el.style.cssText='width:170mm;padding:15mm;font-family:Arial,sans-serif;font-size:11pt;line-height:1.6;color:#333;';
+                el.innerHTML=res.value; document.body.appendChild(el);
+                const doc=new jsPDF('p','mm','a4');
+                await doc.html(el,{callback:d=>{document.body.removeChild(el);updateLoading(100,t('l_done'));showProgress(100);downloadBlob(d.output('arraybuffer'),state.wordFile.name.replace('.docx','.pdf'));toast(t('t_word_ok'));hideLoading();},x:15,y:15,width:170,windowWidth:650});
+            } catch(e){ console.error('Word to PDF error:', e); toast(e.message||t('t_load_error'),'error'); }
+            finally { hideLoading(); state.processing=false; }
+        });
+
+        // ======================== PPTX TO PDF ========================
+        let pptxSlideImages=[];
+        setupDropZone(document.getElementById('pptxDropZone'),document.getElementById('pptxInput'),files=>{
+            if(!files.length) return;
+            const f=files.find(f=>f.name.endsWith('.pptx'));
+            if(!f) return toast(t('t_select_pptx'),'error'); loadPptx(f);
+        });
+        document.getElementById('removePptx').addEventListener('click',()=>{pptxSlideImages=[];document.getElementById('pptxInfo').classList.add('hidden');document.getElementById('pptxActions').classList.add('hidden');document.getElementById('pptxPreview').classList.add('hidden');document.getElementById('pptxPreview').innerHTML='';document.getElementById('pptxDropZone').classList.remove('hidden');});
+        async function loadPptx(file){
+            showLoading(t('l_loading'),'PowerPoint');
+            try{
+                const ab=await readFileAsArrayBuffer(file);const zip=await JSZip.loadAsync(ab);updateLoading(30);
+                const slides=[];zip.forEach((p,e)=>{const m=p.match(/^ppt\/slides\/slide(\d+)\.xml$/);if(m)slides.push({num:parseInt(m[1]),path:p,entry:e});});
+                slides.sort((a,b)=>a.num-b.num);
+                if(!slides.length){hideLoading();return toast('No slides','error');}
+                pptxSlideImages=[];const media={};zip.forEach((p,e)=>{if(p.startsWith('ppt/media/'))media[p]=e;});
+                for(let si=0;si<slides.length;si++){
+                    updateLoading(30+(60*si/slides.length),`Slayt ${si+1}/${slides.length}`);
+                    const xml=await slides[si].entry.async('text');
+                    const canvas=document.createElement('canvas');canvas.width=960;canvas.height=540;const ctx=canvas.getContext('2d');
+                    ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,960,540);
+                    const texts=[...xml.matchAll(/<a:t>([^<]+)<\/a:t>/g)];let ty=60;
+                    for(const m of texts){
+                        const txt=m[1].trim();if(!txt)continue;
+                        ctx.font=ty===60?'bold 28px DM Sans,sans-serif':ty<=120?'bold 20px DM Sans,sans-serif':'16px DM Sans,sans-serif';
+                        ctx.fillStyle=ty===60?'#1a1a1a':ty<=120?'#333':'#555';
+                        const words=txt.split(' ');let line='';
+                        for(const w of words){const test=line?line+' '+w:w;if(ctx.measureText(test).width>860&&line){ctx.fillText(line,50,ty);ty+=30;line=w;}else line=test;}
+                        if(line){ctx.fillText(line,50,ty);ty+=36;}if(ty>500)break;
+                    }
+                    // Try to draw first image
+                    const relPath=`ppt/slides/_rels/slide${slides[si].num}.xml.rels`;const relEntry=zip.file(relPath);
+                    if(relEntry){try{const relXml=await relEntry.async('text');const doc=new DOMParser().parseFromString(relXml,'text/xml');
+                    for(const rel of doc.querySelectorAll('Relationship')){const tgt=rel.getAttribute('Target');
+                    if(tgt&&tgt.match(/\.\.\/media\//)){const mp='ppt/'+tgt.replace('../','');if(media[mp]){
+                    const blob=await media[mp].async('blob');const url=URL.createObjectURL(blob);const img=await loadImage(url).catch(()=>null);
+                    if(img){const r=Math.min(400/img.width,300/img.height);ctx.drawImage(img,960-img.width*r-50,Math.max(80,(540-img.height*r)/2),img.width*r,img.height*r);URL.revokeObjectURL(url);}break;}}}}catch(e){}}
+                    ctx.fillStyle='#1a1a1a';ctx.font='bold 12px JetBrains Mono,monospace';ctx.fillText(`${si+1}`,50,530);
+                    pptxSlideImages.push(canvas.toDataURL('image/jpeg',0.92));
+                }
+                document.getElementById('pptxFileName').textContent=file.name;document.getElementById('pptxFileSize').textContent=formatSize(file.size);
+                document.getElementById('pptxSlideNum').textContent=slides.length;document.getElementById('pptxSlideCount').classList.remove('hidden');
+                document.getElementById('pptxInfo').classList.remove('hidden');document.getElementById('pptxActions').classList.remove('hidden');document.getElementById('pptxDropZone').classList.add('hidden');
+                const pc=document.getElementById('pptxPreview');pc.innerHTML='';
+                pptxSlideImages.forEach((d,i)=>{const div=document.createElement('div');div.className='thumb-card !cursor-default';div.innerHTML=`<img src="${d}" class="w-full aspect-video object-cover"><div class="px-2 py-1 text-center"><span class="badge bg-retro-gold/30">${i+1}</span></div>`;pc.appendChild(div);});
+                pc.classList.remove('hidden');updateLoading(100,t('l_done'));
+            }catch(e){console.error('PPTX error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();}
+        }
+        document.getElementById('convertPptxBtn').addEventListener('click',async()=>{
+            if(!pptxSlideImages.length||state.processing)return;state.processing=true;
+            showLoading(t('l_creating'),`${pptxSlideImages.length} slayt`);showProgress(10);
+            try{const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});const pw=doc.internal.pageSize.getWidth(),ph=doc.internal.pageSize.getHeight();
+            for(let i=0;i<pptxSlideImages.length;i++){if(i>0)doc.addPage('a4','landscape');const p=10+(80*i/pptxSlideImages.length);showProgress(p);updateLoading(p,`${i+1}/${pptxSlideImages.length}`);doc.addImage(pptxSlideImages[i],'JPEG',0,0,pw,ph);}
+            updateLoading(100,t('l_done'));showProgress(100);downloadBlob(doc.output('arraybuffer'),'sunum.pdf');toast(t('t_pptx_ok'));}catch(e){console.error('PPTX convert error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== EXCEL TO PDF ========================
+        let excelData = null;
+        setupDropZone(document.getElementById('excelDropZone'),document.getElementById('excelInput'),files=>{
+            if(!files.length) return;
+            const f=files.find(f=>f.name.match(/\.(xlsx|xls|csv)$/i));
+            if(!f) return toast(t('t_select_excel'),'error'); loadExcel(f);
+        });
+        document.getElementById('removeExcel').addEventListener('click',()=>{excelData=null;document.getElementById('excelInfo').classList.add('hidden');document.getElementById('excelActions').classList.add('hidden');document.getElementById('excelDropZone').classList.remove('hidden');});
+
+        async function loadExcel(file){
+            showLoading(t('l_loading'),'Excel');
+            try{
+                const ab=await readFileAsArrayBuffer(file);
+                const wb=XLSX.read(ab,{type:'array'});
+                excelData=wb;
+                document.getElementById('excelFileName').textContent=file.name;
+                document.getElementById('excelFileSize').textContent=formatSize(file.size);
+                document.getElementById('excelSheetNum').textContent=wb.SheetNames.length;
+                document.getElementById('excelSheetCount').classList.remove('hidden');
+                document.getElementById('excelInfo').classList.remove('hidden');
+                document.getElementById('excelActions').classList.remove('hidden');
+                document.getElementById('excelDropZone').classList.add('hidden');
+                // Preview first sheet
+                const ws=wb.Sheets[wb.SheetNames[0]];
+                const html=XLSX.utils.sheet_to_html(ws,{editable:false});
+                const preview=document.getElementById('excelTablePreview');
+                preview.innerHTML=html;
+                // Style the table
+                const table=preview.querySelector('table');
+                if(table){
+                    table.style.cssText='border-collapse:collapse;width:100%;font-size:11px;font-family:JetBrains Mono,monospace;';
+                    table.querySelectorAll('td,th').forEach(c=>{c.style.cssText='border:1.5px solid #3D3D3D;padding:3px 6px;background:#FAF6ED;';});
+                    const firstRow=table.querySelector('tr');
+                    if(firstRow) firstRow.querySelectorAll('td,th').forEach(c=>{c.style.background='#E8DCC8';c.style.fontWeight='700';});
+                }
+                updateLoading(100,t('l_done'));
+            }catch(e){console.error('Excel load error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();}
+        }
+
+        document.getElementById('convertExcelBtn').addEventListener('click',async()=>{
+            if(!excelData||state.processing)return;state.processing=true;
+            showLoading(t('l_creating'),'Excel → PDF');showProgress(10);
+            try{
+                const doc=new jsPDF('l','mm','a4');
+                const pw=doc.internal.pageSize.getWidth(),ph=doc.internal.pageSize.getHeight();
+                for(let si=0;si<excelData.SheetNames.length;si++){
+                    if(si>0) doc.addPage('a4','l');
+                    updateLoading(10+(80*si/excelData.SheetNames.length),excelData.SheetNames[si]);
+                    const ws=excelData.Sheets[excelData.SheetNames[si]];
+                    const data=XLSX.utils.sheet_to_json(ws,{header:1});
+                    if(!data.length) continue;
+                    // Draw table
+                    const cols=Math.max(...data.map(r=>r.length));
+                    const colW=Math.min((pw-20)/cols,40);
+                    const rowH=7;let y=15;
+                    doc.setFontSize(7);doc.setFont('helvetica','normal');
+                    // Sheet name header
+                    doc.setFontSize(10);doc.setFont('helvetica','bold');
+                    doc.text(excelData.SheetNames[si],10,y);y+=8;
+                    doc.setFontSize(7);
+                    for(let ri=0;ri<data.length;ri++){
+                        if(y+rowH>ph-10){doc.addPage('a4','l');y=15;}
+                        for(let ci=0;ci<cols;ci++){
+                            const x=10+ci*colW;
+                            doc.setDrawColor(60,60,60);doc.rect(x,y,colW,rowH);
+                            if(ri===0){doc.setFillColor(232,220,200);doc.rect(x,y,colW,rowH,'F');doc.rect(x,y,colW,rowH,'S');doc.setFont('helvetica','bold');}
+                            else doc.setFont('helvetica','normal');
+                            const val=data[ri][ci]!=null?String(data[ri][ci]):'';
+                            doc.text(val.substring(0,20),x+1.5,y+5);
+                        }
+                        y+=rowH;
+                    }
+                }
+                updateLoading(100,t('l_done'));showProgress(100);
+                downloadBlob(doc.output('arraybuffer'),'tablo.pdf');toast(t('t_excel_ok'));
+            }catch(e){console.error('Excel convert error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== MERGE ========================
+        let mergeSortable=null;
+        setupDropZone(document.getElementById('mergeDropZone'),document.getElementById('mergeInput'),f=>{if(f.length)addMergeFiles(f);});
+        document.getElementById('addMorePdf').addEventListener('click',()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf';inp.onchange=e=>{if(e.target.files.length)addMergeFiles([...e.target.files]);};inp.click();});
+        const fileColors=['bg-retro-panel','bg-retro-warm','bg-retro-bg/40','bg-retro-gold/20','bg-retro-cream'];
+        async function addMergeFiles(files){
+            const pdfs=files.filter(f=>f.type==='application/pdf'||f.name.endsWith('.pdf'));
+            if(!pdfs.length) return toast(t('t_select_pdf'),'error');
+            showLoading(t('l_loading'),`${pdfs.length} PDF`);
+            for(let i=0;i<pdfs.length;i++){try{updateLoading((i+1)/pdfs.length*100,pdfs[i].name);const b=await readFileAsArrayBuffer(pdfs[i]);const d=await PDFDocument.load(b);state.mergeFiles.push({name:pdfs[i].name,size:pdfs[i].size,bytes:new Uint8Array(b),pageCount:d.getPageCount()});}catch(e){toast(`${pdfs[i].name} okunamadı`,'error');}}
+            hideLoading();renderMergeList();
+        }
+        function renderMergeList(){
+            const c=document.getElementById('mergeFileList');c.innerHTML='';
+            state.mergeFiles.forEach((f,i)=>{const cl=fileColors[i%fileColors.length];const d=document.createElement('div');d.className=`file-item ${cl} p-3 flex items-center gap-3`;d.innerHTML=`<i class="fa-solid fa-grip-vertical text-gray-400 cursor-grab text-sm"></i><i class="fa-solid fa-file-pdf text-red-500"></i><div class="flex-1 min-w-0"><p class="text-sm font-bold truncate">${f.name}</p><p class="text-[10px] text-gray-500 font-mono">${formatSize(f.size)} · ${f.pageCount} sayfa</p></div><button class="file-remove w-6 h-6 bg-red-300 rounded border-2 border-retro-border text-white text-[9px] flex items-center justify-center" data-remove-merge="${i}"><i class="fa-solid fa-xmark"></i></button>`;c.appendChild(d);});
+            const h=state.mergeFiles.length>0;document.getElementById('mergeActions').classList.toggle('hidden',!h);document.getElementById('mergeDropZone').classList.toggle('hidden',h);
+            if(mergeSortable)mergeSortable.destroy();
+            if(h)mergeSortable=new Sortable(c,{animation:150,handle:'.fa-grip-vertical',ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',onEnd:e=>{const it=state.mergeFiles.splice(e.oldIndex,1)[0];state.mergeFiles.splice(e.newIndex,0,it);renderMergeList();}});
+        }
+        document.getElementById('mergeFileList').addEventListener('click',e=>{const b=e.target.closest('[data-remove-merge]');if(b){state.mergeFiles.splice(parseInt(b.dataset.removeMerge),1);renderMergeList();}});
+        document.getElementById('mergeBtn').addEventListener('click',async()=>{
+            if(state.mergeFiles.length<2||state.processing) return toast(t('t_min2'),'error');
+            state.processing=true;showLoading(t('l_merging'),`${state.mergeFiles.length} PDF`);showProgress(10);
+            try{const merged=await PDFDocument.create();for(let i=0;i<state.mergeFiles.length;i++){const p=10+(80*i/state.mergeFiles.length);showProgress(p);updateLoading(p,state.mergeFiles[i].name);const s=await PDFDocument.load(state.mergeFiles[i].bytes);(await merged.copyPages(s,s.getPageIndices())).forEach(pg=>merged.addPage(pg));}
+            updateLoading(100,t('l_done'));showProgress(100);downloadBlob(await merged.save(),'birlestirilmis.pdf');toast(t('t_merge_ok'));}catch(e){console.error('Merge error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== EDIT ========================
+        let editSortable=null;
+        setupDropZone(document.getElementById('editDropZone'),document.getElementById('editInput'),f=>{if(f.length)loadEditPdf(f[0]);});
+        document.getElementById('editNewFile').addEventListener('click',()=>{state.editBytes=null;state.editPages=[];state.editOrder=[];state.selectedPages.clear();document.getElementById('editWorkspace').classList.add('hidden');document.getElementById('editDropZone').classList.remove('hidden');document.getElementById('editThumbnails').innerHTML='';});
+        async function loadEditPdf(file){
+            if(!file) return toast(t('t_select_pdf'),'error');
+            showLoading(t('l_loading'),'PDF');showProgress(10);
+            try{const b=await readFileAsArrayBuffer(file);state.editBytes=new Uint8Array(b).slice();const d=await PDFDocument.load(state.editBytes.slice());const cnt=d.getPageCount();
+            state.editPages=Array.from({length:cnt},(_,i)=>({index:i,rotation:0,deleted:false}));state.editOrder=Array.from({length:cnt},(_,i)=>i);state.selectedPages.clear();
+            document.getElementById('editDropZone').classList.add('hidden');document.getElementById('editWorkspace').classList.remove('hidden');
+            await renderEditThumbs(state.editBytes.slice(),cnt);updateLoading(100,t('l_done'));showProgress(100);}catch(e){console.error('Edit load error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();}
+        }
+        async function renderEditThumbs(bytes,count){
+            const c=document.getElementById('editThumbnails');c.innerHTML='';const pdf=await pdfjsLib.getDocument({data:bytes.slice()}).promise;
+            for(let i=1;i<=count;i++){updateLoading(20+(70*i/count),`${i}/${count}`);showProgress(20+(70*i/count));
+            const pg=await pdf.getPage(i);const vp=pg.getViewport({scale:0.4});const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;
+            await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+            const cl=fileColors[(i-1)%fileColors.length];const d=document.createElement('div');d.className=`thumb-card ${cl}`;d.dataset.pageIndex=i-1;
+            d.innerHTML=`<div class="flex items-center justify-center p-1 bg-white" style="min-height:130px"></div><div class="px-2 py-1 text-center"><span class="badge bg-retro-warm">${i}</span></div>`;
+            d.querySelector('div').appendChild(cv);cv.style.cssText='width:100%;height:auto;display:block;';c.appendChild(d);}
+            // Attach click listener only once to avoid memory leak
+            if(!state.editThumbsListenerAttached) {
+                c.addEventListener('click',e=>{const card=e.target.closest('.thumb-card');if(!card)return;const idx=parseInt(card.dataset.pageIndex);
+                if(state.selectedPages.has(idx)){state.selectedPages.delete(idx);card.classList.remove('selected');}else{state.selectedPages.add(idx);card.classList.add('selected');}});
+                state.editThumbsListenerAttached = true;
+            }
+            if(editSortable)editSortable.destroy();editSortable=new Sortable(c,{animation:150,ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',onEnd:e=>{const it=state.editOrder.splice(e.oldIndex,1)[0];state.editOrder.splice(e.newIndex,0,it);}});
+        }
+        document.querySelector('#editWorkspace .win-panel').addEventListener('click',e=>{
+            const btn=e.target.closest('[data-action]');if(!btn)return;const a=btn.dataset.action;
+            if(a==='selectAll'){document.querySelectorAll('#editThumbnails .thumb-card').forEach(c=>{c.classList.add('selected');state.selectedPages.add(parseInt(c.dataset.pageIndex));});}
+            else if(a==='deselectAll'){document.querySelectorAll('#editThumbnails .thumb-card').forEach(c=>c.classList.remove('selected'));state.selectedPages.clear();}
+            else if(a==='rotateCW'||a==='rotateCCW'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');const deg=a==='rotateCW'?90:-90;state.selectedPages.forEach(idx=>{state.editPages[idx].rotation=(state.editPages[idx].rotation+deg+360)%360;const card=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(card){const cv=card.querySelector('canvas');if(cv)cv.style.transform=`rotate(${state.editPages[idx].rotation}deg)`;}});toast(`${state.selectedPages.size} ${t('t_rotated')}`);}
+            else if(a==='deletePages'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');if(state.selectedPages.size>=state.editPages.filter(p=>!p.deleted).length)return toast(t('t_cant_del_all'),'error');state.selectedPages.forEach(idx=>{state.editPages[idx].deleted=true;const c=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(c)c.remove();});state.editOrder=state.editOrder.filter(i=>!state.editPages[i].deleted);toast(`${state.selectedPages.size} ${t('t_deleted')}`);state.selectedPages.clear();}
+            else if(a==='splitAll')splitAllPages();
+            else if(a==='splitAt')document.getElementById('splitModal').classList.remove('hidden');
+            else if(a==='pageNumbers'){if(!state.editBytes)return toast(t('t_select_pdf'),'info');document.getElementById('pageNumModal').classList.remove('hidden');}
+        });
+        document.getElementById('editSaveBtn').addEventListener('click',async()=>{
+            if(!state.editBytes||state.processing)return;state.processing=true;showLoading(t('l_saving'),'PDF');showProgress(10);
+            try{const src=await PDFDocument.load(state.editBytes);const dest=await PDFDocument.create();
+            const vis=Array.from(document.querySelectorAll('#editThumbnails .thumb-card')).map(el=>parseInt(el.dataset.pageIndex));
+            const active=vis.filter(i=>!state.editPages[i].deleted);const copied=await dest.copyPages(src,active);
+            for(let j=0;j<copied.length;j++){const pg=copied[j];const rot=state.editPages[active[j]].rotation;if(rot)pg.setRotation(degrees(pg.getRotation().angle+rot));dest.addPage(pg);showProgress(10+(80*j/copied.length));updateLoading(10+(80*j/copied.length),`${j+1}/${copied.length}`);}
+            downloadBlob(await dest.save(),'duzenlenmis.pdf');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_saved'));}catch(e){console.error('Edit save error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+        async function splitAllPages(){
+            if(!state.editBytes||state.processing)return;state.processing=true;showLoading(t('l_splitting'),'');showProgress(10);
+            try{const src=await PDFDocument.load(state.editBytes);const cnt=src.getPageCount();const zip=new JSZip();
+            for(let i=0;i<cnt;i++){showProgress(10+(80*i/cnt));updateLoading(10+(80*i/cnt),`${i+1}/${cnt}`);const d=await PDFDocument.create();const[pg]=await d.copyPages(src,[i]);d.addPage(pg);zip.file(`sayfa-${i+1}.pdf`,await d.save());}
+            updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),'sayfalar.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_ok'));}catch(e){console.error('Split error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        }
+        document.getElementById('splitCancel').addEventListener('click',()=>document.getElementById('splitModal').classList.add('hidden'));
+        document.getElementById('splitConfirm').addEventListener('click',async()=>{
+            const inp=document.getElementById('splitInput').value.trim();if(!inp)return;document.getElementById('splitModal').classList.add('hidden');
+            const pts=inp.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)).sort((a,b)=>a-b);if(!pts.length)return toast(t('t_valid_page'),'error');
+            if(!state.editBytes||state.processing)return;state.processing=true;showLoading(t('l_splitting'),'');showProgress(10);
+            try{const src=await PDFDocument.load(state.editBytes);const tot=src.getPageCount();const zip=new JSZip();const ranges=[];let s=0;
+            for(const p of pts){if(p>0&&p<tot){ranges.push([s,p-1]);s=p;}}ranges.push([s,tot-1]);
+            for(let r=0;r<ranges.length;r++){showProgress(10+(80*r/ranges.length));updateLoading(10+(80*r/ranges.length),`${r+1}/${ranges.length}`);const[from,to]=ranges[r];const d=await PDFDocument.create();const idx=Array.from({length:to-from+1},(_,i)=>from+i);(await d.copyPages(src,idx)).forEach(p=>d.addPage(p));zip.file(`bolum-${r+1}.pdf`,await d.save());}
+            updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),'bolunmus.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_at_ok'));}catch(e){console.error('Split at error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+        // ======================== PDF TO IMAGE ========================
+        let pdf2imgBytes = null;
+        setupDropZone(document.getElementById('pdf2imgDropZone'),document.getElementById('pdf2imgInput'),async files=>{
+            if(!files.length) return;
+            const f=files.find(f=>f.name.endsWith('.pdf'));if(!f)return toast(t('t_select_pdf'),'error');
+            pdf2imgBytes=new Uint8Array(await readFileAsArrayBuffer(f)).slice();
+            const doc=await PDFDocument.load(pdf2imgBytes.slice());
+            document.getElementById('pdf2imgFileName').textContent=f.name;
+            document.getElementById('pdf2imgFileSize').textContent=formatSize(f.size);
+            document.getElementById('pdf2imgPageCount').textContent=doc.getPageCount();
+            document.getElementById('pdf2imgOptions').classList.remove('hidden');
+            document.getElementById('pdf2imgActions').classList.remove('hidden');
+            document.getElementById('pdf2imgDropZone').classList.add('hidden');
+        });
+        document.getElementById('removePdf2img').addEventListener('click',()=>{pdf2imgBytes=null;document.getElementById('pdf2imgOptions').classList.add('hidden');document.getElementById('pdf2imgActions').classList.add('hidden');document.getElementById('pdf2imgDropZone').classList.remove('hidden');});
+        document.getElementById('convertPdf2imgBtn').addEventListener('click',async()=>{
+            if(!pdf2imgBytes||state.processing)return;state.processing=true;
+            const scale=parseFloat(document.getElementById('pdf2imgScale').value);
+            const fmt=document.getElementById('pdf2imgFormat').value;
+            showLoading(t('l_converting'),'PDF → '+fmt.toUpperCase());showProgress(10);
+            try{
+                const pdf=await pdfjsLib.getDocument({data:pdf2imgBytes.slice()}).promise;
+                const cnt=pdf.numPages;const zip=new JSZip();
+                for(let i=1;i<=cnt;i++){
+                    updateLoading(10+(80*i/cnt),`${i}/${cnt}`);showProgress(10+(80*i/cnt));
+                    const pg=await pdf.getPage(i);const vp=pg.getViewport({scale});
+                    const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;
+                    await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+                    const blob=await new Promise(r=>cv.toBlob(r,fmt==='png'?'image/png':'image/jpeg',0.92));
+                    zip.file(`sayfa-${i}.${fmt==='png'?'png':'jpg'}`,blob);
+                }
+                updateLoading(95,'ZIP...');showProgress(95);
+                downloadBlob(await zip.generateAsync({type:'blob'}),`gorseller.zip`,'application/zip');
+                updateLoading(100,t('l_done'));showProgress(100);toast(t('t_pdf2img_ok'));            }catch(e){console.error('PDF to image error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== COMPRESS ========================
+        let compressFile=null,compressOriginalSize=0;
+        setupDropZone(document.getElementById('compressDropZone'),document.getElementById('compressInput'),async files=>{
+            if(!files.length) return;
+            const f=files.find(f=>f.name.endsWith('.pdf'));if(!f)return toast(t('t_select_pdf'),'error');
+            compressFile=f;compressOriginalSize=f.size;
+            document.getElementById('compressFileName').textContent=f.name;
+            document.getElementById('compressFileSize').textContent=formatSize(f.size);
+            document.getElementById('compressInfo').classList.remove('hidden');
+            document.getElementById('compressActions').classList.remove('hidden');
+            document.getElementById('compressDropZone').classList.add('hidden');
+            document.getElementById('compressResult').classList.add('hidden');
+        });
+        document.getElementById('removeCompress').addEventListener('click',()=>{compressFile=null;document.getElementById('compressInfo').classList.add('hidden');document.getElementById('compressActions').classList.add('hidden');document.getElementById('compressResult').classList.add('hidden');document.getElementById('compressDropZone').classList.remove('hidden');});
+        document.getElementById('compressBtn').addEventListener('click',async()=>{
+            if(!compressFile||state.processing)return;state.processing=true;
+            const quality=parseFloat(document.getElementById('compressLevel').value);
+            showLoading(t('l_converting'),'Sıkıştırılıyor...');showProgress(10);
+            try{
+                const ab=await readFileAsArrayBuffer(compressFile);
+                const pdf=await pdfjsLib.getDocument({data:new Uint8Array(ab).slice()}).promise;
+                const cnt=pdf.numPages;const pg1=await pdf.getPage(1);const vp1=pg1.getViewport({scale:1});
+                const isLandscape=vp1.width>vp1.height;
+                const doc=new jsPDF({orientation:isLandscape?'landscape':'portrait',unit:'pt',format:[vp1.width,vp1.height]});
+                for(let i=1;i<=cnt;i++){
+                    updateLoading(10+(80*i/cnt),`${i}/${cnt}`);showProgress(10+(80*i/cnt));
+                    const pg=await pdf.getPage(i);const vp=pg.getViewport({scale:1.5});
+                    const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;
+                    await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+                    const imgData=cv.toDataURL('image/jpeg',quality);
+                    if(i>1){const vpOrig=pg.getViewport({scale:1});doc.addPage([vpOrig.width,vpOrig.height],vpOrig.width>vpOrig.height?'landscape':'portrait');}
+                    const pw=doc.internal.pageSize.getWidth(),ph=doc.internal.pageSize.getHeight();
+                    doc.addImage(imgData,'JPEG',0,0,pw,ph,undefined,'FAST');
+                }
+                const out=doc.output('arraybuffer');const newSize=out.byteLength;
+                const saved=Math.round((1-newSize/compressOriginalSize)*100);
+                document.getElementById('compressOrigSize').textContent=formatSize(compressOriginalSize);
+                document.getElementById('compressNewSize').textContent=formatSize(newSize);
+                document.getElementById('compressSaved').textContent=Math.max(0,saved);
+                document.getElementById('compressResult').classList.remove('hidden');
+                updateLoading(100,t('l_done'));showProgress(100);
+                downloadBlob(new Uint8Array(out),'sikistirilmis.pdf');toast(t('t_compress_ok'));            }catch(e){console.error('Compress error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== SIGN ========================
+        let signBytes=null;
+        const signCanvas=document.getElementById('signCanvas'),signCtx=signCanvas.getContext('2d');
+        let signDrawing=false;
+        signCtx.lineWidth=2.5;signCtx.lineCap='round';signCtx.strokeStyle='#1a1a2e';
+        function getSignPos(e){const r=signCanvas.getBoundingClientRect();const ev=e.touches?e.touches[0]:e;return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
+        signCanvas.addEventListener('mousedown',e=>{signDrawing=true;signCtx.beginPath();const p=getSignPos(e);signCtx.moveTo(p.x,p.y);});
+        signCanvas.addEventListener('mousemove',e=>{if(!signDrawing)return;const p=getSignPos(e);signCtx.lineTo(p.x,p.y);signCtx.stroke();});
+        signCanvas.addEventListener('mouseup',()=>signDrawing=false);
+        signCanvas.addEventListener('mouseleave',()=>signDrawing=false);
+        signCanvas.addEventListener('touchstart',e=>{e.preventDefault();signDrawing=true;signCtx.beginPath();const p=getSignPos(e);signCtx.moveTo(p.x,p.y);},{passive:false});
+        signCanvas.addEventListener('touchmove',e=>{e.preventDefault();if(!signDrawing)return;const p=getSignPos(e);signCtx.lineTo(p.x,p.y);signCtx.stroke();},{passive:false});
+        signCanvas.addEventListener('touchend',()=>signDrawing=false);
+        document.getElementById('clearSign').addEventListener('click',()=>signCtx.clearRect(0,0,signCanvas.width,signCanvas.height));
+
+        setupDropZone(document.getElementById('signDropZone'),document.getElementById('signInput'),async files=>{
+            if(!files.length) return;
+            const f=files.find(f=>f.name.endsWith('.pdf'));if(!f)return toast(t('t_select_pdf'),'error');
+            signBytes=new Uint8Array(await readFileAsArrayBuffer(f)).slice();
+            const doc=await PDFDocument.load(signBytes.slice());const cnt=doc.getPageCount();
+            document.getElementById('signFileName').textContent=f.name;
+            const sel=document.getElementById('signPage');sel.innerHTML='';
+            for(let i=1;i<=cnt;i++){const o=document.createElement('option');o.value=i;o.textContent=i;sel.appendChild(o);}
+            sel.value=cnt;
+            document.getElementById('signWorkspace').classList.remove('hidden');
+            document.getElementById('signDropZone').classList.add('hidden');
+        });
+        document.getElementById('signApplyBtn').addEventListener('click',async()=>{
+            if(!signBytes||state.processing)return;
+            const imgData=signCanvas.toDataURL('image/png');
+            const tempCv=document.createElement('canvas');tempCv.width=signCanvas.width;tempCv.height=signCanvas.height;
+            const tempCtx=tempCv.getContext('2d');tempCtx.drawImage(signCanvas,0,0);
+            const pxData=tempCtx.getImageData(0,0,tempCv.width,tempCv.height).data;
+            let hasDrawing=false;for(let i=3;i<pxData.length;i+=4){if(pxData[i]>10){hasDrawing=true;break;}}
+            if(!hasDrawing)return toast(t('t_draw_first'),'info');
+            state.processing=true;showLoading(t('l_saving'),'İmza ekleniyor...');showProgress(30);
+            try{
+                const doc=await PDFDocument.load(signBytes.slice());
+                const pngImg=await doc.embedPng(imgData);
+                const pageIdx=parseInt(document.getElementById('signPage').value)-1;
+                const page=doc.getPages()[pageIdx];const{width,height}=page.getSize();
+                const sigW=150,sigH=sigW*(pngImg.height/pngImg.width);
+                const pos=document.getElementById('signPosition').value;
+                let x,y;
+                if(pos==='bl'){x=40;y=40;}else if(pos==='bc'){x=(width-sigW)/2;y=40;}else{x=width-sigW-40;y=40;}
+                page.drawImage(pngImg,{x,y,width:sigW,height:sigH});
+                updateLoading(80);showProgress(80);
+                downloadBlob(await doc.save(),'imzalanmis.pdf');
+                updateLoading(100,t('l_done'));showProgress(100);toast(t('t_sign_ok'));            }catch(e){console.error('Sign error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== WATERMARK ========================
+        let wmBytes=null;
+        setupDropZone(document.getElementById('wmDropZone'),document.getElementById('wmInput'),async files=>{
+            if(!files.length) return;
+            const f=files.find(f=>f.name.endsWith('.pdf'));if(!f)return toast(t('t_select_pdf'),'error');
+            wmBytes=new Uint8Array(await readFileAsArrayBuffer(f)).slice();
+            document.getElementById('wmFileName').textContent=f.name;
+            document.getElementById('wmWorkspace').classList.remove('hidden');
+            document.getElementById('wmActions').classList.remove('hidden');
+            document.getElementById('wmDropZone').classList.add('hidden');
+        });
+        document.getElementById('removeWm').addEventListener('click',()=>{wmBytes=null;document.getElementById('wmWorkspace').classList.add('hidden');document.getElementById('wmActions').classList.add('hidden');document.getElementById('wmDropZone').classList.remove('hidden');});
+        document.getElementById('wmApplyBtn').addEventListener('click',async()=>{
+            if(!wmBytes||state.processing)return;
+            const txt=document.getElementById('wmText').value.trim();if(!txt)return toast(t('t_wm_text_req'),'error');
+            state.processing=true;showLoading(t('l_saving'),'Filigran ekleniyor...');showProgress(20);
+            try{
+                const doc=await PDFDocument.load(wmBytes.slice());
+                const font=await doc.embedFont(StandardFonts.HelveticaBold);
+                const fontSize=parseInt(document.getElementById('wmSize').value);
+                const opacity=parseFloat(document.getElementById('wmOpacity').value);
+                const rotation=parseInt(document.getElementById('wmRotation').value);
+                const colorParts=document.getElementById('wmColor').value.split(',').map(Number);
+                const color=rgb(colorParts[0],colorParts[1],colorParts[2]);
+                const pages=doc.getPages();
+                for(let i=0;i<pages.length;i++){
+                    updateLoading(20+(60*i/pages.length));showProgress(20+(60*i/pages.length));
+                    const pg=pages[i];const{width,height}=pg.getSize();
+                    const tw=font.widthOfTextAtSize(txt,fontSize);
+                    pg.drawText(txt,{x:(width-tw)/2,y:height/2,size:fontSize,font,color,opacity,rotate:degrees(rotation)});
+                }
+                updateLoading(90);showProgress(90);
+                downloadBlob(await doc.save(),'filigranli.pdf');
+                updateLoading(100,t('l_done'));showProgress(100);toast(t('t_wm_ok'));            }catch(e){console.error('Watermark error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== PAGE NUMBERING ========================
+        document.getElementById('pageNumCancel').addEventListener('click',()=>document.getElementById('pageNumModal').classList.add('hidden'));
+        document.getElementById('pageNumApply').addEventListener('click',async()=>{
+            document.getElementById('pageNumModal').classList.add('hidden');
+            if(!state.editBytes||state.processing)return;state.processing=true;
+            showLoading(t('l_saving'),'Numaralandırılıyor...');showProgress(10);
+            try{
+                const doc=await PDFDocument.load(state.editBytes.slice());
+                const font=await doc.embedFont(StandardFonts.Helvetica);
+                const pages=doc.getPages();const total=pages.length;
+                const pos=document.getElementById('pnPosition').value;
+                const fmt=document.getElementById('pnFormat').value;
+                const start=parseInt(document.getElementById('pnStart').value)||1;
+                for(let i=0;i<pages.length;i++){
+                    updateLoading(10+(80*i/pages.length));
+                    const pg=pages[i];const{width,height}=pg.getSize();
+                    const num=i+start;
+                    let txt;
+                    if(fmt==='num')txt=String(num);else if(fmt==='dash')txt=`- ${num} -`;else if(fmt==='page')txt=(lang==='tr'?'Sayfa ':'Page ')+num;else txt=`${num} / ${total}`;
+                    const tw=font.widthOfTextAtSize(txt,10);
+                    let x,y=25;
+                    if(pos==='bc')x=(width-tw)/2;else if(pos==='br')x=width-tw-30;else x=30;
+                    pg.drawText(txt,{x,y,size:10,font,color:rgb(0.3,0.3,0.3)});
+                }
+                const saved=await doc.save();state.editBytes=new Uint8Array(saved).slice();
+                updateLoading(100,t('l_done'));showProgress(100);
+                downloadBlob(saved,'numaralanmis.pdf');toast(t('t_pn_ok'));            }catch(e){console.error('Page numbering error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+        });
+
+        // ======================== Keyboard Shortcuts ========================
+        document.getElementById('shortcutsBtn').addEventListener('click',()=>document.getElementById('shortcutsModal').classList.remove('hidden'));
+        document.getElementById('shortcutsClose').addEventListener('click',()=>document.getElementById('shortcutsModal').classList.add('hidden'));
+        const tabKeys=['convert','compress','merge','edit','sign','watermark','protect'];
+        document.addEventListener('keydown',e=>{
+            if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'||e.target.tagName==='TEXTAREA')return;
+            // Edit shortcuts
+            if(state.activeTab==='edit'&&state.editBytes){
+                if(e.key==='Delete'&&state.selectedPages.size)document.querySelector('[data-action="deletePages"]').click();
+                else if(e.key==='a'&&(e.ctrlKey||e.metaKey)){e.preventDefault();document.querySelector('[data-action="selectAll"]').click();}
+            }
+            // Global shortcuts
+            if(e.key==='?')document.getElementById('shortcutsModal').classList.toggle('hidden');
+            if(e.key==='d'&&!e.ctrlKey&&!e.metaKey)toggleDarkMode();
+            if(e.key==='Escape'){document.getElementById('shortcutsModal').classList.add('hidden');document.getElementById('splitModal').classList.add('hidden');document.getElementById('pageNumModal').classList.add('hidden');}
+            const num=parseInt(e.key);if(num>=1&&num<=7&&!e.ctrlKey&&!e.metaKey){
+                const tabBtn=document.querySelector(`.nav-item[data-tab="${tabKeys[num-1]}"]`);if(tabBtn)tabBtn.click();
+            }
+        });
+
+        // Page numbering button handled via toolbar click delegation above (splitAt/splitAll pattern)
+        // The action 'pageNumbers' is already handled in the editWorkspace toolbar click handler
+
+        // ======================== Usage Counter ========================
+        function getCounter(){return parseInt(localStorage.getItem('pdfmaster_count')||'0');}
+        function incrementCounter(n=1){const c=getCounter()+n;localStorage.setItem('pdfmaster_count',c);animateCounter(c);}
+        function updateCounterUI(c){
+            const formatted=c.toLocaleString('tr-TR');
+            const el1=document.getElementById('usageCount');if(el1)el1.textContent=formatted;
+            const el2=document.getElementById('headerCount');if(el2)el2.textContent=formatted;
+        }
+        function animateCounter(target){
+            const el1=document.getElementById('usageCount');
+            const el2=document.getElementById('headerCount');
+            const start=parseInt(el1?.textContent?.replace(/\./g,'')||'0');
+            const duration=600;const startTime=performance.now();
+            function step(now){
+                const elapsed=now-startTime;const progress=Math.min(elapsed/duration,1);
+                const val=Math.round(start+(target-start)*progress);
+                const formatted=val.toLocaleString('tr-TR');
+                if(el1)el1.textContent=formatted;
+                if(el2)el2.textContent=formatted;
+                if(progress<1)requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+        // Initial counter display with animation on landing
+        (function(){
+            const count=getCounter();
+            if(count>0){
+                const el=document.getElementById('usageCount');
+                if(el){let cur=0;const dur=1000;const st=performance.now();
+                function step(now){const p=Math.min((now-st)/dur,1);cur=Math.round(count*p);el.textContent=cur.toLocaleString('tr-TR');if(p<1)requestAnimationFrame(step);}
+                requestAnimationFrame(step);}
+            }
+            updateCounterUI(count);
+        })();
+
+        // ======================== Dark Mode ========================
+        function toggleDarkMode(){
+            document.documentElement.classList.toggle('dark');
+            const isDark=document.documentElement.classList.contains('dark');
+            localStorage.setItem('pdfmaster_dark',isDark?'1':'0');
+            document.querySelectorAll('#darkModeToggle i, #landingDarkToggle i').forEach(i=>{
+                i.className=isDark?'fa-solid fa-sun':'fa-solid fa-moon';
+            });
+        }
+        document.getElementById('darkModeToggle').addEventListener('click',toggleDarkMode);
+        document.getElementById('landingDarkToggle').addEventListener('click',toggleDarkMode);
+        if(localStorage.getItem('pdfmaster_dark')==='1')toggleDarkMode();
+
+        // ======================== Landing Page ========================
+        document.getElementById('landingCta').addEventListener('click',()=>{
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+        });
+
+        // Increment counter on existing operations (hook into existing save/convert functions)
+        const origDownload = downloadBlob;
+        downloadBlob = function(d,f,m){origDownload(d,f,m);incrementCounter(1);};
+
+        // File size validation is now defined in Utils section above
+
+        // ======================== Cookie Consent ========================
+        (function(){
+            const consent = localStorage.getItem('pdfmaster_cookie_consent');
+            if (!consent) {
+                document.getElementById('cookieConsent').classList.remove('hidden');
+            }
+            document.getElementById('cookieAccept').addEventListener('click', () => {
+                localStorage.setItem('pdfmaster_cookie_consent', 'accepted');
+                document.getElementById('cookieConsent').classList.add('hidden');
+                // Enable analytics if accepted
+                // loadAnalytics();
+            });
+            document.getElementById('cookieDecline').addEventListener('click', () => {
+                localStorage.setItem('pdfmaster_cookie_consent', 'declined');
+                document.getElementById('cookieConsent').classList.add('hidden');
+            });
+        })();
+
+        // ======================== Analytics Placeholder ========================
+        // Uncomment and add your Google Analytics ID when ready:
+        // function loadAnalytics() {
+        //     const script = document.createElement('script');
+        //     script.async = true;
+        //     script.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+        //     document.head.appendChild(script);
+        //     window.dataLayer = window.dataLayer || [];
+        //     function gtag(){dataLayer.push(arguments);}
+        //     gtag('js', new Date());
+        //     gtag('config', 'G-XXXXXXXXXX');
+        // }
+
+        // ======================== Language Persistence ========================
+        (function(){
+            const savedLang = localStorage.getItem('pdfmaster_lang');
+            if (savedLang && savedLang !== lang) {
+                lang = savedLang;
+                document.documentElement.lang = lang;
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+                applyLang();
+            }
+        })();
+
+    </script>
+</body>
+</html>
