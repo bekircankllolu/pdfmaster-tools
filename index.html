@@ -38,6 +38,14 @@
     </script>
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235B7B5E'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='monospace' font-weight='bold' font-size='11'%3EPDF%3C/text%3E%3C/svg%3E">
+    <!-- Google Analytics - Replace G-XXXXXXXXXX with your actual ID -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script> -->
     <!-- Libs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -1104,8 +1112,103 @@
                 </div>
             </section>
         </main>
+        <!-- Footer -->
+        <footer class="shrink-0 bg-retro-warm border-t-[2.5px] border-retro-border px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+            <p class="text-[10px] font-mono font-medium text-gray-500">&copy; 2026 PDFMASTER. <span data-i18n="footer_rights">Tüm hakları saklıdır.</span></p>
+            <div class="flex gap-3">
+                <button onclick="document.getElementById('privacyModal').classList.remove('hidden')" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline cursor-pointer" data-i18n="footer_privacy">Gizlilik Politikası</button>
+                <button onclick="document.getElementById('termsModal').classList.remove('hidden')" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline cursor-pointer" data-i18n="footer_terms">Hizmet Şartları</button>
+                <a href="mailto:info@pdfmaster.tools" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="footer_contact">İletişim</a>
+            </div>
+        </footer>
     </div>
     </div><!-- /appContainer -->
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="hidden fixed inset-0 z-[70] flex items-center justify-center bg-black/40" onclick="if(event.target===this)this.classList.add('hidden')">
+        <div class="win-panel p-0 w-full max-w-2xl max-h-[80vh] flex flex-col mx-4">
+            <div class="win-titlebar">
+                <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                <span class="font-mono text-xs font-bold" data-i18n="privacy_title">GİZLİLİK POLİTİKASI</span>
+                <button onclick="document.getElementById('privacyModal').classList.add('hidden')" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto text-xs font-mono leading-relaxed space-y-3">
+                <p class="font-bold text-sm">PDFMASTER Gizlilik Politikası</p>
+                <p><strong>Son güncelleme:</strong> 15 Mart 2026</p>
+                <p>PDFMASTER (pdfmaster.tools) olarak gizliliğinize saygı duyuyoruz. Bu politika, sitemizi kullanırken hangi bilgilerin toplandığını ve nasıl kullanıldığını açıklar.</p>
+
+                <p class="font-bold">1. Veri Toplama</p>
+                <p>PDFMASTER tamamen tarayıcınızda çalışır. Yüklediğiniz PDF, görsel, Word, Excel veya PowerPoint dosyaları hiçbir sunucuya gönderilmez. Tüm işlemler cihazınızda gerçekleşir ve dosyalarınız yalnızca sizin erişiminize açıktır.</p>
+
+                <p class="font-bold">2. Çerezler</p>
+                <p>Sitemiz aşağıdaki amaçlarla çerez ve localStorage kullanır:</p>
+                <ul class="list-disc ml-4 space-y-1">
+                    <li>Dil tercihinizi hatırlamak</li>
+                    <li>Tema (karanlık/aydınlık mod) tercihinizi saklamak</li>
+                    <li>İşlenen dosya sayacını tutmak</li>
+                    <li>Google Analytics ile anonim kullanım istatistikleri toplamak (onayınız ile)</li>
+                </ul>
+
+                <p class="font-bold">3. Üçüncü Taraf Hizmetler</p>
+                <p>Sitemiz aşağıdaki üçüncü taraf hizmetleri kullanabilir:</p>
+                <ul class="list-disc ml-4 space-y-1">
+                    <li><strong>Google Analytics:</strong> Anonim ziyaretçi istatistikleri</li>
+                    <li><strong>Google AdSense:</strong> Reklam gösterimi</li>
+                    <li><strong>CDN Servisleri:</strong> Kütüphane dosyalarının yüklenmesi (jsDelivr, cdnjs)</li>
+                </ul>
+
+                <p class="font-bold">4. Veri Güvenliği</p>
+                <p>Dosyalarınız hiçbir zaman sunucularımıza yüklenmez. Tüm dönüştürme, birleştirme ve düzenleme işlemleri tarayıcınızda JavaScript ile yapılır. HTTPS şifreleme ile güvenli bağlantı sağlanır.</p>
+
+                <p class="font-bold">5. Kullanıcı Hakları</p>
+                <p>Tarayıcınızın çerez ayarlarından istediğiniz zaman çerezleri silebilir, localStorage verilerini temizleyebilirsiniz. Herhangi bir sorunuz için info@pdfmaster.tools adresinden bize ulaşabilirsiniz.</p>
+
+                <p class="font-bold">6. Değişiklikler</p>
+                <p>Bu gizlilik politikası zaman zaman güncellenebilir. Önemli değişiklikler sitemizde duyurulacaktır.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="hidden fixed inset-0 z-[70] flex items-center justify-center bg-black/40" onclick="if(event.target===this)this.classList.add('hidden')">
+        <div class="win-panel p-0 w-full max-w-2xl max-h-[80vh] flex flex-col mx-4">
+            <div class="win-titlebar">
+                <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                <span class="font-mono text-xs font-bold" data-i18n="terms_title">HİZMET ŞARTLARI</span>
+                <button onclick="document.getElementById('termsModal').classList.add('hidden')" class="win-ctrl !w-5 !h-5 text-[9px]">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto text-xs font-mono leading-relaxed space-y-3">
+                <p class="font-bold text-sm">PDFMASTER Hizmet Şartları</p>
+                <p><strong>Son güncelleme:</strong> 15 Mart 2026</p>
+                <p>PDFMASTER'ı (pdfmaster.tools) kullanarak aşağıdaki şartları kabul etmiş olursunuz.</p>
+
+                <p class="font-bold">1. Hizmet Tanımı</p>
+                <p>PDFMASTER, tarayıcı tabanlı ücretsiz bir PDF aracıdır. PDF dönüştürme, birleştirme, düzenleme, sıkıştırma, imzalama ve filigran ekleme gibi hizmetler sunar. Tüm işlemler kullanıcının cihazında gerçekleşir.</p>
+
+                <p class="font-bold">2. Kullanım Koşulları</p>
+                <ul class="list-disc ml-4 space-y-1">
+                    <li>Hizmeti yalnızca yasal amaçlarla kullanabilirsiniz</li>
+                    <li>Telif hakkı ihlali içeren dosyaları işlemek için kullanamazsınız</li>
+                    <li>Hizmeti kötüye kullanmak veya otomatik sistemlerle aşırı yüklemek yasaktır</li>
+                </ul>
+
+                <p class="font-bold">3. Sorumluluk Sınırlaması</p>
+                <p>PDFMASTER "olduğu gibi" sunulmaktadır. Dosya dönüştürme sonuçlarının doğruluğu veya kalitesi konusunda garanti verilmez. İşlemler sırasında oluşabilecek veri kayıplarından PDFMASTER sorumlu tutulamaz. Önemli dosyalarınızın yedeğini almanızı öneririz.</p>
+
+                <p class="font-bold">4. Fikri Mülkiyet</p>
+                <p>PDFMASTER'ın tasarımı, logosu ve kaynak kodu telif hakkı ile korunmaktadır. İzinsiz kopyalama, dağıtma veya değiştirme yasaktır.</p>
+
+                <p class="font-bold">5. Reklam ve Üçüncü Taraf İçerik</p>
+                <p>Sitemizde üçüncü taraf reklamlar gösterilebilir. Bu reklamların içeriğinden PDFMASTER sorumlu değildir.</p>
+
+                <p class="font-bold">6. Değişiklikler</p>
+                <p>Bu şartlar önceden bildirimde bulunmaksızın güncellenebilir. Siteyi kullanmaya devam etmeniz, güncel şartları kabul ettiğiniz anlamına gelir.</p>
+
+                <p class="font-bold">7. İletişim</p>
+                <p>Sorularınız için: info@pdfmaster.tools</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
@@ -1284,6 +1387,9 @@
                 l_splitting: 'Bölünüyor', l_wait: 'Lütfen bekleyin', l_done: 'Tamamlandı!',
                 cookie_text: 'Bu site deneyiminizi geliştirmek için çerezleri kullanır.',
                 cookie_accept: 'Kabul Et', cookie_decline: 'Reddet',
+                footer_rights: 'Tüm hakları saklıdır.', footer_privacy: 'Gizlilik Politikası',
+                footer_terms: 'Hizmet Şartları', footer_contact: 'İletişim',
+                privacy_title: 'GİZLİLİK POLİTİKASI', terms_title: 'HİZMET ŞARTLARI',
             },
             en: {
                 secure: 'Your files are safe', processing: 'Processing',
@@ -1355,6 +1461,9 @@
                 l_splitting: 'Splitting', l_wait: 'Please wait', l_done: 'Done!',
                 cookie_text: 'This site uses cookies to improve your experience.',
                 cookie_accept: 'Accept', cookie_decline: 'Decline',
+                footer_rights: 'All rights reserved.', footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Service', footer_contact: 'Contact',
+                privacy_title: 'PRIVACY POLICY', terms_title: 'TERMS OF SERVICE',
             }
         };
         let lang = 'tr';
