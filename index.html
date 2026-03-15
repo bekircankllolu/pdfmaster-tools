@@ -1112,17 +1112,18 @@
                 </div>
             </section>
         </main>
-        <!-- Footer -->
-        <footer class="shrink-0 bg-retro-warm border-t-[2.5px] border-retro-border px-4 py-2 flex flex-wrap items-center justify-between gap-2">
-            <p class="text-[10px] font-mono font-medium text-gray-500">&copy; 2026 PDFMASTER. <span data-i18n="footer_rights">Tüm hakları saklıdır.</span></p>
-            <div class="flex gap-3">
-                <button onclick="document.getElementById('privacyModal').classList.remove('hidden')" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline cursor-pointer" data-i18n="footer_privacy">Gizlilik Politikası</button>
-                <button onclick="document.getElementById('termsModal').classList.remove('hidden')" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline cursor-pointer" data-i18n="footer_terms">Hizmet Şartları</button>
-                <a href="mailto:info@pdfmaster.tools" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="footer_contact">İletişim</a>
-            </div>
-        </footer>
     </div>
     </div><!-- /appContainer -->
+
+    <!-- Footer - sayfa en altı -->
+    <footer class="w-full bg-retro-warm border-t-[2.5px] border-retro-border px-4 py-2 flex flex-wrap items-center justify-center gap-3 text-center">
+        <p class="text-[10px] font-mono font-medium text-gray-500">&copy; 2026 PDFMASTER. <span data-i18n="footer_rights">Tüm hakları saklıdır.</span></p>
+        <div class="flex gap-3">
+            <button onclick="document.getElementById('privacyModal').classList.remove('hidden')" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline cursor-pointer" data-i18n="footer_privacy">Gizlilik Politikası</button>
+            <button onclick="document.getElementById('termsModal').classList.remove('hidden')" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline cursor-pointer" data-i18n="footer_terms">Hizmet Şartları</button>
+            <a href="mailto:info@pdfmaster.tools" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="footer_contact">İletişim</a>
+        </div>
+    </footer>
 
     <!-- Privacy Policy Modal -->
     <div id="privacyModal" class="hidden fixed inset-0 z-[70] flex items-center justify-center bg-black/40" onclick="if(event.target===this)this.classList.add('hidden')">
