@@ -398,36 +398,36 @@
                 </button>
 
                 <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-6">
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="convert">
                         <i class="fa-solid fa-arrows-rotate text-retro-accent text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_convert">Dönüştür</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="compress">
                         <i class="fa-solid fa-compress text-purple-500 text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_compress">Sıkıştır</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="merge">
                         <i class="fa-solid fa-layer-group text-blue-500 text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_merge">Birleştir</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="edit">
                         <i class="fa-solid fa-pen-ruler text-orange-500 text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_edit">Düzenle</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="sign">
                         <i class="fa-solid fa-signature text-indigo-500 text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_sign">İmzala</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="watermark">
                         <i class="fa-solid fa-droplet text-cyan-500 text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_watermark">Filigran</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 relative">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 relative cursor-pointer" data-tool="protect">
                         <i class="fa-solid fa-shield-halved text-amber-500 text-lg"></i>
                         <span class="text-[10px] font-bold" data-i18n="nav_protect">Koru</span>
                         <span class="pro-badge absolute -top-1 -right-1">PRO</span>
                     </div>
-                    <div class="feature-card p-3 flex flex-col items-center gap-1.5">
+                    <div class="feature-card p-3 flex flex-col items-center gap-1.5 cursor-pointer" data-tool="pdf2img">
                         <i class="fa-solid fa-image text-pink-500 text-lg"></i>
                         <span class="text-[10px] font-bold">PDF→IMG</span>
                     </div>
@@ -440,7 +440,8 @@
                 </div>
                 <p class="text-[11px] text-gray-400 font-mono font-bold"><i class="fa-solid fa-chart-simple mr-1"></i><span id="usageCount" class="counter-num counter-animate">0</span> <span data-i18n="landing_counter">PDF dosyası işlendi</span></p>
                 <div class="landing-footer text-center mt-6 pt-4">
-                    <p class="text-[10px] text-gray-400 font-mono">© 2026 PDFMASTER · <span data-i18n="landing_privacy">Tüm işlemler tarayıcınızda gerçekleşir</span></p>
+                    <p class="text-[10px] text-gray-400 font-mono mb-2">© 2026 PDFMASTER · <span data-i18n="landing_privacy">Tüm işlemler tarayıcınızda gerçekleşir</span></p>
+                    <a href="/en/blog/" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline no-underline" data-i18n="landing_blog">PDF Guides & Tips →</a>
                 </div>
             </div>
         </div>
@@ -1290,6 +1291,7 @@
                 landing_cta: 'Hemen Başla', landing_secure: '100% Güvenli', landing_fast: 'Anında İşlem',
                 landing_free: 'Tamamen Ücretsiz', landing_counter: 'PDF dosyası işlendi',
                 landing_privacy: 'Tüm işlemler tarayıcınızda gerçekleşir',
+                landing_blog: 'PDF Rehberleri ve İpuçları →',
                 l_creating: 'PDF oluşturuluyor', l_converting: 'Dönüştürülüyor',
                 l_loading: 'Yükleniyor', l_merging: 'Birleştiriliyor', l_saving: 'Kaydediliyor',
                 l_splitting: 'Bölünüyor', l_wait: 'Lütfen bekleyin', l_done: 'Tamamlandı!',
@@ -1364,6 +1366,7 @@
                 landing_cta: 'Start Now', landing_secure: '100% Secure', landing_fast: 'Instant Processing',
                 landing_free: 'Completely Free', landing_counter: 'PDF files processed',
                 landing_privacy: 'All processing happens in your browser',
+                landing_blog: 'PDF Guides & Tips →',
                 l_creating: 'Creating PDF', l_converting: 'Converting',
                 l_loading: 'Loading', l_merging: 'Merging', l_saving: 'Saving',
                 l_splitting: 'Splitting', l_wait: 'Please wait', l_done: 'Done!',
@@ -2146,6 +2149,27 @@
         }
         document.getElementById('landingCta').addEventListener('click', showApp);
         document.getElementById('backToLanding').addEventListener('click', showLanding);
+
+        // Feature card click → open app with specific tab
+        document.querySelectorAll('.feature-card[data-tool]').forEach(card => {
+            card.addEventListener('click', () => {
+                const tool = card.dataset.tool;
+                showApp();
+                setTimeout(() => {
+                    if (tool === 'pdf2img') {
+                        const convertTab = document.querySelector('.nav-item[data-tab="convert"]');
+                        if (convertTab) convertTab.click();
+                        setTimeout(() => {
+                            const pdf2imgSub = document.querySelector('.sub-tab[data-convert="pdf2img"]');
+                            if (pdf2imgSub) pdf2imgSub.click();
+                        }, 100);
+                    } else {
+                        const tabBtn = document.querySelector(`.nav-item[data-tab="${tool}"]`);
+                        if (tabBtn) tabBtn.click();
+                    }
+                }, 350);
+            });
+        });
 
         // Restore app state on page refresh
         if (sessionStorage.getItem('pdfmaster_app') === '1') {
