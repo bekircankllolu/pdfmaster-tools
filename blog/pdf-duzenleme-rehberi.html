@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5B7B5E">
+    <title>PDF Düzenleme Rehberi: Sayfaları Yönetin - PDFMASTER Blog</title>
+    <meta name="description" content="PDF sayfalarını yeniden sıralama, silme, döndürme ve bölme. Büyük belgeleri kolayca düzenleyin. Adım adım rehber.">
+    <meta name="keywords" content="PDF düzenleme, PDF sayfa silme, PDF sayfa sıralama, PDF döndürme, PDF bölme, ücretsiz PDF düzenleyici">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://pdfmaster.tools/blog/pdf-duzenleme-rehberi.html">
+    <link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-duzenleme-rehberi.html" />
+    <link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-edit-pdf-files.html" />
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="PDF Düzenleme Rehberi: Sayfaları Yönetin">
+    <meta property="og:description" content="PDF sayfalarını yeniden sıralama, silme, döndürme ve bölme rehberi.">
+    <meta property="og:url" content="https://pdfmaster.tools/blog/pdf-duzenleme-rehberi.html">
+    <meta property="og:site_name" content="PDFMASTER">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "PDF Düzenleme Rehberi: Sayfaları Yönetin",
+        "description": "PDF sayfalarını yeniden sıralama, silme, döndürme ve bölme rehberi.",
+        "author": {"@type": "Organization", "name": "PDFMASTER"},
+        "publisher": {"@type": "Organization", "name": "PDFMASTER"},
+        "datePublished": "2026-03-18",
+        "dateModified": "2026-03-18"
+    }
+    </script>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235B7B5E'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='monospace' font-weight='bold' font-size='11'%3EPDF%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/css/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+        *{font-family:'JetBrains Mono',monospace;}
+        body{background:#B8D8BA;}
+        .win-panel{background:#F5F0E1;border:2.5px solid #3D3D3D;border-radius:12px;box-shadow:5px 5px 0px rgba(0,0,0,0.15);}
+        .win-titlebar{background:#E8DCC8;border-bottom:2.5px solid #3D3D3D;border-radius:9px 9px 0 0;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;}
+        .win-dot{width:14px;height:14px;border-radius:50%;border:2px solid #3D3D3D;}
+        .btn-retro{border:2.5px solid #3D3D3D;border-radius:10px;box-shadow:3px 3px 0px rgba(0,0,0,0.15);font-weight:700;}
+        .btn-retro:hover{box-shadow:5px 5px 0px rgba(0,0,0,0.15);transform:translate(-1px,-1px);}
+        .badge{border:2px solid #3D3D3D;border-radius:6px;font-weight:700;font-size:11px;padding:2px 8px;}
+        .article-content h2{font-size:1.25rem;font-weight:700;margin-top:1.5rem;margin-bottom:0.75rem;color:#2D2D2D;}
+        .article-content h3{font-size:1.1rem;font-weight:600;margin-top:1.25rem;margin-bottom:0.5rem;color:#4A6B4D;}
+        .article-content p{font-family:'DM Sans',sans-serif;font-size:0.9rem;line-height:1.7;margin-bottom:1rem;color:#444;}
+        .article-content ul,.article-content ol{font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:1rem;padding-left:1.5rem;color:#444;}
+        .article-content li{margin-bottom:0.4rem;line-height:1.6;}
+        .article-content strong{color:#2D2D2D;}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-retro-warm border-b-[2.5px] border-retro-border px-4 py-3 flex items-center justify-between">
+        <a href="/" class="font-bold text-base tracking-wider uppercase no-underline text-retro-dark">PDFMASTER</a>
+        <div class="flex items-center gap-2">
+            <a href="/blog/" class="text-xs font-bold text-retro-accent no-underline">Blog</a>
+            <a href="/" class="badge bg-retro-panel text-[10px] no-underline text-retro-dark">TR</a>
+            <a href="/en/" class="badge bg-retro-panel text-[10px] no-underline text-retro-dark">EN</a>
+        </div>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-8 flex justify-center">
+        <article class="max-w-2xl w-full">
+            <div class="win-panel p-0">
+                <div class="win-titlebar">
+                    <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
+                    <span class="text-xs font-bold">BLOG</span>
+                    <div></div>
+                </div>
+                <div class="p-6 sm:p-8">
+                    <div class="mb-4">
+                        <span class="badge bg-retro-accent/20 text-[10px]">Rehber</span>
+                        <span class="text-[10px] text-gray-400 ml-2">18 Mart 2026</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold mb-4 leading-tight">PDF Düzenleme Rehberi: Sayfaları Yönetin</h1>
+
+                    <div class="article-content">
+                        <p>Uzun bir PDF'den gereksiz sayfaları çıkarmak, sayfaları yeniden sıralamak veya ters taranan bir belgeyi düzeltmek istiyorsanız <strong>PDF düzenleme</strong> araçlarına ihtiyacınız var. Bu rehberde PDF sayfa yönetiminin tüm yönlerini ele alıyoruz.</p>
+
+                        <h2>PDF Düzenleme Ne Anlama Gelir?</h2>
+                        <p>PDF düzenleme iki ana kategoriye ayrılır:</p>
+                        <ul>
+                            <li><strong>Sayfa düzenleme</strong> -- Sayfaları sıralama, silme, döndürme, bölme ve birleştirme. Bu, en yaygın ihtiyaçtır.</li>
+                            <li><strong>İçerik düzenleme</strong> -- Metin değiştirme, görsel ekleme, çizim yapma. Bu genellikle profesyonel yazılım gerektirir.</li>
+                        </ul>
+                        <p>PDFMASTER, sayfa düzenleme konusunda güçlü ve ücretsiz bir çözüm sunar.</p>
+
+                        <h2>Hangi Durumlarda Sayfa Düzenleme Gerekir?</h2>
+                        <ul>
+                            <li><strong>Gereksiz sayfaları çıkarma</strong> -- Taranmış belgelerde boş sayfalar veya gereksiz kapak sayfaları.</li>
+                            <li><strong>Sayfaları yeniden sıralama</strong> -- Yanlış sırada taranan veya birleştirilen belgeler.</li>
+                            <li><strong>Ters taranan sayfaları düzeltme</strong> -- 180 derece döndürülmesi gereken sayfalar.</li>
+                            <li><strong>Belgeyi bölme</strong> -- Büyük bir PDF'den belirli sayfaları ayırma.</li>
+                            <li><strong>Seçili sayfaları dışa aktarma</strong> -- Bir raporun sadece belirli bölümlerini paylaşma.</li>
+                        </ul>
+
+                        <h2>PDFMASTER ile PDF Düzenleme (Adım Adım)</h2>
+                        <ol>
+                            <li><strong>Aracı açın</strong> -- <a href="/pdf-duzenle/" class="text-retro-accent font-bold underline">PDFMASTER PDF Düzenle</a> sayfasına gidin.</li>
+                            <li><strong>PDF'nizi yükleyin</strong> -- Düzenlemek istediğiniz belgeyi sürükleyip bırakın.</li>
+                            <li><strong>Önizleme</strong> -- Tüm sayfalar küçük resim olarak görüntülenir. Her sayfanın içeriğini görebilirsiniz.</li>
+                            <li><strong>İşlemleri uygulayın</strong>:
+                                <ul>
+                                    <li><strong>Sürükle-bırak</strong> ile sayfaları yeniden sıralayın.</li>
+                                    <li><strong>Sil</strong> butonuyla gereksiz sayfaları kaldırın.</li>
+                                    <li><strong>Döndür</strong> butonuyla sayfaları 90° döndürün.</li>
+                                    <li><strong>Böl</strong> ile belgeyi belirli sayfalardan ayırın.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Düzenlenmiş PDF'yi indirin</strong> -- Değişiklikler uygulanmış PDF'nizi kaydedin.</li>
+                        </ol>
+
+                        <h2>Büyük Belgeleri Yönetme İpuçları</h2>
+                        <ul>
+                            <li><strong>Önce gereksiz sayfaları silin</strong> -- Sıralama yapmadan önce işe yaramayan sayfaları çıkarmak daha verimlidir.</li>
+                            <li><strong>Sayfa numaralarını not edin</strong> -- Hangi sayfaları tutmak istediğinizi önceden belirleyin.</li>
+                            <li><strong>Bölüm bölüm çalışın</strong> -- Çok sayfalı belgelerde önce bölümlere ayırıp sonra her bölümü düzenleyin.</li>
+                            <li><strong>Orijinal dosyayı saklayın</strong> -- Düzenleme yapmadan önce orijinal PDF'nin bir kopyasını tutun.</li>
+                        </ul>
+
+                        <h2>Küçük Resim Önizlemenin Avantajları</h2>
+                        <p>PDFMASTER'ın küçük resim (thumbnail) önizleme özelliği, her sayfanın içeriğini görerek işlem yapmanıza olanak tanır. Bu özellikle şu durumlarda faydalıdır:</p>
+                        <ul>
+                            <li>Taranmış belgelerde boş sayfaları tespit etme</li>
+                            <li>Grafik ve metin sayfalarını ayırt etme</li>
+                            <li>Doğru sıralama için sayfaların içeriğini kontrol etme</li>
+                            <li>Ters taranan sayfaları hızlıca belirleme</li>
+                        </ul>
+
+                        <p><a href="/" class="text-retro-accent font-bold underline">PDFMASTER</a> ile <strong>PDF düzenleme</strong> işlemini tarayıcınızda, ücretsiz ve güvenli bir şekilde yapabilirsiniz. Dosyanız hiçbir sunucuya gönderilmez.</p>
+                    </div>
+
+                    <div class="mt-8 p-4 bg-retro-bg/40 rounded-xl border-2 border-retro-border text-center">
+                        <p class="font-bold text-sm mb-2">PDF sayfalarınızı hemen düzenleyin</p>
+                        <a href="/pdf-duzenle/" class="btn-retro bg-retro-accent text-white px-6 py-2 text-sm inline-flex items-center gap-2 no-underline">
+                            PDFMASTER Düzenleme Aracını Deneyin <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win-panel p-0 mt-6">
+                <div class="win-titlebar"><span class="text-xs font-bold">İlgili Yazılar</span></div>
+                <div class="p-4 space-y-2">
+                    <a href="/blog/pdf-birlestirme-nasil-yapilir.html" class="block text-xs font-bold text-retro-accent no-underline hover:underline">PDF Birleştirme Nasıl Yapılır: Adım Adım Rehber</a>
+                    <a href="/blog/pdf-imzalama-nasil-yapilir.html" class="block text-xs font-bold text-retro-accent no-underline hover:underline">PDF İmzalama Nasıl Yapılır: Dijital İmza Rehberi</a>
+                    <a href="/blog/pdf-den-gorsele-donusturme.html" class="block text-xs font-bold text-retro-accent no-underline hover:underline">PDF'den Görsele Dönüştürme: JPG ve PNG Olarak Kaydetme</a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="text-center py-4 border-t-2 border-retro-border/20">
+        <p class="text-[10px] text-gray-500">&copy; 2026 PDFMASTER</p>
+    </footer>
+</body>
+</html>

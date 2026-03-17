@@ -251,4 +251,120 @@
       <changefreq>yearly</changefreq>
       <priority>0.3</priority>
    </url>
+
+   <!-- Yeni Blog Yazıları - 18 Mart 2026 -->
+   <url>
+      <loc>https://pdfmaster.tools/blog/word-den-pdf-ye-donusturme.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/word-den-pdf-ye-donusturme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-convert-word-to-pdf.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/blog/how-to-convert-word-to-pdf.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/word-den-pdf-ye-donusturme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-convert-word-to-pdf.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/blog/excel-den-pdf-ye-donusturme.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/excel-den-pdf-ye-donusturme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-convert-excel-to-pdf.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/blog/how-to-convert-excel-to-pdf.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/excel-den-pdf-ye-donusturme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-convert-excel-to-pdf.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/blog/pdf-imzalama-nasil-yapilir.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-imzalama-nasil-yapilir.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-sign-pdf-documents.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/blog/how-to-sign-pdf-documents.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-imzalama-nasil-yapilir.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-sign-pdf-documents.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/blog/pdf-ye-filigran-ekleme.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-ye-filigran-ekleme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-add-watermark-to-pdf.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/blog/how-to-add-watermark-to-pdf.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-ye-filigran-ekleme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-add-watermark-to-pdf.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/blog/pdf-duzenleme-rehberi.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-duzenleme-rehberi.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-edit-pdf-files.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/blog/how-to-edit-pdf-files.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-duzenleme-rehberi.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-edit-pdf-files.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/blog/pdf-den-gorsele-donusturme.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-den-gorsele-donusturme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-convert-pdf-to-images.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/blog/how-to-convert-pdf-to-images.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/blog/pdf-den-gorsele-donusturme.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/blog/how-to-convert-pdf-to-images.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <!-- EN Privacy/Terms -->
+   <url>
+      <loc>https://pdfmaster.tools/en/privacy.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/privacy.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/privacy.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+   </url>
+   <url>
+      <loc>https://pdfmaster.tools/en/terms.html</loc>
+      <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.tools/terms.html" />
+      <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.tools/en/terms.html" />
+      <lastmod>2026-03-18</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+   </url>
 </urlset>
