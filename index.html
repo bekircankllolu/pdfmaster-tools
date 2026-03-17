@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#5B7B5E">
+    <!-- Performance: preconnect to external resources -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="PDFMASTER">
@@ -240,7 +247,12 @@
 
         /* Fade */
         .fade-enter { opacity: 0; transform: translateY(6px); }
-        .fade-active { opacity: 1; transform: translateY(0); transition: all 0.2s ease; }
+        .fade-active { opacity: 1; transform: translateY(0); transition: all 0.25s ease; }
+
+        /* Smooth transitions for interactive elements */
+        .nav-item, .sub-tab, .btn-retro, .btn-outline, .tool-btn, .lang-btn { will-change: transform; }
+        [id^="tab-"] { will-change: opacity, transform; }
+        .hidden { display: none !important; }
 
         /* Toast */
         .toast { animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; }
@@ -1409,14 +1421,10 @@
             btn.addEventListener('click', () => {
                 const targetLang = btn.dataset.lang;
                 if (targetLang === 'en') {
+                    localStorage.setItem('pdfmaster_lang', 'en');
                     window.location.href = '/en/';
-                } else {
-                    // Already on TR page, just apply
-                    lang = 'tr';
-                    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-                    document.documentElement.lang = lang;
-                    applyLang();
                 }
+                // TR is already active on this page, no action needed
             });
         });
 
@@ -2122,13 +2130,30 @@
 
         // ======================== Landing Page ========================
         document.getElementById('landingCta').addEventListener('click',()=>{
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('appContainer').classList.remove('hidden');
+            const lp = document.getElementById('landingPage');
+            const ac = document.getElementById('appContainer');
+            lp.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            lp.style.opacity = '0';
+            lp.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                lp.classList.add('hidden');
+                lp.style.opacity = ''; lp.style.transform = '';
+                ac.classList.remove('hidden');
+                ac.style.opacity = '0';
+                ac.style.transition = 'opacity 0.3s ease';
+                requestAnimationFrame(() => { ac.style.opacity = '1'; });
+            }, 300);
         });
 
-        // Increment counter on existing operations (hook into existing save/convert functions)
+        // Increment counter + 3s finishing delay for better engagement
         const origDownload = downloadBlob;
-        downloadBlob = function(d,f,m){origDownload(d,f,m);incrementCounter(1);};
+        downloadBlob = async function(d,f,m){
+            // Show finishing animation for 3 seconds before download
+            updateLoading(100, lang === 'tr' ? 'Dosyanız hazırlanıyor...' : 'Preparing your file...');
+            await new Promise(r => setTimeout(r, 3000));
+            origDownload(d,f,m);
+            incrementCounter(1);
+        };
 
         // File size validation is now defined in Utils section above
 
@@ -2165,13 +2190,12 @@
 
         // ======================== Language Persistence ========================
         (function(){
-            const savedLang = localStorage.getItem('pdfmaster_lang');
-            if (savedLang && savedLang !== lang) {
-                lang = savedLang;
-                document.documentElement.lang = lang;
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-                applyLang();
-            }
+            // TR page: always use Turkish, save preference
+            lang = 'tr';
+            localStorage.setItem('pdfmaster_lang', 'tr');
+            document.documentElement.lang = 'tr';
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === 'tr'));
+            applyLang();
         })();
 
         // ======================== Service Worker ========================
