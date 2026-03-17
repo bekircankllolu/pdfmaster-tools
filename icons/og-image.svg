@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8D8BA"/>
+      <stop offset="100%" style="stop-color:#5B7B5E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="80" y="120" width="1040" height="390" rx="24" fill="#F5F0E1" stroke="#3D3D3D" stroke-width="3"/>
+  <rect x="80" y="120" width="1040" height="50" rx="24" fill="#E8DCC8" stroke="#3D3D3D" stroke-width="3"/>
+  <rect x="80" y="145" width="1040" height="25" fill="#E8DCC8"/>
+  <circle cx="110" cy="145" r="8" fill="#C9B97A" stroke="#3D3D3D" stroke-width="1.5"/>
+  <circle cx="135" cy="145" r="8" fill="#5B7B5E" stroke="#3D3D3D" stroke-width="1.5"/>
+  <text x="600" y="145" text-anchor="middle" fill="#2D2D2D" font-family="monospace" font-weight="bold" font-size="18">PDFMASTER</text>
+  <text x="600" y="300" text-anchor="middle" fill="#5B7B5E" font-family="monospace" font-weight="bold" font-size="72">PDFMASTER</text>
+  <text x="600" y="360" text-anchor="middle" fill="#2D2D2D" font-family="monospace" font-size="24">Free Online PDF Tools</text>
+  <text x="600" y="420" text-anchor="middle" fill="#4A6B4D" font-family="monospace" font-size="18">Convert • Merge • Compress • Edit • Sign</text>
+  <rect x="430" y="450" width="340" height="40" rx="8" fill="#5B7B5E" stroke="#3D3D3D" stroke-width="2"/>
+  <text x="600" y="477" text-anchor="middle" fill="white" font-family="monospace" font-weight="bold" font-size="16">100% Browser-Based & Free</text>
+</svg>

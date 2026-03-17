@@ -3,7 +3,7 @@ const ASSETS = [
   '/',
   '/en/',
   '/manifest.json',
-  'https://cdn.tailwindcss.com',
+  '/css/tailwind.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
   'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js',
   'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js',
