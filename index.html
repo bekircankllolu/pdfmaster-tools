@@ -526,11 +526,7 @@
                 <button class="lang-btn active px-2 py-1" data-lang="tr">TR</button>
                 <button class="lang-btn px-2 py-1" data-lang="en">EN</button>
             </div>
-            <div class="win-controls">
-                <div class="win-ctrl">—</div>
-                <div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div>
-                <div class="win-ctrl">✕</div>
-            </div>
+            <button id="backToLanding" class="win-ctrl !w-7 !h-7 text-xs" title="Ana Sayfa">✕</button>
         </div>
     </header>
 
@@ -581,8 +577,6 @@
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="convert_title">DÖNÜŞTÜR</span>
                         <div class="win-controls">
-                            <div class="win-ctrl">—</div>
-                            <div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div>
                             <div class="win-ctrl">✕</div>
                         </div>
                     </div>
@@ -834,7 +828,7 @@
                     <div class="win-titlebar">
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="merge_title">BİRLEŞTİR</span>
-                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                        <div class="win-controls"><div class="win-ctrl">✕</div></div>
                     </div>
                     <div class="p-5">
                         <div id="mergeDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
@@ -864,7 +858,7 @@
                     <div class="win-titlebar">
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="edit_title">DÜZENLE</span>
-                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                        <div class="win-controls"><div class="win-ctrl">✕</div></div>
                     </div>
                     <div class="p-5">
                         <div id="editDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
@@ -912,7 +906,7 @@
                     <div class="win-titlebar">
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="compress_title">SIKIŞTIRILMIŞ PDF</span>
-                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                        <div class="win-controls"><div class="win-ctrl">✕</div></div>
                     </div>
                     <div class="p-5">
                         <div id="compressDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
@@ -967,7 +961,7 @@
                     <div class="win-titlebar">
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="sign_title">İMZALA</span>
-                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                        <div class="win-controls"><div class="win-ctrl">✕</div></div>
                     </div>
                     <div class="p-5">
                         <div id="signDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
@@ -1025,7 +1019,7 @@
                     <div class="win-titlebar">
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="watermark_title">FİLİGRAN</span>
-                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                        <div class="win-controls"><div class="win-ctrl">✕</div></div>
                     </div>
                     <div class="p-5">
                         <div id="wmDropZone" class="drop-zone p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px]">
@@ -1103,7 +1097,7 @@
                         <div class="win-dots"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
                         <span class="font-mono text-xs font-bold" data-i18n="protect_title">ŞİFRE KORUMA</span>
                         <span class="pro-badge">PRO</span>
-                        <div class="win-controls"><div class="win-ctrl">—</div><div class="win-ctrl"><i class="fa-regular fa-square text-[9px]"></i></div><div class="win-ctrl">✕</div></div>
+                        <div class="win-controls"><div class="win-ctrl">✕</div></div>
                     </div>
                     <div class="p-5">
                         <div class="flex flex-col items-center justify-center text-center py-10">
@@ -2138,7 +2132,7 @@
         if(localStorage.getItem('pdfmaster_dark')==='1')toggleDarkMode();
 
         // ======================== Landing Page ========================
-        document.getElementById('landingCta').addEventListener('click',()=>{
+        function showApp() {
             const lp = document.getElementById('landingPage');
             const ac = document.getElementById('appContainer');
             lp.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
@@ -2152,7 +2146,31 @@
                 ac.style.transition = 'opacity 0.3s ease';
                 requestAnimationFrame(() => { ac.style.opacity = '1'; });
             }, 300);
-        });
+            sessionStorage.setItem('pdfmaster_app', '1');
+        }
+        function showLanding() {
+            const lp = document.getElementById('landingPage');
+            const ac = document.getElementById('appContainer');
+            ac.style.transition = 'opacity 0.3s ease';
+            ac.style.opacity = '0';
+            setTimeout(() => {
+                ac.classList.add('hidden');
+                ac.style.opacity = '';
+                lp.classList.remove('hidden');
+                lp.style.opacity = '0';
+                lp.style.transition = 'opacity 0.3s ease';
+                requestAnimationFrame(() => { lp.style.opacity = '1'; });
+            }, 300);
+            sessionStorage.removeItem('pdfmaster_app');
+        }
+        document.getElementById('landingCta').addEventListener('click', showApp);
+        document.getElementById('backToLanding').addEventListener('click', showLanding);
+
+        // Restore app state on page refresh
+        if (sessionStorage.getItem('pdfmaster_app') === '1') {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+        }
 
         // Increment counter + 3s finishing delay for better engagement
         const origDownload = downloadBlob;
