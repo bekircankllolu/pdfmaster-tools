@@ -1420,11 +1420,20 @@
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const targetLang = btn.dataset.lang;
-                if (targetLang === 'tr') {
-                    localStorage.setItem('pdfmaster_lang', 'tr');
-                    window.location.href = '/';
+                if (targetLang === lang) return;
+                const appVisible = !document.getElementById('appContainer').classList.contains('hidden');
+                if (appVisible) {
+                    // App is open: switch language in-page without reload
+                    lang = targetLang;
+                    document.documentElement.lang = lang;
+                    localStorage.setItem('pdfmaster_lang', lang);
+                    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+                    applyLang();
+                } else {
+                    // Landing page: navigate to the other language URL
+                    localStorage.setItem('pdfmaster_lang', targetLang);
+                    window.location.href = targetLang === 'en' ? '/en/' : '/';
                 }
-                // EN is already active on this page, no action needed
             });
         });
 
