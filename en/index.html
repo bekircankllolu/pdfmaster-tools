@@ -369,11 +369,12 @@
             font-size: 12px;
         }
         /* Blog Tip Accordion */
-        .blog-tip { cursor: pointer; }
+        .blog-tip { cursor: pointer; border-radius: 9px; border-bottom: none; }
         .blog-tip:hover { background: #e0d4b8; }
         .blog-tip .tip-chevron { transition: transform 0.3s ease; }
+        .blog-tip.expanded { border-radius: 9px 9px 0 0; }
         .blog-tip.expanded .tip-chevron { transform: rotate(180deg); }
-        .blog-tip-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; border-top: 0; }
+        .blog-tip-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
         .blog-tip-content.open { max-height: 3000px; border-top: 2.5px solid #3D3D3D; }
         .blog-tip-content .article-content h2 { font-size: 1.1rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.5rem; color: #2D2D2D; }
         .blog-tip-content .article-content h3 { font-size: 0.95rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.4rem; color: #4A6B4D; }
