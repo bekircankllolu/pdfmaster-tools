@@ -369,12 +369,12 @@
             font-size: 12px;
         }
         /* Blog Tip Accordion */
-        .blog-tip { cursor: pointer; transition: all 0.2s ease; }
-        .blog-tip:hover { transform: translateY(-1px); box-shadow: 4px 4px 0px rgba(0,0,0,0.12); }
+        .blog-tip { cursor: pointer; }
+        .blog-tip:hover { background: #e0d4b8; }
         .blog-tip .tip-chevron { transition: transform 0.3s ease; }
         .blog-tip.expanded .tip-chevron { transform: rotate(180deg); }
-        .blog-tip-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-        .blog-tip-content.open { max-height: 3000px; }
+        .blog-tip-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; border-top: 0; }
+        .blog-tip-content.open { max-height: 3000px; border-top: 2.5px solid #3D3D3D; }
         .blog-tip-content .article-content h2 { font-size: 1.1rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.5rem; color: #2D2D2D; }
         .blog-tip-content .article-content h3 { font-size: 0.95rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.4rem; color: #4A6B4D; }
         .blog-tip-content .article-content p { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; line-height: 1.65; margin-bottom: 0.75rem; color: #444; }
@@ -826,25 +826,20 @@
                     </div>
                 </div>
                 <!-- Blog Tip Accordion -->
-                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/gorselleri-pdf-ye-donusturme.html" data-blog-links="/blog/word-den-pdf-ye-donusturme.html,/blog/excel-den-pdf-ye-donusturme.html,/blog/pdf-den-gorsele-donusturme.html">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 bg-retro-accent/20 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-book-open text-retro-accent text-sm"></i>
+                <div class="win-panel p-0 mt-4 blog-tip-panel" data-blog="/blog/gorselleri-pdf-ye-donusturme.html">
+                    <div class="blog-tip win-titlebar !py-2.5 !px-4">
+                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div class="w-7 h-7 bg-retro-accent/20 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-book-open text-retro-accent text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold font-mono leading-tight" data-i18n="tip_convert_title">Görselleri PDF'ye Dönüştürme Rehberi</p>
+                                <p class="text-[9px] text-gray-500 leading-tight mt-0.5" data-i18n="tip_convert_desc">JPG, PNG ve diğer görsel formatlarını PDF'ye dönüştürmenin en iyi yollarını öğrenin.</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_convert_title">Görselleri PDF'ye Dönüştürme Rehberi</p>
-                            <p class="text-[10px] text-gray-500" data-i18n="tip_convert_desc">JPG, PNG ve diğer görsel formatlarını PDF'ye dönüştürmenin en iyi yollarını öğrenin.</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs shrink-0"></i>
                     </div>
-                </div>
-                <div class="blog-tip-content" id="blogContent-convert">
-                    <div class="win-panel p-0 mt-3">
-                        <div class="win-titlebar !py-1.5">
-                            <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
-                            <span class="text-[10px] font-bold font-mono" data-i18n="tip_guide">REHBER</span>
-                            <div></div>
-                        </div>
+                    <div class="blog-tip-content">
                         <div class="p-5 article-content"></div>
                     </div>
                 </div>
@@ -879,25 +874,20 @@
                     </div>
                 </div>
                 <!-- Blog Tip Accordion -->
-                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-birlestirme-nasil-yapilir.html">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-book-open text-blue-500 text-sm"></i>
+                <div class="win-panel p-0 mt-4 blog-tip-panel" data-blog="/blog/pdf-birlestirme-nasil-yapilir.html">
+                    <div class="blog-tip win-titlebar !py-2.5 !px-4">
+                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-book-open text-blue-500 text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold font-mono leading-tight" data-i18n="tip_merge_title">PDF Birleştirme Nasıl Yapılır?</p>
+                                <p class="text-[9px] text-gray-500 leading-tight mt-0.5" data-i18n="tip_merge_desc">Birden fazla PDF'yi tek dosyada birleştirmenin en kolay yollarını adım adım öğrenin.</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_merge_title">PDF Birleştirme Nasıl Yapılır?</p>
-                            <p class="text-[10px] text-gray-500" data-i18n="tip_merge_desc">Birden fazla PDF'yi tek dosyada birleştirmenin en kolay yollarını adım adım öğrenin.</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs shrink-0"></i>
                     </div>
-                </div>
-                <div class="blog-tip-content" id="blogContent-merge">
-                    <div class="win-panel p-0 mt-3">
-                        <div class="win-titlebar !py-1.5">
-                            <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
-                            <span class="text-[10px] font-bold font-mono" data-i18n="tip_guide">REHBER</span>
-                            <div></div>
-                        </div>
+                    <div class="blog-tip-content">
                         <div class="p-5 article-content"></div>
                     </div>
                 </div>
@@ -950,25 +940,20 @@
                     </div>
                 </div>
                 <!-- Blog Tip Accordion -->
-                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-duzenleme-rehberi.html">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-book-open text-orange-500 text-sm"></i>
+                <div class="win-panel p-0 mt-4 blog-tip-panel" data-blog="/blog/pdf-duzenleme-rehberi.html">
+                    <div class="blog-tip win-titlebar !py-2.5 !px-4">
+                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div class="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-book-open text-orange-500 text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold font-mono leading-tight" data-i18n="tip_edit_title">PDF Düzenleme Rehberi</p>
+                                <p class="text-[9px] text-gray-500 leading-tight mt-0.5" data-i18n="tip_edit_desc">PDF sayfalarını yeniden sıralama, döndürme, silme ve bölme işlemlerini öğrenin.</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_edit_title">PDF Düzenleme Rehberi</p>
-                            <p class="text-[10px] text-gray-500" data-i18n="tip_edit_desc">PDF sayfalarını yeniden sıralama, döndürme, silme ve bölme işlemlerini öğrenin.</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs shrink-0"></i>
                     </div>
-                </div>
-                <div class="blog-tip-content" id="blogContent-edit">
-                    <div class="win-panel p-0 mt-3">
-                        <div class="win-titlebar !py-1.5">
-                            <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
-                            <span class="text-[10px] font-bold font-mono" data-i18n="tip_guide">REHBER</span>
-                            <div></div>
-                        </div>
+                    <div class="blog-tip-content">
                         <div class="p-5 article-content"></div>
                     </div>
                 </div>
@@ -1028,25 +1013,20 @@
                     </div>
                 </div>
                 <!-- Blog Tip Accordion -->
-                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-sikistirma-kalite-kaybetmeden.html">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-book-open text-purple-500 text-sm"></i>
+                <div class="win-panel p-0 mt-4 blog-tip-panel" data-blog="/blog/pdf-sikistirma-kalite-kaybetmeden.html">
+                    <div class="blog-tip win-titlebar !py-2.5 !px-4">
+                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div class="w-7 h-7 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-book-open text-purple-500 text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold font-mono leading-tight" data-i18n="tip_compress_title">PDF Sıkıştırma: Kalite Kaybetmeden</p>
+                                <p class="text-[9px] text-gray-500 leading-tight mt-0.5" data-i18n="tip_compress_desc">PDF dosyalarınızı görsel kaliteyi koruyarak nasıl küçülteceğinizi öğrenin.</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_compress_title">PDF Sıkıştırma: Kalite Kaybetmeden</p>
-                            <p class="text-[10px] text-gray-500" data-i18n="tip_compress_desc">PDF dosyalarınızı görsel kaliteyi koruyarak nasıl küçülteceğinizi öğrenin.</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs shrink-0"></i>
                     </div>
-                </div>
-                <div class="blog-tip-content" id="blogContent-compress">
-                    <div class="win-panel p-0 mt-3">
-                        <div class="win-titlebar !py-1.5">
-                            <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
-                            <span class="text-[10px] font-bold font-mono" data-i18n="tip_guide">REHBER</span>
-                            <div></div>
-                        </div>
+                    <div class="blog-tip-content">
                         <div class="p-5 article-content"></div>
                     </div>
                 </div>
@@ -1109,25 +1089,20 @@
                     </div>
                 </div>
                 <!-- Blog Tip Accordion -->
-                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-imzalama-nasil-yapilir.html">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-book-open text-indigo-500 text-sm"></i>
+                <div class="win-panel p-0 mt-4 blog-tip-panel" data-blog="/blog/pdf-imzalama-nasil-yapilir.html">
+                    <div class="blog-tip win-titlebar !py-2.5 !px-4">
+                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-book-open text-indigo-500 text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold font-mono leading-tight" data-i18n="tip_sign_title">PDF İmzalama Nasıl Yapılır?</p>
+                                <p class="text-[9px] text-gray-500 leading-tight mt-0.5" data-i18n="tip_sign_desc">PDF belgelerinize dijital imza eklemenin en kolay ve güvenli yolunu öğrenin.</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_sign_title">PDF İmzalama Nasıl Yapılır?</p>
-                            <p class="text-[10px] text-gray-500" data-i18n="tip_sign_desc">PDF belgelerinize dijital imza eklemenin en kolay ve güvenli yolunu öğrenin.</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs shrink-0"></i>
                     </div>
-                </div>
-                <div class="blog-tip-content" id="blogContent-sign">
-                    <div class="win-panel p-0 mt-3">
-                        <div class="win-titlebar !py-1.5">
-                            <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
-                            <span class="text-[10px] font-bold font-mono" data-i18n="tip_guide">REHBER</span>
-                            <div></div>
-                        </div>
+                    <div class="blog-tip-content">
                         <div class="p-5 article-content"></div>
                     </div>
                 </div>
@@ -1209,25 +1184,20 @@
                     </div>
                 </div>
                 <!-- Blog Tip Accordion -->
-                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-ye-filigran-ekleme.html">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-book-open text-cyan-500 text-sm"></i>
+                <div class="win-panel p-0 mt-4 blog-tip-panel" data-blog="/blog/pdf-ye-filigran-ekleme.html">
+                    <div class="blog-tip win-titlebar !py-2.5 !px-4">
+                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                            <div class="w-7 h-7 bg-cyan-100 rounded-lg flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-book-open text-cyan-500 text-xs"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold font-mono leading-tight" data-i18n="tip_watermark_title">PDF'ye Filigran Ekleme</p>
+                                <p class="text-[9px] text-gray-500 leading-tight mt-0.5" data-i18n="tip_watermark_desc">PDF belgelerinize metin filigranı ekleyerek dosyalarınızı koruma altına alın.</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_watermark_title">PDF'ye Filigran Ekleme</p>
-                            <p class="text-[10px] text-gray-500" data-i18n="tip_watermark_desc">PDF belgelerinize metin filigranı ekleyerek dosyalarınızı koruma altına alın.</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs shrink-0"></i>
                     </div>
-                </div>
-                <div class="blog-tip-content" id="blogContent-watermark">
-                    <div class="win-panel p-0 mt-3">
-                        <div class="win-titlebar !py-1.5">
-                            <div class="flex gap-1.5"><div class="win-dot bg-retro-gold"></div><div class="win-dot bg-retro-accent"></div></div>
-                            <span class="text-[10px] font-bold font-mono" data-i18n="tip_guide">REHBER</span>
-                            <div></div>
-                        </div>
+                    <div class="blog-tip-content">
                         <div class="p-5 article-content"></div>
                     </div>
                 </div>
@@ -2371,27 +2341,29 @@
 
         // Blog Tip Accordion - fetch and expand
         const blogCache = {};
-        document.querySelectorAll('.blog-tip[data-blog]').forEach(tip => {
-            tip.addEventListener('click', async () => {
-                const url = tip.dataset.blog;
-                const contentEl = tip.nextElementSibling;
-                const innerEl = contentEl.querySelector('.article-content');
+        document.querySelectorAll('.blog-tip-panel').forEach(panel => {
+            const header = panel.querySelector('.blog-tip');
+            const contentEl = panel.querySelector('.blog-tip-content');
+            const innerEl = contentEl.querySelector('.article-content');
+            const url = panel.dataset.blog;
+
+            header.addEventListener('click', async () => {
                 const isOpen = contentEl.classList.contains('open');
 
                 // Close if already open
                 if (isOpen) {
                     contentEl.classList.remove('open');
-                    tip.classList.remove('expanded');
+                    header.classList.remove('expanded');
                     return;
                 }
 
                 // Close all other open tips
-                document.querySelectorAll('.blog-tip-content.open').forEach(el => {
-                    el.classList.remove('open');
-                    el.previousElementSibling.classList.remove('expanded');
+                document.querySelectorAll('.blog-tip-panel').forEach(other => {
+                    other.querySelector('.blog-tip-content').classList.remove('open');
+                    other.querySelector('.blog-tip').classList.remove('expanded');
                 });
 
-                tip.classList.add('expanded');
+                header.classList.add('expanded');
 
                 // Load content if not cached
                 if (!blogCache[url]) {
@@ -2411,9 +2383,9 @@
                 innerEl.innerHTML = blogCache[url];
                 contentEl.classList.add('open');
 
-                // Smooth scroll to content
+                // Smooth scroll
                 setTimeout(() => {
-                    tip.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
             });
         });
