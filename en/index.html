@@ -1392,6 +1392,8 @@
                 t_valid_page: 'Geçerli sayfa numarası girin',
                 t_file_too_large: 'Dosya çok büyük (maks. 100MB)',
                 t_load_error: 'Dosya yüklenirken hata oluştu',
+                t_confirm_delete: 'Seçili sayfaları silmek istediğinize emin misiniz?',
+                t_confirm_clear: 'Tüm görselleri temizlemek istediğinize emin misiniz?',
                 // New features
                 nav_compress: 'Sıkıştır', nav_sign: 'İmzala', nav_watermark: 'Filigran', nav_protect: 'Koru',
                 compress_title: 'SIKIŞTIRILMIŞ PDF', drop_pdf_compress: 'Sıkıştırılacak PDF dosyasını sürükleyin',
@@ -1487,6 +1489,8 @@
                 t_valid_page: 'Enter valid page numbers',
                 t_file_too_large: 'File too large (max 100MB)',
                 t_load_error: 'Error loading file',
+                t_confirm_delete: 'Are you sure you want to delete selected pages?',
+                t_confirm_clear: 'Are you sure you want to clear all images?',
                 nav_compress: 'Compress', nav_sign: 'Sign', nav_watermark: 'Watermark', nav_protect: 'Protect',
                 compress_title: 'COMPRESS PDF', drop_pdf_compress: 'Drag and drop PDF to compress',
                 comp_level: 'Level:', comp_high: 'High Compression', comp_medium: 'Medium Compression', comp_low: 'Low Compression',
@@ -1658,6 +1662,8 @@
         function showProgress(p) { const c=document.getElementById('progressContainer'),b=document.getElementById('progressBar'); c.classList.remove('hidden'); b.style.width=p+'%'; if(p>=100) setTimeout(()=>{c.classList.add('hidden');b.style.width='0%';},500); }
         function toast(msg,type='success') {
             const c=document.getElementById('toastContainer');
+            // Prevent stacking: remove oldest if 3+ toasts visible
+            while(c.children.length>=3){c.firstChild.remove();}
             const colors={success:'bg-retro-bg border-retro-border',error:'bg-red-200 border-retro-border',info:'bg-retro-gold/40 border-retro-border'};
             const icons={success:'fa-check-circle',error:'fa-circle-exclamation',info:'fa-circle-info'};
             const el=document.createElement('div');
@@ -1667,7 +1673,7 @@
             const txt=document.createElement('span');
             txt.textContent=msg;
             el.appendChild(icon);el.appendChild(txt);
-            c.appendChild(el); setTimeout(()=>el.remove(),3000);
+            c.appendChild(el); setTimeout(()=>{if(el.parentNode)el.remove();},3000);
         }
         // Use let so we can wrap downloadBlob later for counter
         let downloadBlob = function(d,f,m='application/pdf') { const b=new Blob([d],{type:m}),u=URL.createObjectURL(b),a=document.createElement('a'); a.href=u;a.download=f; document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u); };
@@ -1730,7 +1736,7 @@
             document.getElementById('imageDropZone').classList.toggle('hidden',h);
         }
         document.getElementById('imagePreview').addEventListener('click',e=>{ const b=e.target.closest('[data-remove-img]'); if(b){state.imageFiles.splice(parseInt(b.dataset.removeImg),1);renderImagePreviews();} });
-        document.getElementById('clearImages').addEventListener('click',()=>{ state.imageFiles=[];renderImagePreviews();document.getElementById('imageDropZone').classList.remove('hidden'); });
+        document.getElementById('clearImages').addEventListener('click',()=>{ if(!state.imageFiles.length||!confirm(t('t_confirm_clear')))return; state.imageFiles=[];renderImagePreviews();document.getElementById('imageDropZone').classList.remove('hidden'); });
 
         document.getElementById('convertImageBtn').addEventListener('click', async()=>{
             if(!state.imageFiles.length||state.processing) return;
@@ -1761,7 +1767,7 @@
                     }
                 }
                 updateLoading(100,t('l_done')); showProgress(100);
-                downloadBlob(doc.output('arraybuffer'),'images.pdf'); toast(t('t_pdf_ok'));
+                downloadBlob(doc.output('arraybuffer'),lang==='tr'?'gorseller.pdf':'images.pdf'); toast(t('t_pdf_ok'));
             } catch(e){ console.error('Image to PDF error:', e); toast(e.message||t('t_load_error'),'error'); }
             finally { hideLoading(); state.processing=false; }
         });
@@ -1847,7 +1853,7 @@
             showLoading(t('l_creating'),`${pptxSlideImages.length} slayt`);showProgress(10);
             try{const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});const pw=doc.internal.pageSize.getWidth(),ph=doc.internal.pageSize.getHeight();
             for(let i=0;i<pptxSlideImages.length;i++){if(i>0)doc.addPage('a4','landscape');const p=10+(80*i/pptxSlideImages.length);showProgress(p);updateLoading(p,`${i+1}/${pptxSlideImages.length}`);doc.addImage(pptxSlideImages[i],'JPEG',0,0,pw,ph);}
-            updateLoading(100,t('l_done'));showProgress(100);downloadBlob(doc.output('arraybuffer'),'presentation.pdf');toast(t('t_pptx_ok'));}catch(e){console.error('PPTX convert error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+            updateLoading(100,t('l_done'));showProgress(100);downloadBlob(doc.output('arraybuffer'),lang==='tr'?'sunum.pdf':'presentation.pdf');toast(t('t_pptx_ok'));}catch(e){console.error('PPTX convert error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
         // ======================== EXCEL TO PDF ========================
@@ -1924,7 +1930,7 @@
                     }
                 }
                 updateLoading(100,t('l_done'));showProgress(100);
-                downloadBlob(doc.output('arraybuffer'),'table.pdf');toast(t('t_excel_ok'));
+                downloadBlob(doc.output('arraybuffer'),lang==='tr'?'tablo.pdf':'spreadsheet.pdf');toast(t('t_excel_ok'));
             }catch(e){console.error('Excel convert error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
@@ -1952,7 +1958,7 @@
             if(state.mergeFiles.length<2||state.processing) return toast(t('t_min2'),'error');
             state.processing=true;showLoading(t('l_merging'),`${state.mergeFiles.length} PDF`);showProgress(10);
             try{const merged=await PDFDocument.create();for(let i=0;i<state.mergeFiles.length;i++){const p=10+(80*i/state.mergeFiles.length);showProgress(p);updateLoading(p,state.mergeFiles[i].name);const s=await PDFDocument.load(state.mergeFiles[i].bytes);(await merged.copyPages(s,s.getPageIndices())).forEach(pg=>merged.addPage(pg));}
-            updateLoading(100,t('l_done'));showProgress(100);downloadBlob(await merged.save(),'merged.pdf');toast(t('t_merge_ok'));}catch(e){console.error('Merge error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+            updateLoading(100,t('l_done'));showProgress(100);downloadBlob(await merged.save(),lang==='tr'?'birlestirilmis.pdf':'merged.pdf');toast(t('t_merge_ok'));}catch(e){console.error('Merge error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
         // ======================== EDIT ========================
@@ -1988,7 +1994,7 @@
             if(a==='selectAll'){document.querySelectorAll('#editThumbnails .thumb-card').forEach(c=>{c.classList.add('selected');state.selectedPages.add(parseInt(c.dataset.pageIndex));});}
             else if(a==='deselectAll'){document.querySelectorAll('#editThumbnails .thumb-card').forEach(c=>c.classList.remove('selected'));state.selectedPages.clear();}
             else if(a==='rotateCW'||a==='rotateCCW'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');const deg=a==='rotateCW'?90:-90;state.selectedPages.forEach(idx=>{state.editPages[idx].rotation=(state.editPages[idx].rotation+deg+360)%360;const card=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(card){const cv=card.querySelector('canvas');if(cv)cv.style.transform=`rotate(${state.editPages[idx].rotation}deg)`;}});toast(`${state.selectedPages.size} ${t('t_rotated')}`);}
-            else if(a==='deletePages'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');if(state.selectedPages.size>=state.editPages.filter(p=>!p.deleted).length)return toast(t('t_cant_del_all'),'error');state.selectedPages.forEach(idx=>{state.editPages[idx].deleted=true;const c=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(c)c.remove();});state.editOrder=state.editOrder.filter(i=>!state.editPages[i].deleted);toast(`${state.selectedPages.size} ${t('t_deleted')}`);state.selectedPages.clear();}
+            else if(a==='deletePages'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');if(state.selectedPages.size>=state.editPages.filter(p=>!p.deleted).length)return toast(t('t_cant_del_all'),'error');if(!confirm(t('t_confirm_delete')))return;state.selectedPages.forEach(idx=>{state.editPages[idx].deleted=true;const c=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(c)c.remove();});state.editOrder=state.editOrder.filter(i=>!state.editPages[i].deleted);toast(`${state.selectedPages.size} ${t('t_deleted')}`);state.selectedPages.clear();}
             else if(a==='splitAll')splitAllPages();
             else if(a==='splitAt')document.getElementById('splitModal').classList.remove('hidden');
             else if(a==='pageNumbers'){if(!state.editBytes)return toast(t('t_select_pdf'),'info');document.getElementById('pageNumModal').classList.remove('hidden');}
@@ -1999,13 +2005,14 @@
             const vis=Array.from(document.querySelectorAll('#editThumbnails .thumb-card')).map(el=>parseInt(el.dataset.pageIndex));
             const active=vis.filter(i=>!state.editPages[i].deleted);const copied=await dest.copyPages(src,active);
             for(let j=0;j<copied.length;j++){const pg=copied[j];const rot=state.editPages[active[j]].rotation;if(rot)pg.setRotation(degrees(pg.getRotation().angle+rot));dest.addPage(pg);showProgress(10+(80*j/copied.length));updateLoading(10+(80*j/copied.length),`${j+1}/${copied.length}`);}
-            downloadBlob(await dest.save(),'edited.pdf');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_saved'));}catch(e){console.error('Edit save error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+            downloadBlob(await dest.save(),lang==='tr'?'duzenlenmis.pdf':'edited.pdf');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_saved'));}catch(e){console.error('Edit save error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
         async function splitAllPages(){
             if(!state.editBytes||state.processing)return;state.processing=true;showLoading(t('l_splitting'),'');showProgress(10);
             try{const src=await PDFDocument.load(state.editBytes);const cnt=src.getPageCount();const zip=new JSZip();
-            for(let i=0;i<cnt;i++){showProgress(10+(80*i/cnt));updateLoading(10+(80*i/cnt),`${i+1}/${cnt}`);const d=await PDFDocument.create();const[pg]=await d.copyPages(src,[i]);d.addPage(pg);zip.file(`page-${i+1}.pdf`,await d.save());}
-            updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),'pages.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_ok'));}catch(e){console.error('Split error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+            const pagePrefix=lang==='tr'?'sayfa':'page';
+            for(let i=0;i<cnt;i++){showProgress(10+(80*i/cnt));updateLoading(10+(80*i/cnt),`${i+1}/${cnt}`);const d=await PDFDocument.create();const[pg]=await d.copyPages(src,[i]);d.addPage(pg);zip.file(`${pagePrefix}-${i+1}.pdf`,await d.save());}
+            updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),lang==='tr'?'sayfalar.zip':'pages.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_ok'));}catch(e){console.error('Split error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         }
         document.getElementById('splitCancel').addEventListener('click',()=>document.getElementById('splitModal').classList.add('hidden'));
         document.getElementById('splitConfirm').addEventListener('click',async()=>{
@@ -2014,8 +2021,9 @@
             if(!state.editBytes||state.processing)return;state.processing=true;showLoading(t('l_splitting'),'');showProgress(10);
             try{const src=await PDFDocument.load(state.editBytes);const tot=src.getPageCount();const zip=new JSZip();const ranges=[];let s=0;
             for(const p of pts){if(p>0&&p<tot){ranges.push([s,p-1]);s=p;}}ranges.push([s,tot-1]);
-            for(let r=0;r<ranges.length;r++){showProgress(10+(80*r/ranges.length));updateLoading(10+(80*r/ranges.length),`${r+1}/${ranges.length}`);const[from,to]=ranges[r];const d=await PDFDocument.create();const idx=Array.from({length:to-from+1},(_,i)=>from+i);(await d.copyPages(src,idx)).forEach(p=>d.addPage(p));zip.file(`part-${r+1}.pdf`,await d.save());}
-            updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),'split.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_at_ok'));}catch(e){console.error('Split at error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+            const partPrefix=lang==='tr'?'bolum':'part';
+            for(let r=0;r<ranges.length;r++){showProgress(10+(80*r/ranges.length));updateLoading(10+(80*r/ranges.length),`${r+1}/${ranges.length}`);const[from,to]=ranges[r];const d=await PDFDocument.create();const idx=Array.from({length:to-from+1},(_,i)=>from+i);(await d.copyPages(src,idx)).forEach(p=>d.addPage(p));zip.file(`${partPrefix}-${r+1}.pdf`,await d.save());}
+            updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),lang==='tr'?'bolunmus.zip':'split.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_at_ok'));}catch(e){console.error('Split at error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
         // ======================== PDF TO IMAGE ========================
         let pdf2imgBytes = null;
@@ -2046,10 +2054,10 @@
                     const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;
                     await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
                     const blob=await new Promise(r=>cv.toBlob(r,fmt==='png'?'image/png':'image/jpeg',0.92));
-                    zip.file(`page-${i}.${fmt==='png'?'png':'jpg'}`,blob);
+                    zip.file(`${lang==='tr'?'sayfa':'page'}-${i}.${fmt==='png'?'png':'jpg'}`,blob);
                 }
                 updateLoading(95,'ZIP...');showProgress(95);
-                downloadBlob(await zip.generateAsync({type:'blob'}),`images.zip`,'application/zip');
+                downloadBlob(await zip.generateAsync({type:'blob'}),lang==='tr'?'gorseller.zip':'images.zip','application/zip');
                 updateLoading(100,t('l_done'));showProgress(100);toast(t('t_pdf2img_ok'));            }catch(e){console.error('PDF to image error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
@@ -2094,7 +2102,7 @@
                 document.getElementById('compressSaved').textContent=Math.max(0,saved);
                 document.getElementById('compressResult').classList.remove('hidden');
                 updateLoading(100,t('l_done'));showProgress(100);
-                downloadBlob(new Uint8Array(out),'compressed.pdf');toast(t('t_compress_ok'));            }catch(e){console.error('Compress error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+                downloadBlob(new Uint8Array(out),lang==='tr'?'sikistirilmis.pdf':'compressed.pdf');toast(t('t_compress_ok'));            }catch(e){console.error('Compress error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
         // ======================== SIGN ========================
@@ -2145,6 +2153,7 @@
                 page.drawImage(pngImg,{x,y,width:sigW,height:sigH});
                 updateLoading(80);showProgress(80);
                 downloadBlob(await doc.save(),'signed.pdf');
+                signCtx.clearRect(0,0,signCanvas.width,signCanvas.height);
                 updateLoading(100,t('l_done'));showProgress(100);toast(t('t_sign_ok'));            }catch(e){console.error('Sign error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
@@ -2180,7 +2189,7 @@
                     pg.drawText(txt,{x:(width-tw)/2,y:height/2,size:fontSize,font,color,opacity,rotate:degrees(rotation)});
                 }
                 updateLoading(90);showProgress(90);
-                downloadBlob(await doc.save(),'watermarked.pdf');
+                downloadBlob(await doc.save(),lang==='tr'?'filigranli.pdf':'watermarked.pdf');
                 updateLoading(100,t('l_done'));showProgress(100);toast(t('t_wm_ok'));            }catch(e){console.error('Watermark error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
@@ -2210,7 +2219,7 @@
                 }
                 const saved=await doc.save();state.editBytes=new Uint8Array(saved).slice();
                 updateLoading(100,t('l_done'));showProgress(100);
-                downloadBlob(saved,'numbered.pdf');toast(t('t_pn_ok'));            }catch(e){console.error('Page numbering error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
+                downloadBlob(saved,lang==='tr'?'numaralanmis.pdf':'numbered.pdf');toast(t('t_pn_ok'));            }catch(e){console.error('Page numbering error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
         });
 
         // ======================== Keyboard Shortcuts ========================
@@ -2342,6 +2351,19 @@
 
         // Blog Tip Accordion - fetch and expand
         const blogCache = {};
+        function sanitizeBlogHTML(html) {
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            div.querySelectorAll('script,style,iframe,object,embed,link').forEach(el => el.remove());
+            div.querySelectorAll('*').forEach(el => {
+                for (const attr of [...el.attributes]) {
+                    if (attr.name.startsWith('on') || attr.name === 'srcdoc') el.removeAttribute(attr.name);
+                }
+                if (el.hasAttribute('href') && el.getAttribute('href').trim().toLowerCase().startsWith('javascript:')) el.removeAttribute('href');
+                if (el.hasAttribute('src') && el.getAttribute('src').trim().toLowerCase().startsWith('javascript:')) el.removeAttribute('src');
+            });
+            return div.innerHTML;
+        }
         document.querySelectorAll('.blog-tip-panel').forEach(panel => {
             const header = panel.querySelector('.blog-tip');
             const contentEl = panel.querySelector('.blog-tip-content');
@@ -2376,9 +2398,9 @@
                         const parser = new DOMParser();
                         const doc = parser.parseFromString(html, 'text/html');
                         const article = doc.querySelector('.article-content');
-                        blogCache[url] = article ? article.innerHTML : '<p>Content could not be loaded.</p>';
+                        blogCache[url] = article ? sanitizeBlogHTML(article.innerHTML) : '<p>Content could not be loaded.</p>';
                     } catch (e) {
-                        blogCache[url] = '<p>Content could not be loaded. <a href="' + url + '" target="_blank">Read full article →</a></p>';
+                        blogCache[url] = '<p>Content could not be loaded. <a href="' + encodeURI(url) + '" target="_blank">Read full article →</a></p>';
                     }
                 }
                 innerEl.innerHTML = blogCache[url];
@@ -2397,12 +2419,9 @@
             document.getElementById('appContainer').classList.remove('hidden');
         }
 
-        // Increment counter + 3s finishing delay for better engagement
+        // Increment counter on download
         const origDownload = downloadBlob;
-        downloadBlob = async function(d,f,m){
-            // Show finishing animation for 3 seconds before download
-            updateLoading(100, lang === 'en' ? 'Preparing your file...' : 'Dosyanız hazırlanıyor...');
-            await new Promise(r => setTimeout(r, 3000));
+        downloadBlob = function(d,f,m){
             origDownload(d,f,m);
             incrementCounter(1);
         };
