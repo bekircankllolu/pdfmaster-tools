@@ -49,6 +49,18 @@
         "featureList": ["PDF Conversion", "PDF Merging", "PDF Editing", "Image to PDF", "Word to PDF", "Excel to PDF", "PowerPoint to PDF"]
     }
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Is PDFMASTER free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, PDFMASTER is completely free. All PDF conversion, merging, and editing tools are offered at no cost."}},
+            {"@type": "Question", "name": "Are my files safe?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, all processing happens in your browser. Your files are never uploaded to any server."}},
+            {"@type": "Question", "name": "What file formats are supported?", "acceptedAnswer": {"@type": "Answer", "text": "PDF, DOCX (Word), PPTX (PowerPoint), XLSX/CSV (Excel), JPG, PNG, and WebP formats are supported."}},
+            {"@type": "Question", "name": "What is the maximum file size?", "acceptedAnswer": {"@type": "Answer", "text": "The maximum file size is 100MB. Since all processing is done in your browser, it doesn't depend on your internet speed."}}
+        ]
+    }
+    </script>
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
     <!-- Favicon -->
@@ -56,13 +68,13 @@
     <!-- Google Analytics GA4 - loaded after cookie consent -->
     <!-- Libs -->
     <link rel="stylesheet" href="/css/tailwind.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" integrity="sha384-eeLEhtwdMwD3X9y+8P3Cn7Idl/M+w8H4uZqkgD/2eJVkWIN1yKzEj6XegJ9dL3q0" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" integrity="sha384-nFoSjZIoH3CCp8W639jJyQkuPHinJ2NHe7on1xvlUA7SuGfJAfvMldrsoAVm6ECz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
@@ -305,6 +317,13 @@
         html.dark ::-webkit-scrollbar-track { background: #2d2d44; border-color: #4a4a5e; }
         html.dark ::-webkit-scrollbar-thumb { background: #d4c48a; border-color: #4a4a5e; }
         html.dark .loading-overlay { background: rgba(26,26,46,0.92); }
+        html.dark select { background: #2a2a3a; border-color: #4a4a5e; color: #e0ddd4; }
+        html.dark .text-gray-500 { color: #8a8a9e !important; }
+        html.dark .text-gray-600 { color: #9a9aae !important; }
+        html.dark .bg-white { background: #25253a !important; }
+        html.dark .text-retro-dark { color: #e0ddd4; }
+        html.dark .blog-tip:hover { background: #2d2d44; }
+        html.dark .blog-tip-content.open { border-color: #4a4a5e; }
         html.dark .toast.win-panel { color: #1a1a2e; }
         html.dark input[type="text"], html.dark input[type="number"], html.dark input[type="password"] { background: #2a2a3a; border-color: #4a4a5e; color: #e0ddd4; }
 
@@ -340,7 +359,7 @@
         .counter-num { font-variant-numeric: tabular-nums; }
 
         /* Signature Canvas */
-        .sign-canvas { border: 2.5px solid #3D3D3D; border-radius: 12px; cursor: crosshair; touch-action: none; background: #fff; }
+        .sign-canvas { border: 2.5px solid #3D3D3D; border-radius: 12px; cursor: crosshair; touch-action: none; background: #fff; width: 100%; max-width: 500px; height: auto; }
         html.dark .sign-canvas { background: #FAF6ED; }
 
         /* PRO Badge */
@@ -394,6 +413,7 @@
     </style>
 </head>
 <body class="text-retro-dark">
+    <a href="#appContainer" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:bg-retro-accent focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold" data-i18n="skip_to_content">Skip to Content</a>
 
     <!-- ==================== LANDING PAGE ==================== -->
     <div id="landingPage" class="landing-bg flex items-center justify-center p-4">
@@ -918,6 +938,9 @@
                                     <button id="editNewFile" class="font-mono text-[10px] font-bold text-retro-accent hover:underline" data-i18n="new_file">Yeni Dosya</button>
                                 </div>
                                 <div class="p-2.5 flex flex-wrap items-center gap-1.5">
+                                    <button class="tool-btn px-2.5 py-1.5 bg-blue-100 text-blue-700 opacity-50" data-action="undo" disabled><i class="fa-solid fa-rotate-left mr-1"></i><span data-i18n="undo">Undo</span></button>
+                                    <button class="tool-btn px-2.5 py-1.5 bg-blue-100 text-blue-700 opacity-50" data-action="redo" disabled><i class="fa-solid fa-rotate-right mr-1"></i><span data-i18n="redo">Redo</span></button>
+                                    <div class="w-px h-5 bg-retro-border mx-1"></div>
                                     <button class="tool-btn px-2.5 py-1.5 bg-retro-bg/40" data-action="selectAll"><i class="fa-solid fa-check-double mr-1"></i><span data-i18n="all">Tümü</span></button>
                                     <button class="tool-btn px-2.5 py-1.5 bg-retro-panel" data-action="deselectAll"><i class="fa-solid fa-xmark mr-1"></i><span data-i18n="none_sel">Hiçbiri</span></button>
                                     <div class="w-px h-5 bg-retro-border mx-1"></div>
@@ -1057,7 +1080,7 @@
                                     <button id="clearSign" class="font-mono text-[10px] font-bold text-red-700 hover:underline" data-i18n="clear_sign">Temizle</button>
                                 </div>
                                 <div class="p-3 flex justify-center">
-                                    <canvas id="signCanvas" class="sign-canvas" width="500" height="160"></canvas>
+                                    <canvas id="signCanvas" class="sign-canvas" width="500" height="160" role="img" aria-label="Signature drawing area"></canvas>
                                 </div>
                             </div>
                             <div class="win-panel p-0 mb-4">
@@ -1276,7 +1299,7 @@
     </div>
 
     <!-- Split Modal -->
-    <div id="splitModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+    <div id="splitModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30" role="dialog" aria-modal="true">
         <div class="win-panel p-0 w-80">
             <div class="win-titlebar">
                 <span class="font-mono text-xs font-bold" data-i18n="split_title">Sayfalardan Böl</span>
@@ -1293,7 +1316,7 @@
     </div>
 
     <!-- Keyboard Shortcuts Modal -->
-    <div id="shortcutsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+    <div id="shortcutsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30" role="dialog" aria-modal="true">
         <div class="win-panel p-0 w-96">
             <div class="win-titlebar">
                 <span class="font-mono text-xs font-bold" data-i18n="shortcuts_title">Klavye Kısayolları</span>
@@ -1301,8 +1324,10 @@
             </div>
             <div class="p-4 space-y-2 text-xs font-mono">
                 <div class="flex justify-between"><span>Ctrl + A</span><span class="text-gray-500" data-i18n="sc_selall">Tümünü seç (Düzenle)</span></div>
-                <div class="flex justify-between"><span>Delete</span><span class="text-gray-500" data-i18n="sc_del">Seçili sayfaları sil</span></div>
-                <div class="flex justify-between"><span>?</span><span class="text-gray-500" data-i18n="sc_shortcuts">Bu paneli aç</span></div>
+                <div class="flex justify-between"><span>Ctrl + Z</span><span class="text-gray-500" data-i18n="sc_undo">Undo (Edit)</span></div>
+                <div class="flex justify-between"><span>Ctrl + Y</span><span class="text-gray-500" data-i18n="sc_redo">Redo (Edit)</span></div>
+                <div class="flex justify-between"><span>Delete</span><span class="text-gray-500" data-i18n="sc_del">Delete selected pages</span></div>
+                <div class="flex justify-between"><span>?</span><span class="text-gray-500" data-i18n="sc_shortcuts">Open this panel</span></div>
                 <div class="flex justify-between"><span>D</span><span class="text-gray-500" data-i18n="sc_dark">Karanlık mod</span></div>
                 <div class="flex justify-between"><span>1-7</span><span class="text-gray-500" data-i18n="sc_tabs">Sekme değiştir</span></div>
                 <div class="flex justify-between"><span>Escape</span><span class="text-gray-500" data-i18n="sc_close">Modalı kapat</span></div>
@@ -1311,7 +1336,7 @@
     </div>
 
     <!-- Page Numbering Modal -->
-    <div id="pageNumModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+    <div id="pageNumModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30" role="dialog" aria-modal="true">
         <div class="win-panel p-0 w-80">
             <div class="win-titlebar">
                 <span class="font-mono text-xs font-bold" data-i18n="page_num_title">Sayfa Numaralandırma</span>
@@ -1417,7 +1442,9 @@
                 pn_position: 'Konum:', pn_format: 'Format:', pn_start: 'Başlangıç:', pn_apply: 'Numarala',
                 t_pn_ok: 'Sayfa numaraları eklendi!',
                 shortcuts_title: 'Klavye Kısayolları',
-                sc_selall: 'Tümünü seç (Düzenle)', sc_del: 'Seçili sayfaları sil', sc_shortcuts: 'Bu paneli aç',
+                sc_selall: 'Tümünü seç (Düzenle)', sc_undo: 'Geri al (Düzenle)', sc_redo: 'İleri al (Düzenle)', sc_del: 'Seçili sayfaları sil', sc_shortcuts: 'Bu paneli aç',
+                skip_to_content: 'İçeriğe Atla',
+                undo: 'Geri Al', redo: 'İleri Al',
                 sc_dark: 'Karanlık mod', sc_tabs: 'Sekme değiştir', sc_close: 'Modalı kapat',
                 landing_hero: 'PDF dosyalarınızı<br>saniyeler içinde dönüştürün',
                 landing_sub: 'Tamamen ücretsiz · Tamamen tarayıcıda · Sunucuya yükleme yok',
@@ -1513,7 +1540,9 @@
                 pn_position: 'Position:', pn_format: 'Format:', pn_start: 'Start:', pn_apply: 'Apply',
                 t_pn_ok: 'Page numbers added!',
                 shortcuts_title: 'Keyboard Shortcuts',
-                sc_selall: 'Select all (Edit)', sc_del: 'Delete selected pages', sc_shortcuts: 'Open this panel',
+                sc_selall: 'Select all (Edit)', sc_undo: 'Undo (Edit)', sc_redo: 'Redo (Edit)', sc_del: 'Delete selected pages', sc_shortcuts: 'Open this panel',
+                skip_to_content: 'Skip to Content',
+                undo: 'Undo', redo: 'Redo',
                 sc_dark: 'Dark mode', sc_tabs: 'Switch tabs', sc_close: 'Close modal',
                 landing_hero: 'Convert your PDF files<br>in seconds',
                 landing_sub: 'Completely free · Runs in browser · No upload to servers',
@@ -1937,7 +1966,7 @@
         // ======================== MERGE ========================
         let mergeSortable=null;
         setupDropZone(document.getElementById('mergeDropZone'),document.getElementById('mergeInput'),f=>{if(f.length)addMergeFiles(f);});
-        document.getElementById('addMorePdf').addEventListener('click',()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf';inp.onchange=e=>{if(e.target.files.length)addMergeFiles([...e.target.files]);};inp.click();});
+        document.getElementById('addMorePdf').addEventListener('click',()=>{const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf';inp.onchange=e=>{if(e.target.files.length)addMergeFiles(validateFiles([...e.target.files]));};inp.click();});
         const fileColors=['bg-retro-panel','bg-retro-warm','bg-retro-bg/40','bg-retro-gold/20','bg-retro-cream'];
         async function addMergeFiles(files){
             const pdfs=files.filter(f=>f.type==='application/pdf'||f.name.endsWith('.pdf'));
@@ -1963,15 +1992,37 @@
 
         // ======================== EDIT ========================
         let editSortable=null;
+        // Undo/Redo state history
+        const editHistory=[];let editHistoryIdx=-1;
+        function saveEditState(){
+            const snap=JSON.stringify({pages:state.editPages,order:state.editOrder});
+            editHistory.splice(editHistoryIdx+1);editHistory.push(snap);
+            if(editHistory.length>30)editHistory.shift(); else editHistoryIdx++;
+            updateUndoRedoBtns();
+        }
+        function restoreEditState(snap){
+            const s=JSON.parse(snap);state.editPages=s.pages;state.editOrder=s.order;state.selectedPages.clear();
+            const c=document.getElementById('editThumbnails');
+            c.querySelectorAll('.thumb-card').forEach(card=>{
+                const idx=parseInt(card.dataset.pageIndex);
+                if(state.editPages[idx].deleted){card.remove();}
+                else{card.classList.remove('selected');const cv=card.querySelector('canvas');if(cv)cv.style.transform=`rotate(${state.editPages[idx].rotation}deg)`;}
+            });
+        }
+        function updateUndoRedoBtns(){
+            const ub=document.querySelector('[data-action="undo"]'),rb=document.querySelector('[data-action="redo"]');
+            if(ub){ub.disabled=editHistoryIdx<=0;ub.classList.toggle('opacity-50',editHistoryIdx<=0);}
+            if(rb){rb.disabled=editHistoryIdx>=editHistory.length-1;rb.classList.toggle('opacity-50',editHistoryIdx>=editHistory.length-1);}
+        }
         setupDropZone(document.getElementById('editDropZone'),document.getElementById('editInput'),f=>{if(f.length)loadEditPdf(f[0]);});
         document.getElementById('editNewFile').addEventListener('click',()=>{state.editBytes=null;state.editPages=[];state.editOrder=[];state.selectedPages.clear();document.getElementById('editWorkspace').classList.add('hidden');document.getElementById('editDropZone').classList.remove('hidden');document.getElementById('editThumbnails').innerHTML='';});
         async function loadEditPdf(file){
             if(!file) return toast(t('t_select_pdf'),'error');
             showLoading(t('l_loading'),'PDF');showProgress(10);
             try{const b=await readFileAsArrayBuffer(file);state.editBytes=new Uint8Array(b).slice();const d=await PDFDocument.load(state.editBytes.slice());const cnt=d.getPageCount();
-            state.editPages=Array.from({length:cnt},(_,i)=>({index:i,rotation:0,deleted:false}));state.editOrder=Array.from({length:cnt},(_,i)=>i);state.selectedPages.clear();
+            state.editPages=Array.from({length:cnt},(_,i)=>({index:i,rotation:0,deleted:false}));state.editOrder=Array.from({length:cnt},(_,i)=>i);state.selectedPages.clear();editHistory.length=0;editHistoryIdx=-1;
             document.getElementById('editDropZone').classList.add('hidden');document.getElementById('editWorkspace').classList.remove('hidden');
-            await renderEditThumbs(state.editBytes.slice(),cnt);updateLoading(100,t('l_done'));showProgress(100);}catch(e){console.error('Edit load error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();}
+            await renderEditThumbs(state.editBytes.slice(),cnt);saveEditState();updateLoading(100,t('l_done'));showProgress(100);}catch(e){console.error('Edit load error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();}
         }
         async function renderEditThumbs(bytes,count){
             const c=document.getElementById('editThumbnails');c.innerHTML='';const pdf=await pdfjsLib.getDocument({data:bytes.slice()}).promise;
@@ -1987,14 +2038,16 @@
                 if(state.selectedPages.has(idx)){state.selectedPages.delete(idx);card.classList.remove('selected');}else{state.selectedPages.add(idx);card.classList.add('selected');}});
                 state.editThumbsListenerAttached = true;
             }
-            if(editSortable)editSortable.destroy();editSortable=new Sortable(c,{animation:150,ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',onEnd:e=>{const it=state.editOrder.splice(e.oldIndex,1)[0];state.editOrder.splice(e.newIndex,0,it);}});
+            if(editSortable)editSortable.destroy();editSortable=new Sortable(c,{animation:150,ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',onEnd:e=>{const it=state.editOrder.splice(e.oldIndex,1)[0];state.editOrder.splice(e.newIndex,0,it);saveEditState();}});
         }
         document.querySelector('#editWorkspace .win-panel').addEventListener('click',e=>{
             const btn=e.target.closest('[data-action]');if(!btn)return;const a=btn.dataset.action;
             if(a==='selectAll'){document.querySelectorAll('#editThumbnails .thumb-card').forEach(c=>{c.classList.add('selected');state.selectedPages.add(parseInt(c.dataset.pageIndex));});}
             else if(a==='deselectAll'){document.querySelectorAll('#editThumbnails .thumb-card').forEach(c=>c.classList.remove('selected'));state.selectedPages.clear();}
-            else if(a==='rotateCW'||a==='rotateCCW'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');const deg=a==='rotateCW'?90:-90;state.selectedPages.forEach(idx=>{state.editPages[idx].rotation=(state.editPages[idx].rotation+deg+360)%360;const card=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(card){const cv=card.querySelector('canvas');if(cv)cv.style.transform=`rotate(${state.editPages[idx].rotation}deg)`;}});toast(`${state.selectedPages.size} ${t('t_rotated')}`);}
-            else if(a==='deletePages'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');if(state.selectedPages.size>=state.editPages.filter(p=>!p.deleted).length)return toast(t('t_cant_del_all'),'error');if(!confirm(t('t_confirm_delete')))return;state.selectedPages.forEach(idx=>{state.editPages[idx].deleted=true;const c=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(c)c.remove();});state.editOrder=state.editOrder.filter(i=>!state.editPages[i].deleted);toast(`${state.selectedPages.size} ${t('t_deleted')}`);state.selectedPages.clear();}
+            else if(a==='undo'){if(editHistoryIdx>0){editHistoryIdx--;restoreEditState(editHistory[editHistoryIdx]);updateUndoRedoBtns();}}
+            else if(a==='redo'){if(editHistoryIdx<editHistory.length-1){editHistoryIdx++;restoreEditState(editHistory[editHistoryIdx]);updateUndoRedoBtns();}}
+            else if(a==='rotateCW'||a==='rotateCCW'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');const deg=a==='rotateCW'?90:-90;state.selectedPages.forEach(idx=>{state.editPages[idx].rotation=(state.editPages[idx].rotation+deg+360)%360;const card=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(card){const cv=card.querySelector('canvas');if(cv)cv.style.transform=`rotate(${state.editPages[idx].rotation}deg)`;}});saveEditState();toast(`${state.selectedPages.size} ${t('t_rotated')}`);}
+            else if(a==='deletePages'){if(!state.selectedPages.size)return toast(t('t_first_select'),'info');if(state.selectedPages.size>=state.editPages.filter(p=>!p.deleted).length)return toast(t('t_cant_del_all'),'error');if(!confirm(t('t_confirm_delete')))return;state.selectedPages.forEach(idx=>{state.editPages[idx].deleted=true;const c=document.querySelector(`#editThumbnails .thumb-card[data-page-index="${idx}"]`);if(c)c.remove();});state.editOrder=state.editOrder.filter(i=>!state.editPages[i].deleted);saveEditState();toast(`${state.selectedPages.size} ${t('t_deleted')}`);state.selectedPages.clear();}
             else if(a==='splitAll')splitAllPages();
             else if(a==='splitAt')document.getElementById('splitModal').classList.remove('hidden');
             else if(a==='pageNumbers'){if(!state.editBytes)return toast(t('t_select_pdf'),'info');document.getElementById('pageNumModal').classList.remove('hidden');}
@@ -2017,10 +2070,12 @@
         document.getElementById('splitCancel').addEventListener('click',()=>document.getElementById('splitModal').classList.add('hidden'));
         document.getElementById('splitConfirm').addEventListener('click',async()=>{
             const inp=document.getElementById('splitInput').value.trim();if(!inp)return;document.getElementById('splitModal').classList.add('hidden');
-            const pts=inp.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)).sort((a,b)=>a-b);if(!pts.length)return toast(t('t_valid_page'),'error');
+            const pts=inp.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)&&n>0).sort((a,b)=>a-b);if(!pts.length)return toast(t('t_valid_page'),'error');
             if(!state.editBytes||state.processing)return;state.processing=true;showLoading(t('l_splitting'),'');showProgress(10);
-            try{const src=await PDFDocument.load(state.editBytes);const tot=src.getPageCount();const zip=new JSZip();const ranges=[];let s=0;
-            for(const p of pts){if(p>0&&p<tot){ranges.push([s,p-1]);s=p;}}ranges.push([s,tot-1]);
+            try{const src=await PDFDocument.load(state.editBytes);const tot=src.getPageCount();
+            const validPts=pts.filter(p=>p>0&&p<tot);if(!validPts.length){toast(t('t_valid_page'),'error');return;}
+            const zip=new JSZip();const ranges=[];let s=0;
+            for(const p of validPts){ranges.push([s,p-1]);s=p;}ranges.push([s,tot-1]);
             const partPrefix=lang==='tr'?'bolum':'part';
             for(let r=0;r<ranges.length;r++){showProgress(10+(80*r/ranges.length));updateLoading(10+(80*r/ranges.length),`${r+1}/${ranges.length}`);const[from,to]=ranges[r];const d=await PDFDocument.create();const idx=Array.from({length:to-from+1},(_,i)=>from+i);(await d.copyPages(src,idx)).forEach(p=>d.addPage(p));zip.file(`${partPrefix}-${r+1}.pdf`,await d.save());}
             updateLoading(95,'ZIP...');showProgress(95);downloadBlob(await zip.generateAsync({type:'blob'}),lang==='tr'?'bolunmus.zip':'split.zip','application/zip');updateLoading(100,t('l_done'));showProgress(100);toast(t('t_split_at_ok'));}catch(e){console.error('Split at error:', e); toast(e.message||t('t_load_error'),'error');}finally{hideLoading();state.processing=false;}
@@ -2172,6 +2227,7 @@
         document.getElementById('wmApplyBtn').addEventListener('click',async()=>{
             if(!wmBytes||state.processing)return;
             const txt=document.getElementById('wmText').value.trim();if(!txt)return toast(t('t_wm_text_req'),'error');
+            if(txt.length>50)return toast(lang==='tr'?'Filigran metni en fazla 50 karakter olabilir':'Watermark text max 50 characters','error');
             state.processing=true;showLoading(t('l_saving'),'Filigran ekleniyor...');showProgress(20);
             try{
                 const doc=await PDFDocument.load(wmBytes.slice());
@@ -2230,7 +2286,9 @@
             if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'||e.target.tagName==='TEXTAREA')return;
             // Edit shortcuts
             if(state.activeTab==='edit'&&state.editBytes){
-                if(e.key==='Delete'&&state.selectedPages.size)document.querySelector('[data-action="deletePages"]').click();
+                if(e.key==='z'&&(e.ctrlKey||e.metaKey)&&!e.shiftKey){e.preventDefault();document.querySelector('[data-action="undo"]').click();}
+                else if((e.key==='y'&&(e.ctrlKey||e.metaKey))||(e.key==='z'&&(e.ctrlKey||e.metaKey)&&e.shiftKey)){e.preventDefault();document.querySelector('[data-action="redo"]').click();}
+                else if(e.key==='Delete'&&state.selectedPages.size)document.querySelector('[data-action="deletePages"]').click();
                 else if(e.key==='a'&&(e.ctrlKey||e.metaKey)){e.preventDefault();document.querySelector('[data-action="selectAll"]').click();}
             }
             // Global shortcuts
@@ -2393,7 +2451,10 @@
                     innerEl.innerHTML = '<div class="blog-tip-loading"><i class="fa-solid fa-spinner text-retro-accent text-lg"></i></div>';
                     contentEl.classList.add('open');
                     try {
-                        const res = await fetch(url);
+                        const ctrl = new AbortController();
+                        const timer = setTimeout(() => ctrl.abort(), 10000);
+                        const res = await fetch(url, {signal: ctrl.signal});
+                        clearTimeout(timer);
                         const html = await res.text();
                         const parser = new DOMParser();
                         const doc = parser.parseFromString(html, 'text/html');
