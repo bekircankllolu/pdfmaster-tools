@@ -368,6 +368,28 @@
             padding: 4px 8px;
             font-size: 12px;
         }
+        /* Blog Tip Accordion */
+        .blog-tip { cursor: pointer; transition: all 0.2s ease; }
+        .blog-tip:hover { transform: translateY(-1px); box-shadow: 4px 4px 0px rgba(0,0,0,0.12); }
+        .blog-tip .tip-chevron { transition: transform 0.3s ease; }
+        .blog-tip.expanded .tip-chevron { transform: rotate(180deg); }
+        .blog-tip-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .blog-tip-content.open { max-height: 3000px; }
+        .blog-tip-content .article-content h2 { font-size: 1.1rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.5rem; color: #2D2D2D; }
+        .blog-tip-content .article-content h3 { font-size: 0.95rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.4rem; color: #4A6B4D; }
+        .blog-tip-content .article-content p { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; line-height: 1.65; margin-bottom: 0.75rem; color: #444; }
+        .blog-tip-content .article-content ul, .blog-tip-content .article-content ol { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; margin-bottom: 0.75rem; padding-left: 1.25rem; color: #444; }
+        .blog-tip-content .article-content li { margin-bottom: 0.3rem; line-height: 1.55; }
+        .blog-tip-content .article-content strong { color: #2D2D2D; }
+        .blog-tip-content .article-content a { color: #5B7B5E; font-weight: 600; text-decoration: underline; }
+        html.dark .blog-tip-content .article-content h2 { color: #e0ddd4; }
+        html.dark .blog-tip-content .article-content h3 { color: #7cb87f; }
+        html.dark .blog-tip-content .article-content p, html.dark .blog-tip-content .article-content li { color: #b0ada4; }
+        html.dark .blog-tip-content .article-content strong { color: #e0ddd4; }
+        html.dark .blog-tip-content .article-content a { color: #7cb87f; }
+        .blog-tip-loading { display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .blog-tip-loading i { animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="text-retro-dark">
@@ -803,23 +825,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Blog Tip -->
-                <div class="mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl">
+                <!-- Blog Tip Accordion -->
+                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/gorselleri-pdf-ye-donusturme.html" data-blog-links="/blog/word-den-pdf-ye-donusturme.html,/blog/excel-den-pdf-ye-donusturme.html,/blog/pdf-den-gorsele-donusturme.html">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 bg-retro-accent/20 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-book-open text-retro-accent text-sm"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-1" data-i18n="tip_convert_title">Görselleri PDF'ye Dönüştürme Rehberi</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed mb-2" data-i18n="tip_convert_desc">JPG, PNG ve diğer görsel formatlarını PDF'ye dönüştürmenin en iyi yollarını öğrenin.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <a href="/blog/gorselleri-pdf-ye-donusturme.html" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="tip_convert_link1">Görsel → PDF Rehberi →</a>
-                                <a href="/blog/word-den-pdf-ye-donusturme.html" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="tip_convert_link2">Word → PDF →</a>
-                                <a href="/blog/excel-den-pdf-ye-donusturme.html" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="tip_convert_link3">Excel → PDF →</a>
-                                <a href="/blog/pdf-den-gorsele-donusturme.html" class="text-[10px] font-mono font-semibold text-retro-accent hover:underline" data-i18n="tip_convert_link4">PDF → Görsel →</a>
-                            </div>
+                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_convert_title">Görselleri PDF'ye Dönüştürme Rehberi</p>
+                            <p class="text-[10px] text-gray-500" data-i18n="tip_convert_desc">JPG, PNG ve diğer görsel formatlarını PDF'ye dönüştürmenin en iyi yollarını öğrenin.</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
                     </div>
+                </div>
+                <div class="blog-tip-content" id="blogContent-convert">
+                    <div class="mt-2 p-5 bg-retro-panel/60 border-[2px] border-retro-border border-t-0 rounded-b-xl article-content"></div>
                 </div>
             </section>
 
@@ -851,18 +871,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Blog Tip -->
-                <div class="mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl">
+                <!-- Blog Tip Accordion -->
+                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-birlestirme-nasil-yapilir.html">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-book-open text-blue-500 text-sm"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-1" data-i18n="tip_merge_title">PDF Birleştirme Nasıl Yapılır?</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed mb-2" data-i18n="tip_merge_desc">Birden fazla PDF'yi tek dosyada birleştirmenin en kolay yollarını adım adım öğrenin.</p>
-                            <a href="/blog/pdf-birlestirme-nasil-yapilir.html" class="text-[10px] font-mono font-semibold text-blue-500 hover:underline" data-i18n="tip_merge_link">Birleştirme Rehberi →</a>
+                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_merge_title">PDF Birleştirme Nasıl Yapılır?</p>
+                            <p class="text-[10px] text-gray-500" data-i18n="tip_merge_desc">Birden fazla PDF'yi tek dosyada birleştirmenin en kolay yollarını adım adım öğrenin.</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
                     </div>
+                </div>
+                <div class="blog-tip-content" id="blogContent-merge">
+                    <div class="mt-2 p-5 bg-retro-panel/60 border-[2px] border-retro-border border-t-0 rounded-b-xl article-content"></div>
                 </div>
             </section>
 
@@ -912,18 +935,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Blog Tip -->
-                <div class="mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl">
+                <!-- Blog Tip Accordion -->
+                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-duzenleme-rehberi.html">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-book-open text-orange-500 text-sm"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-1" data-i18n="tip_edit_title">PDF Düzenleme Rehberi</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed mb-2" data-i18n="tip_edit_desc">PDF sayfalarını yeniden sıralama, döndürme, silme ve bölme işlemlerini öğrenin.</p>
-                            <a href="/blog/pdf-duzenleme-rehberi.html" class="text-[10px] font-mono font-semibold text-orange-500 hover:underline" data-i18n="tip_edit_link">Düzenleme Rehberi →</a>
+                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_edit_title">PDF Düzenleme Rehberi</p>
+                            <p class="text-[10px] text-gray-500" data-i18n="tip_edit_desc">PDF sayfalarını yeniden sıralama, döndürme, silme ve bölme işlemlerini öğrenin.</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
                     </div>
+                </div>
+                <div class="blog-tip-content" id="blogContent-edit">
+                    <div class="mt-2 p-5 bg-retro-panel/60 border-[2px] border-retro-border border-t-0 rounded-b-xl article-content"></div>
                 </div>
             </section>
 
@@ -980,18 +1006,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Blog Tip -->
-                <div class="mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl">
+                <!-- Blog Tip Accordion -->
+                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-sikistirma-kalite-kaybetmeden.html">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-book-open text-purple-500 text-sm"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-1" data-i18n="tip_compress_title">PDF Sıkıştırma: Kalite Kaybetmeden</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed mb-2" data-i18n="tip_compress_desc">PDF dosyalarınızı görsel kaliteyi koruyarak nasıl küçülteceğinizi öğrenin.</p>
-                            <a href="/blog/pdf-sikistirma-kalite-kaybetmeden.html" class="text-[10px] font-mono font-semibold text-purple-500 hover:underline" data-i18n="tip_compress_link">Sıkıştırma Rehberi →</a>
+                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_compress_title">PDF Sıkıştırma: Kalite Kaybetmeden</p>
+                            <p class="text-[10px] text-gray-500" data-i18n="tip_compress_desc">PDF dosyalarınızı görsel kaliteyi koruyarak nasıl küçülteceğinizi öğrenin.</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
                     </div>
+                </div>
+                <div class="blog-tip-content" id="blogContent-compress">
+                    <div class="mt-2 p-5 bg-retro-panel/60 border-[2px] border-retro-border border-t-0 rounded-b-xl article-content"></div>
                 </div>
             </section>
 
@@ -1051,18 +1080,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Blog Tip -->
-                <div class="mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl">
+                <!-- Blog Tip Accordion -->
+                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-imzalama-nasil-yapilir.html">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-book-open text-indigo-500 text-sm"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-1" data-i18n="tip_sign_title">PDF İmzalama Nasıl Yapılır?</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed mb-2" data-i18n="tip_sign_desc">PDF belgelerinize dijital imza eklemenin en kolay ve güvenli yolunu öğrenin.</p>
-                            <a href="/blog/pdf-imzalama-nasil-yapilir.html" class="text-[10px] font-mono font-semibold text-indigo-500 hover:underline" data-i18n="tip_sign_link">İmzalama Rehberi →</a>
+                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_sign_title">PDF İmzalama Nasıl Yapılır?</p>
+                            <p class="text-[10px] text-gray-500" data-i18n="tip_sign_desc">PDF belgelerinize dijital imza eklemenin en kolay ve güvenli yolunu öğrenin.</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
                     </div>
+                </div>
+                <div class="blog-tip-content" id="blogContent-sign">
+                    <div class="mt-2 p-5 bg-retro-panel/60 border-[2px] border-retro-border border-t-0 rounded-b-xl article-content"></div>
                 </div>
             </section>
 
@@ -1141,18 +1173,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Blog Tip -->
-                <div class="mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl">
+                <!-- Blog Tip Accordion -->
+                <div class="blog-tip mt-4 p-4 bg-retro-warm/50 border-[2px] border-retro-border rounded-xl" data-blog="/blog/pdf-ye-filigran-ekleme.html">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-book-open text-cyan-500 text-sm"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[11px] font-bold font-mono mb-1" data-i18n="tip_watermark_title">PDF'ye Filigran Ekleme</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed mb-2" data-i18n="tip_watermark_desc">PDF belgelerinize metin filigranı ekleyerek dosyalarınızı koruma altına alın.</p>
-                            <a href="/blog/pdf-ye-filigran-ekleme.html" class="text-[10px] font-mono font-semibold text-cyan-500 hover:underline" data-i18n="tip_watermark_link">Filigran Rehberi →</a>
+                            <p class="text-[11px] font-bold font-mono mb-0.5" data-i18n="tip_watermark_title">PDF'ye Filigran Ekleme</p>
+                            <p class="text-[10px] text-gray-500" data-i18n="tip_watermark_desc">PDF belgelerinize metin filigranı ekleyerek dosyalarınızı koruma altına alın.</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down tip-chevron text-gray-400 text-xs mt-1"></i>
                     </div>
+                </div>
+                <div class="blog-tip-content" id="blogContent-watermark">
+                    <div class="mt-2 p-5 bg-retro-panel/60 border-[2px] border-retro-border border-t-0 rounded-b-xl article-content"></div>
                 </div>
             </section>
 
@@ -2289,6 +2324,55 @@
                         if (tabBtn) tabBtn.click();
                     }
                 }, 350);
+            });
+        });
+
+        // Blog Tip Accordion - fetch and expand
+        const blogCache = {};
+        document.querySelectorAll('.blog-tip[data-blog]').forEach(tip => {
+            tip.addEventListener('click', async () => {
+                const url = tip.dataset.blog;
+                const contentEl = tip.nextElementSibling;
+                const innerEl = contentEl.querySelector('.article-content');
+                const isOpen = contentEl.classList.contains('open');
+
+                // Close if already open
+                if (isOpen) {
+                    contentEl.classList.remove('open');
+                    tip.classList.remove('expanded');
+                    return;
+                }
+
+                // Close all other open tips
+                document.querySelectorAll('.blog-tip-content.open').forEach(el => {
+                    el.classList.remove('open');
+                    el.previousElementSibling.classList.remove('expanded');
+                });
+
+                tip.classList.add('expanded');
+
+                // Load content if not cached
+                if (!blogCache[url]) {
+                    innerEl.innerHTML = '<div class="blog-tip-loading"><i class="fa-solid fa-spinner text-retro-accent text-lg"></i></div>';
+                    contentEl.classList.add('open');
+                    try {
+                        const res = await fetch(url);
+                        const html = await res.text();
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const article = doc.querySelector('.article-content');
+                        blogCache[url] = article ? article.innerHTML : '<p>İçerik yüklenemedi.</p>';
+                    } catch (e) {
+                        blogCache[url] = '<p>İçerik yüklenemedi. <a href="' + url + '" target="_blank">Tam yazıyı oku →</a></p>';
+                    }
+                }
+                innerEl.innerHTML = blogCache[url];
+                contentEl.classList.add('open');
+
+                // Smooth scroll to content
+                setTimeout(() => {
+                    tip.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
             });
         });
 
